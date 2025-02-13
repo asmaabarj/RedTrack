@@ -1,12 +1,14 @@
 package com.redtrack.config;
 
-import com.redtrack.model.Role;
-import com.redtrack.repositories.RoleRepository;
-import lombok.RequiredArgsConstructor;
+import javax.annotation.PostConstruct;
+
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
+import com.redtrack.model.Role;
+import com.redtrack.repositories.RoleRepository;
+
+import lombok.RequiredArgsConstructor;
 
 
 @Component
@@ -25,9 +27,13 @@ public class DataInitializer {
             roleAdmin.setName("ADMIN");
             roleRepository.save(roleAdmin);
 
-            Role roleUser = new Role();
-            roleUser.setName("USER");
-            roleRepository.save(roleUser);
+            Role roleFormatteur = new Role();
+            roleFormatteur.setName("FORMATTEUR");
+            roleRepository.save(roleFormatteur);
+
+            Role roleApprenant = new Role();
+            roleApprenant.setName("APPRENANT");
+            roleRepository.save(roleApprenant);
         }
     }
 }

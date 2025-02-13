@@ -33,7 +33,9 @@ public class AuthServiceImpl implements AuthService {
             .orElseThrow(() -> new RuntimeException("Rôle non trouvé"));
 
         User user = new User();
-        user.setLogin(request.getLogin());
+        user.setEmail(request.getEmail());
+        user.setPrenom(request.getPrenom());
+        user.setNom(request.getNom());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRoles(Collections.singletonList(role));
 
@@ -47,11 +49,11 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getLogin(),
+                        request.getEmail(),
                         request.getPassword()
                 )
         );
-        User user = userRepository.findByLogin(request.getLogin())
+        User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         String jwtToken = jwtService.generateToken(user);
         return new AuthResponse(jwtToken);

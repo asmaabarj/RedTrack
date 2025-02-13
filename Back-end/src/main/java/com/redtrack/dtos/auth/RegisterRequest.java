@@ -12,8 +12,14 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequest {
-    @NotBlank(message = "Le login est obligatoire")
-    private String login;
+    @NotBlank(message = "L'email est obligatoire")
+    private String email;
+
+    @NotBlank(message = "Le prénom est obligatoire")
+    private String prenom;
+
+    @NotBlank(message = "Le nom est obligatoire")
+    private String nom; 
 
     @NotBlank(message = "Le mot de passe est obligatoire")
     private String password;
