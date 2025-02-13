@@ -7,4 +7,5 @@ import com.redtrack.dtos.auth.RegisterRequest;
 public interface AuthService {
     AuthResponse register(RegisterRequest request);
     AuthResponse login(LoginRequest request);
+    void logout(String email);
 }

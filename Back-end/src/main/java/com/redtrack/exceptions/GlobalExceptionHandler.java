@@ -35,7 +35,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException ex) {
-        return createErrorResponse(HttpStatus.UNAUTHORIZED, "email ou mot de passe incorrect");
+        return createErrorResponse(HttpStatus.UNAUTHORIZED, "Login ou mot de passe incorrect");
+    }
+
+    @ExceptionHandler(AlreadyLoggedInException.class)
+    public ResponseEntity<ErrorResponse> handleAlreadyLoggedInException(AlreadyLoggedInException ex) {
+        return createErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
     }
 
     private ResponseEntity<ErrorResponse> createErrorResponse(HttpStatus status, String message) {

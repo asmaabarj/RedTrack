@@ -1,6 +1,5 @@
 package com.redtrack.config;
 
-import java.util.Arrays;
 
 import javax.annotation.PostConstruct;
 
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import com.redtrack.model.Role;
 import com.redtrack.model.User;
-import com.redtrack.repositories.RoleRepository;
 import com.redtrack.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -21,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 @Profile("dev")
 public class DevDataInitializer {
 
-    private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final MongoTemplate mongoTemplate;
     private final PasswordEncoder passwordEncoder;
@@ -30,39 +27,24 @@ public class DevDataInitializer {
     public void init() {
         mongoTemplate.getDb().drop();
 
-        // Création des rôles
-        Role roleAdmin = new Role();
-        roleAdmin.setName("ADMIN");
-        roleRepository.save(roleAdmin);
-
-        Role roleFormatteur = new Role();
-        roleFormatteur.setName("FORMATTEUR");
-        roleRepository.save(roleFormatteur);
-
-        Role roleApprenant = new Role();
-        roleApprenant.setName("APPRENANT");
-        roleRepository.save(roleApprenant);
-
-        // Création d'un utilisateur admin de test
+        // Création des utilisateurs
         User adminUser = new User();
         adminUser.setEmail("admin@gmail.com");
         adminUser.setNom("admin");
         adminUser.setPrenom("admin");
         adminUser.setActive(true);
         adminUser.setPassword(passwordEncoder.encode("admin"));
-        adminUser.setRoles(Arrays.asList(roleAdmin));
+        adminUser.setRole(Role.ADMIN);  
         userRepository.save(adminUser);
 
-        // Création d'un utilisateur formatteur de test
         User formatteurlUser = new User();
         formatteurlUser.setEmail("Formatteur@gmail.com");
         formatteurlUser.setPrenom("formatteur");
         formatteurlUser.setNom("formatteur");
         formatteurlUser.setActive(true);
         formatteurlUser.setPassword(passwordEncoder.encode("formatteur"));
-        formatteurlUser.setRoles(Arrays.asList(roleFormatteur));
+        formatteurlUser.setRole(Role.FORMATTEUR);
         userRepository.save(formatteurlUser);
-
 
         //création d'un utilisateur apprenant de test
         User apprenantUser =new User();
@@ -71,10 +53,8 @@ public class DevDataInitializer {
         apprenantUser.setNom("apprenant");
         apprenantUser.setActive(true);
         apprenantUser.setPassword(passwordEncoder.encode("apprenant"));
-        apprenantUser.setRoles(Arrays.asList(roleApprenant));
+        apprenantUser.setRole(Role.APPRENANT);
         userRepository.save(apprenantUser);
-
-
     }
 
 }

@@ -14,17 +14,16 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.redtrack.security.JwtAuthenticationFilter;
+import lombok.RequiredArgsConstructor;
+import com.redtrack.model.Role;
 
 @Configuration
 @EnableWebSecurity
 @Profile("dev")
+@RequiredArgsConstructor
 public class DevSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
-
-    public DevSecurityConfig(JwtAuthenticationFilter jwtAuthFilter) {
-        this.jwtAuthFilter = jwtAuthFilter;
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -34,9 +33,9 @@ public class DevSecurityConfig {
             .and()
             .authorizeRequests()
             .antMatchers("/api/auth/**").permitAll()
-            .antMatchers("/api/admin/**").hasAuthority("ADMIN")
-            .antMatchers("/api/formatteur/**").hasAnyAuthority("FORMATTEUR")
-            .antMatchers("/api/apprenant/**").hasAnyAuthority("APPRENANT")
+            .antMatchers("/api/admin/**").hasAuthority(Role.ADMIN.name())
+            .antMatchers("/api/formatteur/**").hasAuthority(Role.FORMATTEUR.name())
+            .antMatchers("/api/apprenant/**").hasAuthority(Role.APPRENANT.name())
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

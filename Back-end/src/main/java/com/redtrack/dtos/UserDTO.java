@@ -1,10 +1,9 @@
 package com.redtrack.dtos;
 
+import com.redtrack.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -12,8 +11,8 @@ import java.util.List;
 public class UserDTO {
     private String id;
     private String email;
-    private String prenom;
     private String nom;
-    private List<String> roles;
+    private String prenom;
+    private Role role;
     private Boolean active;
 } 

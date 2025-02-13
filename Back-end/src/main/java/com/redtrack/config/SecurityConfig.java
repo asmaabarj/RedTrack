@@ -14,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.redtrack.security.JwtAuthenticationFilter;
+import com.redtrack.model.Role;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,17 +28,17 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/formatteur/**").hasAuthority("FORMATTEUR")
-                .antMatchers("/api/apprenant/**").hasAnyAuthority("APPRENANT")
-                .anyRequest().authenticated()
-                .and()
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        http.csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .authorizeRequests()
+            .antMatchers("/api/auth/**").permitAll()
+            .antMatchers("/api/admin/**").hasAuthority(Role.ADMIN.name())
+            .antMatchers("/api/formatteur/**").hasAuthority(Role.FORMATTEUR.name())
+            .antMatchers("/api/apprenant/**").hasAuthority(Role.APPRENANT.name())
+            .anyRequest().authenticated()
+            .and()
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
