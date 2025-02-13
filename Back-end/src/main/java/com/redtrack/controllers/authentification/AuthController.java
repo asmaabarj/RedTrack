@@ -3,6 +3,7 @@ package com.redtrack.controllers.authentification;
 import com.redtrack.dtos.auth.AuthResponse;
 import com.redtrack.dtos.auth.LoginRequest;
 import com.redtrack.dtos.auth.RegisterRequest;
+import com.redtrack.dtos.auth.RegisterResponse;
 import com.redtrack.services.interfaces.AuthService;
 import com.redtrack.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class AuthController {
     private final JwtService jwtService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
+    public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authService.register(request));
     }
 

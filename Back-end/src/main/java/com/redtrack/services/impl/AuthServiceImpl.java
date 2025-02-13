@@ -3,6 +3,7 @@ package com.redtrack.services.impl;
 import com.redtrack.dtos.auth.AuthResponse;
 import com.redtrack.dtos.auth.LoginRequest;
 import com.redtrack.dtos.auth.RegisterRequest;
+import com.redtrack.dtos.auth.RegisterResponse;
 import com.redtrack.model.User;
 import com.redtrack.repositories.UserRepository;
 import com.redtrack.security.JwtService;
@@ -27,7 +28,7 @@ public class AuthServiceImpl implements AuthService {
     private final SessionManager sessionManager;
 
     @Override
-    public AuthResponse register(RegisterRequest request) {
+    public RegisterResponse register(RegisterRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new UserException("Cet email est déjà utilisé");
         }
@@ -40,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
         user.setRole(request.getRole());
         
         userRepository.save(user);
-        return new AuthResponse(jwtService.generateToken(user));
+        return new RegisterResponse("Inscription réussie. Vous pouvez maintenant vous connecter.");
     }
 
     @Override
