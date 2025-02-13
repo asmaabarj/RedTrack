@@ -11,7 +11,9 @@ import java.util.List;
 @AllArgsConstructor
 public class UserDTO {
     private String id;
-    private String login;
+    private String email;
+    private String prenom;
+    private String nom;
     private List<String> roles;
     private Boolean active;
 } 

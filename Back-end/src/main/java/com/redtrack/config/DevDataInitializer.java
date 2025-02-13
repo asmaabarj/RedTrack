@@ -1,17 +1,20 @@
 package com.redtrack.config;
 
-import com.redtrack.model.Role;
-import com.redtrack.model.User;
-import com.redtrack.repositories.RoleRepository;
-import com.redtrack.repositories.UserRepository;
-import lombok.RequiredArgsConstructor;
+import java.util.Arrays;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.util.Arrays;
+import com.redtrack.model.Role;
+import com.redtrack.model.User;
+import com.redtrack.repositories.RoleRepository;
+import com.redtrack.repositories.UserRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
@@ -69,7 +72,7 @@ public class DevDataInitializer {
         apprenantUser.setActive(true);
         apprenantUser.setPassword(passwordEncoder.encode("apprenant"));
         apprenantUser.setRoles(Arrays.asList(roleApprenant));
-        userRepository.save(apprenantUser)
+        userRepository.save(apprenantUser);
 
 
     }
