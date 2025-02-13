@@ -23,8 +23,15 @@ public class User implements UserDetails {
     @Id
     private String id;
 
-    @NotBlank(message = "Le login est obligatoire")
-    private String login;
+    @NotBlank(message = "L'email est obligatoire")
+    private String email;
+
+    @NotBlank(message = "le nom est obligatoire")
+    private String nom;
+
+    @NotBlank(message = "le prenom est obligatoire")
+    private String prenom;
+
 
     @NotBlank(message = "Le mot de passe est obligatoire")
     private String password;
@@ -43,7 +50,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        return email;
     }
 
     @Override

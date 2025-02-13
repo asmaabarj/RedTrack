@@ -32,25 +32,46 @@ public class DevDataInitializer {
         roleAdmin.setName("ADMIN");
         roleRepository.save(roleAdmin);
 
-        Role roleUser = new Role();
-        roleUser.setName("USER");
-        roleRepository.save(roleUser);
+        Role roleFormatteur = new Role();
+        roleFormatteur.setName("FORMATTEUR");
+        roleRepository.save(roleFormatteur);
+
+        Role roleApprenant = new Role();
+        roleApprenant.setName("APPRENANT");
+        roleRepository.save(roleApprenant);
 
         // Création d'un utilisateur admin de test
         User adminUser = new User();
-        adminUser.setLogin("admin");
+        adminUser.setEmail("admin@gmail.com");
+        adminUser.setNom("admin");
+        adminUser.setPrenom("admin");
+        adminUser.setActive(true);
         adminUser.setPassword(passwordEncoder.encode("admin"));
         adminUser.setRoles(Arrays.asList(roleAdmin));
-        adminUser.setActive(true);
         userRepository.save(adminUser);
 
-        // Création d'un utilisateur normal de test
-        User normalUser = new User();
-        normalUser.setLogin("user");
-        normalUser.setPassword(passwordEncoder.encode("user"));
-        normalUser.setRoles(Arrays.asList(roleUser));
-        normalUser.setActive(true);
-        userRepository.save(normalUser);
+        // Création d'un utilisateur formatteur de test
+        User formatteurlUser = new User();
+        formatteurlUser.setEmail("Formatteur@gmail.com");
+        formatteurlUser.setPrenom("formatteur");
+        formatteurlUser.setNom("formatteur");
+        formatteurlUser.setActive(true);
+        formatteurlUser.setPassword(passwordEncoder.encode("formatteur"));
+        formatteurlUser.setRoles(Arrays.asList(roleFormatteur));
+        userRepository.save(formatteurlUser);
 
+
+        //création d'un utilisateur apprenant de test
+        User apprenantUser =new User();
+        apprenantUser.setEmail("apprenant@gmail.com");
+        apprenantUser.setPrenom("apprenant");
+        apprenantUser.setNom("apprenant");
+        apprenantUser.setActive(true);
+        apprenantUser.setPassword(passwordEncoder.encode("apprenant"));
+        apprenantUser.setRoles(Arrays.asList(roleApprenant));
+        userRepository.save(apprenantUser)
+
+
+    }
 
 }

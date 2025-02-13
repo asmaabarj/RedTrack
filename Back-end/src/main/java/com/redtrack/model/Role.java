@@ -17,7 +17,7 @@ public class Role {
     @Id
     private String id;
     
-    @NotBlank(message = "Le nom du rôle est obligatoire")
+    @NotBlank(message = "Le rôle est obligatoire")
     @Indexed(unique = true)
     private String name;
 }
