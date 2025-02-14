@@ -20,7 +20,7 @@ public class AdminInitializer implements CommandLineRunner {
         if (!userRepository.findByEmail("admin@redtrack.com").isPresent()) {
             User admin = new User();
             admin.setEmail("admin@redtrack.com");
-            admin.setPassword(passwordEncoder.encode("Admin123!"));
+                admin.setPassword(passwordEncoder.encode("Admin123!"));
             admin.setNom("Admin");
             admin.setPrenom("Super");
             admin.setRole(Role.ADMIN);

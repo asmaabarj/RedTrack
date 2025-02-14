@@ -2,8 +2,6 @@ package com.redtrack.services.impl;
 
 import com.redtrack.dtos.auth.AuthResponse;
 import com.redtrack.dtos.auth.LoginRequest;
-import com.redtrack.dtos.auth.RegisterRequest;
-import com.redtrack.dtos.auth.RegisterResponse;
 import com.redtrack.model.User;
 import com.redtrack.repositories.UserRepository;
 import com.redtrack.security.JwtService;
@@ -11,7 +9,6 @@ import com.redtrack.services.interfaces.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.redtrack.exceptions.UserException;
 import com.redtrack.security.SessionManager;
@@ -22,27 +19,11 @@ import com.redtrack.exceptions.AlreadyLoggedInException;
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final SessionManager sessionManager;
 
-    @Override
-    public RegisterResponse register(RegisterRequest request) {
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new UserException("Cet email est déjà utilisé");
-        }
 
-        User user = new User();
-        user.setEmail(request.getEmail());
-        user.setNom(request.getNom());
-        user.setPrenom(request.getPrenom());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(request.getRole());
-        
-        userRepository.save(user);
-        return new RegisterResponse("Inscription réussie. Vous pouvez maintenant vous connecter.");
-    }
 
     @Override
     public AuthResponse login(LoginRequest request) {
