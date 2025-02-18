@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AuthActions } from '../../../store/auth/auth.actions';
+import { selectAuthError, selectAuthLoading } from '../../../store/auth/auth.selectors';
 
 @Component({
   selector: 'app-login',
@@ -12,10 +14,12 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  loading$ = this.store.select(selectAuthLoading);
+  error$ = this.store.select(selectAuthError);
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private store: Store
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -25,7 +29,7 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
+      this.store.dispatch(AuthActions.login({ request: this.loginForm.value }));
     }
   }
 }
