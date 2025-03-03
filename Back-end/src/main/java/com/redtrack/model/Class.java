@@ -18,10 +18,13 @@ public class Class {
     private String niveau;
     private String annee;
     private Boolean active = true;
-    
+
     @DBRef
     private List<User> apprenants = new ArrayList<>();
-    
+
     @DBRef
     private List<User> formateurs = new ArrayList<>();
+
+    @DBRef
+    private List<Etape> etapes = new ArrayList<>();
 }

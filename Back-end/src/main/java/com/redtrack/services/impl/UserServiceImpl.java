@@ -9,12 +9,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.redtrack.dtos.CreateApprenantRequest;
+import com.redtrack.dtos.UpdateApprenantRequest;
 import com.redtrack.dtos.UpdateUserRequest;
 import com.redtrack.dtos.UserDTO;
 import com.redtrack.dtos.auth.RegisterRequest;
 import com.redtrack.dtos.auth.RegisterResponse;
-import com.redtrack.dtos.CreateApprenantRequest;
-import com.redtrack.dtos.UpdateApprenantRequest;
 import com.redtrack.exceptions.ClassException;
 import com.redtrack.exceptions.UserException;
 import com.redtrack.mappers.UserMapper;
@@ -65,11 +65,11 @@ public class UserServiceImpl implements UserService {
     public Page<UserDTO> listFormateurs(Pageable pageable) {
         Page<UserDTO> formateurs = userRepository.findByRoleAndActiveTrue(Role.FORMATEUR, pageable)
                 .map(userMapper::userToUserDTO);
-                
+
         if (formateurs.isEmpty()) {
             throw new UserException("Il n'existe aucun formateur");
         }
-        
+
         return formateurs;
     }
 
@@ -78,11 +78,11 @@ public class UserServiceImpl implements UserService {
     public Page<UserDTO> listApprenants(Pageable pageable) {
         Page<UserDTO> apprenants = userRepository.findByRoleAndActiveTrue(Role.APPRENANT, pageable)
                 .map(userMapper::userToUserDTO);
-                
+
         if (apprenants.isEmpty()) {
             throw new UserException("Il n'existe aucun apprenant");
         }
-        
+
         return apprenants;
     }
 
@@ -109,16 +109,16 @@ public class UserServiceImpl implements UserService {
     public UserDTO updateUser(String userId, UpdateUserRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserException("Utilisateur non trouvé avec l'ID: " + userId));
-                
-        if (!user.getEmail().equals(request.getEmail()) && 
-            userRepository.findByEmail(request.getEmail()).isPresent()) {
+
+        if (!user.getEmail().equals(request.getEmail()) &&
+                userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new UserException("Cet email est déjà utilisé");
         }
-        
+
         user.setNom(request.getNom());
         user.setPrenom(request.getPrenom());
         user.setEmail(request.getEmail());
-        
+
         User updatedUser = userRepository.save(user);
         return userMapper.userToUserDTO(updatedUser);
     }
@@ -169,7 +169,7 @@ public class UserServiceImpl implements UserService {
     @PreAuthorize("hasAuthority('FORMATEUR')")
     public UserDTO createApprenantInFormateurClass(CreateApprenantRequest request) {
         User formateur = getCurrentFormateur();
-        
+
         if (formateur.getClasse() == null) {
             throw new UserException("Aucune classe assignée à ce formateur");
         }
@@ -197,14 +197,14 @@ public class UserServiceImpl implements UserService {
         User apprenant = userRepository.findById(apprenantId)
                 .orElseThrow(() -> new UserException("Apprenant non trouvé"));
 
-        if (formateur.getClasse() == null || 
-            apprenant.getClasse() == null || 
-            !formateur.getClasse().getId().equals(apprenant.getClasse().getId())) {
+        if (formateur.getClasse() == null ||
+                apprenant.getClasse() == null ||
+                !formateur.getClasse().getId().equals(apprenant.getClasse().getId())) {
             throw new UserException("Cet apprenant n'appartient pas à votre classe");
         }
 
-        if (!apprenant.getEmail().equals(request.getEmail()) && 
-            userRepository.findByEmail(request.getEmail()).isPresent()) {
+        if (!apprenant.getEmail().equals(request.getEmail()) &&
+                userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new UserException("Cet email est déjà utilisé");
         }
 
@@ -215,7 +215,8 @@ public class UserServiceImpl implements UserService {
         return userMapper.userToUserDTO(userRepository.save(apprenant));
     }
 
-    private User getCurrentFormateur() {
+    @Override
+    public User getCurrentFormateur() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User formateur = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserException("Formateur non trouvé"));

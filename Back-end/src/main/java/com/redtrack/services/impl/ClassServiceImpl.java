@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ClassServiceImpl implements ClassService {
     private static final Logger logger = LoggerFactory.getLogger(ClassServiceImpl.class);
-    
+
     private final ClassRepository classRepository;
     private final UserRepository userRepository;
     private final ClassMapper classMapper;
@@ -41,7 +41,7 @@ public class ClassServiceImpl implements ClassService {
         classe.setNom(request.getNom());
         classe.setNiveau(request.getNiveau());
         classe.setAnnee(request.getAnnee());
-        
+
         return classMapper.classToClassDTO(classRepository.save(classe));
     }
 
@@ -49,7 +49,7 @@ public class ClassServiceImpl implements ClassService {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ClassDTO getClass(String id) {
         Class classe = classRepository.findById(id)
-            .orElseThrow(() -> new UserException("Classe non trouvée"));
+                .orElseThrow(() -> new UserException("Classe non trouvée"));
         return classMapper.classToClassDTO(classe);
     }
 
@@ -64,17 +64,17 @@ public class ClassServiceImpl implements ClassService {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ClassDTO updateClass(String id, CreateClassRequest request) {
         Class classe = classRepository.findById(id)
-            .orElseThrow(() -> new ClassException("Classe non trouvée"));
-            
-        if (!classe.getNom().equals(request.getNom()) && 
-            classRepository.existsByNom(request.getNom())) {
+                .orElseThrow(() -> new ClassException("Classe non trouvée"));
+
+        if (!classe.getNom().equals(request.getNom()) &&
+                classRepository.existsByNom(request.getNom())) {
             throw new ClassException("Une classe avec ce nom existe déjà");
         }
-        
+
         classe.setNom(request.getNom());
         classe.setNiveau(request.getNiveau());
         classe.setAnnee(request.getAnnee());
-        
+
         return classMapper.classToClassDTO(classRepository.save(classe));
     }
 
@@ -102,20 +102,20 @@ public class ClassServiceImpl implements ClassService {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User formateur = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserException("Formateur non trouvé"));
-    
+
         Class classe = classRepository.findById(id)
                 .orElseThrow(() -> new ClassException("Classe non trouvée"));
-    
+
         logger.debug("Tentative de modification de classe - Formateur ID: {}, Email: {}, Classe ID: {}",
                 formateur.getId(), formateur.getEmail(), classe.getId());
-    
+
         if (formateur.getClasse() != null && formateur.getClasse().getId().equals(classe.getId())) {
             classe.setNom(request.getNom());
             classe.setNiveau(request.getNiveau());
             classe.setAnnee(request.getAnnee());
             return classMapper.classToClassDTO(classRepository.save(classe));
         }
-    
+
         throw new ClassException("Vous n'êtes pas autorisé à modifier cette classe");
     }
 
@@ -125,7 +125,7 @@ public class ClassServiceImpl implements ClassService {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User formateur = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserException("Formateur non trouvé"));
-            
+
         if (formateur.getClasse() == null) {
             throw new ClassException("Aucune classe n'est assignée à ce formateur");
         }

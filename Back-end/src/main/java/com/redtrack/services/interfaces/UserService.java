@@ -1,5 +1,6 @@
 package com.redtrack.services.interfaces;
 
+import com.redtrack.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -28,4 +29,6 @@ public interface UserService {
     void unarchiveApprenantByFormateur(String apprenantId);
 
     UserDTO updateApprenantByFormateur(String apprenantId, UpdateApprenantRequest request);
+
+    User getCurrentFormateur();
 } 
