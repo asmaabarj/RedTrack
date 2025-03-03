@@ -13,4 +13,6 @@ public interface ClassService {
     ClassDTO updateClass(String id, CreateClassRequest request);
     void archiveClass(String id);
     void unarchiveClass(String id);
+    ClassDTO updateFormateurClass(String id, CreateClassRequest request);
+    ClassDTO getFormateurOwnClass();
 }

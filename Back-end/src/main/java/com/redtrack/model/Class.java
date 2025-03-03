@@ -1,5 +1,6 @@
 package com.redtrack.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -18,8 +19,8 @@ public class Class {
     private Boolean active = true;
     
     @DBRef
-    private List<User> apprenants;
+    private List<User> apprenants = new ArrayList<>();
     
     @DBRef
-    private List<User> formateurs;
+    private List<User> formateurs = new ArrayList<>();
 }

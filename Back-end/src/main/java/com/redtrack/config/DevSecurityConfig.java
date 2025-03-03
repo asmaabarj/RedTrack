@@ -34,7 +34,7 @@ public class DevSecurityConfig {
             .authorizeRequests()
             .antMatchers("/api/auth/**").permitAll()
             .antMatchers("/api/admin/**").hasAuthority(Role.ADMIN.name())
-            .antMatchers("/api/formatteur/**").hasAuthority(Role.FORMATTEUR.name())
+            .antMatchers("/api/formateur/**").hasAuthority(Role.FORMATEUR.name())
             .antMatchers("/api/apprenant/**").hasAuthority(Role.APPRENANT.name())
             .anyRequest().authenticated()
             .and()

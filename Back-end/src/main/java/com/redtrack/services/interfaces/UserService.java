@@ -3,6 +3,8 @@ package com.redtrack.services.interfaces;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.redtrack.dtos.CreateApprenantRequest;
+import com.redtrack.dtos.UpdateApprenantRequest;
 import com.redtrack.dtos.UpdateUserRequest;
 import com.redtrack.dtos.UserDTO;
 import com.redtrack.dtos.auth.RegisterRequest;
@@ -19,4 +21,11 @@ public interface UserService {
     void unarchiveUser(String userId);
 
     UserDTO updateUser(String userId, UpdateUserRequest request);
+
+    Page<UserDTO> getFormateurClassApprenants(Pageable pageable);
+    UserDTO createApprenantInFormateurClass(CreateApprenantRequest request);
+    void archiveApprenantByFormateur(String apprenantId);
+    void unarchiveApprenantByFormateur(String apprenantId);
+
+    UserDTO updateApprenantByFormateur(String apprenantId, UpdateApprenantRequest request);
 } 

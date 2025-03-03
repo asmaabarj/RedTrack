@@ -1,7 +1,5 @@
 package com.redtrack.dtos;
 
-import java.util.List;
-
 import lombok.Data;
 
 @Data
