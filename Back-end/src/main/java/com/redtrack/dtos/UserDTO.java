@@ -1,6 +1,7 @@
 package com.redtrack.dtos;
 
 import com.redtrack.model.Role;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,4 +16,5 @@ public class UserDTO {
     private String prenom;
     private Role role;
     private Boolean active;
+    private String classeId;
 } 

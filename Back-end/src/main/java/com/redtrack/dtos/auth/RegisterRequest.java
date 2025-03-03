@@ -1,13 +1,14 @@
 package com.redtrack.dtos.auth;
 
-import com.redtrack.model.Role;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import com.redtrack.model.Role;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
@@ -28,4 +29,7 @@ public class RegisterRequest {
     
     @NotNull(message = "Le rôle est obligatoire")
     private Role role;
+    
+    @NotBlank(message = "La classe est obligatoire")
+    private String classeId;
 }

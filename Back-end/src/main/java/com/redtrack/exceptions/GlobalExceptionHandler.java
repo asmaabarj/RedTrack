@@ -1,5 +1,7 @@
 package com.redtrack.exceptions;
 
+import java.time.LocalDateTime;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -7,8 +9,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import java.time.LocalDateTime;
 
 @ControllerAdvice
 
@@ -41,6 +41,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AlreadyLoggedInException.class)
     public ResponseEntity<ErrorResponse> handleAlreadyLoggedInException(AlreadyLoggedInException ex) {
         return createErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
+    }
+
+    @ExceptionHandler(UserException.class)
+    public ResponseEntity<String> handleUserException(UserException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ClassException.class)
+    public ResponseEntity<String> handleClassException(ClassException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     private ResponseEntity<ErrorResponse> createErrorResponse(HttpStatus status, String message) {
