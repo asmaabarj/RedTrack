@@ -16,6 +16,7 @@ public class Class {
     private String id;
     private String nom;
     private String niveau;
+    private String annee;
     private Boolean active = true;
     
     @DBRef

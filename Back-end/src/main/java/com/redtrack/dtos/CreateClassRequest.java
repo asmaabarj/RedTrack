@@ -11,4 +11,7 @@ public class CreateClassRequest {
     
     @NotBlank(message = "Le niveau est obligatoire")
     private String niveau;
+    
+    @NotBlank(message = "L'année est obligatoire")
+    private String annee;
 } 
