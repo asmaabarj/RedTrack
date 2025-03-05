@@ -25,5 +25,14 @@ public class Class {
     private List<Etape> etapes = new ArrayList<>();
 
     @DBRef
+    
     private List<User> users = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Class{" +
+                "id='" + id + '\'' +
+                ", nom='" + nom + '\'' +
+                '}';
+    }
 }

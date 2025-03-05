@@ -111,6 +111,32 @@ public class ClassServiceImpl implements ClassService {
         return classRepository.findByActiveFalse(pageable)
                 .map(classMapper::classToClassDTO);
     }
+    @Override
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ClassDetailsDTO getClassDetails(String id) {
+        Class classe = classRepository.findById(id)
+                .orElseThrow(() -> new ClassException("Classe non trouvée"));
+
+        ClassDetailsDTO details = new ClassDetailsDTO();
+        details.setId(classe.getId());
+        details.setNom(classe.getNom());
+        details.setNiveau(classe.getNiveau());
+        details.setAnnee(classe.getAnnee());
+        details.setActive(classe.getActive());
+
+        details.setFormateurs(classe.getUsers().stream()
+                .filter(user -> user.getRole() == Role.FORMATEUR)
+                .map(userMapper::userToUserDTO)
+                .collect(Collectors.toList()));
+
+        details.setApprenants(classe.getUsers().stream()
+                .filter(user -> user.getRole() == Role.APPRENANT)
+                .map(userMapper::userToUserDTO)
+                .collect(Collectors.toList()));
+
+        return details;
+    }
+
 
     @PreAuthorize("hasAuthority('FORMATEUR')")
     public ClassDTO updateFormateurClass(String id, CreateClassRequest request) {
@@ -131,44 +157,24 @@ public class ClassServiceImpl implements ClassService {
         return classMapper.classToClassDTO(classRepository.save(classe));
     }
 
-    @Override
-    @PreAuthorize("hasAuthority('FORMATEUR')")
-    public ClassDTO getFormateurOwnClass() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User formateur = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserException("Formateur non trouvé"));
 
-        List<Class> classes = classRepository.findByUsersContaining(formateur);
-        if (classes.isEmpty()) {
-            throw new ClassException("Aucune classe n'est assignée à ce formateur");
-        }
 
-        return classMapper.classToClassDTO(classes.get(0));
+@Override
+@PreAuthorize("hasAuthority('FORMATEUR')")
+public List<ClassDTO> getFormateurClasses() {
+    String email = SecurityContextHolder.getContext().getAuthentication().getName();
+    User formateur = userRepository.findByEmail(email)
+            .orElseThrow(() -> new UserException("Formateur non trouvé"));
+
+    List<Class> classes = classRepository.findByUsersContaining(formateur);
+    if (classes.isEmpty()) {
+        throw new ClassException("Aucune classe n'est assignée à ce formateur");
     }
 
-    @Override
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ClassDetailsDTO getClassDetails(String id) {
-        Class classe = classRepository.findById(id)
-                .orElseThrow(() -> new ClassException("Classe non trouvée"));
-
-        ClassDetailsDTO details = new ClassDetailsDTO();
-        details.setId(classe.getId());
-        details.setNom(classe.getNom());
-        details.setNiveau(classe.getNiveau());
-        details.setAnnee(classe.getAnnee());
-        details.setActive(classe.getActive());
-        
-        details.setFormateurs(classe.getUsers().stream()
-                .filter(user -> user.getRole() == Role.FORMATEUR)
-                .map(userMapper::userToUserDTO)
-                .collect(Collectors.toList()));
-                
-        details.setApprenants(classe.getUsers().stream()
-                .filter(user -> user.getRole() == Role.APPRENANT)
-                .map(userMapper::userToUserDTO)
-                .collect(Collectors.toList()));
-
-        return details;
-    }
+    return classes.stream()
+            .filter(classe -> classe.getActive()) 
+            .map(classMapper::classToClassDTO)
+            .collect(Collectors.toList());
+}
+    
 }

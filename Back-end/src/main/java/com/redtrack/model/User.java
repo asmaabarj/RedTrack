@@ -23,4 +23,16 @@ public class User {
     
     @DBRef
     private List<Class> classes = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", email='" + email + '\'' +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", role=" + role +
+                ", active=" + active +
+                '}';
+    }
 }
