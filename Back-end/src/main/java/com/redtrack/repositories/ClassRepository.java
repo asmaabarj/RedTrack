@@ -9,4 +9,5 @@ import com.redtrack.model.Class;
 public interface ClassRepository extends MongoRepository<Class, String> {
     boolean existsByNom(String nom);
     Page<Class> findByActiveTrue(Pageable pageable);
+    Page<Class> findByActiveFalse(Pageable pageable);
 }

@@ -1,5 +1,8 @@
 package com.redtrack.services.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -9,11 +12,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.redtrack.dtos.ClassDTO;
+import com.redtrack.dtos.ClassDetailsDTO;
 import com.redtrack.dtos.CreateClassRequest;
 import com.redtrack.exceptions.ClassException;
 import com.redtrack.exceptions.UserException;
 import com.redtrack.mappers.ClassMapper;
+import com.redtrack.mappers.UserMapper;
 import com.redtrack.model.Class;
+import com.redtrack.model.Role;
 import com.redtrack.model.User;
 import com.redtrack.repositories.ClassRepository;
 import com.redtrack.repositories.UserRepository;
@@ -29,6 +35,7 @@ public class ClassServiceImpl implements ClassService {
     private final ClassRepository classRepository;
     private final UserRepository userRepository;
     private final ClassMapper classMapper;
+    private final UserMapper userMapper;
 
     @Override
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -96,6 +103,12 @@ public class ClassServiceImpl implements ClassService {
         classRepository.save(classe);
     }
 
+    @Override
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Page<ClassDTO> getArchivedClasses(Pageable pageable) {
+        return classRepository.findByActiveFalse(pageable)
+                .map(classMapper::classToClassDTO);
+    }
 
     @PreAuthorize("hasAuthority('FORMATEUR')")
     public ClassDTO updateFormateurClass(String id, CreateClassRequest request) {
@@ -131,5 +144,33 @@ public class ClassServiceImpl implements ClassService {
         }
 
         return classMapper.classToClassDTO(formateur.getClasse());
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ClassDetailsDTO getClassDetails(String id) {
+        Class classe = classRepository.findById(id)
+                .orElseThrow(() -> new ClassException("Classe non trouvée"));
+
+        List<User> users = userRepository.findByClasseAndActiveTrue(classe);
+        
+        ClassDetailsDTO details = new ClassDetailsDTO();
+        details.setId(classe.getId());
+        details.setNom(classe.getNom());
+        details.setNiveau(classe.getNiveau());
+        details.setAnnee(classe.getAnnee());
+        details.setActive(classe.getActive());
+        
+        details.setFormateurs(users.stream()
+                .filter(user -> user.getRole() == Role.FORMATEUR)
+                .map(userMapper::userToUserDTO)
+                .collect(Collectors.toList()));
+                
+        details.setApprenants(users.stream()
+                .filter(user -> user.getRole() == Role.APPRENANT)
+                .map(userMapper::userToUserDTO)
+                .collect(Collectors.toList()));
+
+        return details;
     }
 }

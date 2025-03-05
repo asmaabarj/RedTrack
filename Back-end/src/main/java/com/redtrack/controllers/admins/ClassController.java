@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.redtrack.dtos.ClassDTO;
+import com.redtrack.dtos.ClassDetailsDTO;
 import com.redtrack.dtos.CreateClassRequest;
 import com.redtrack.services.interfaces.ClassService;
 
@@ -59,6 +60,16 @@ public class ClassController {
     public ResponseEntity<String> unarchiveClass(@PathVariable String id) {
         classService.unarchiveClass(id);
         return ResponseEntity.ok("Classe désarchivée avec succès");
+    }
+
+    @GetMapping("/archived")
+    public ResponseEntity<Page<ClassDTO>> getArchivedClasses(Pageable pageable) {
+        return ResponseEntity.ok(classService.getArchivedClasses(pageable));
+    }
+
+    @GetMapping("/{id}/details")
+    public ResponseEntity<ClassDetailsDTO> getClassDetails(@PathVariable String id) {
+        return ResponseEntity.ok(classService.getClassDetails(id));
     }
 
 }
