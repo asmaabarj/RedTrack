@@ -11,7 +11,7 @@ public class ClassDTO {
     private String niveau;
     private String annee;
     private Boolean active;
-    private List<UserDTO> formateurs;
-    private List<UserDTO> apprenants;
+    private List<String> formateurs;
+    private List<String> apprenants;
     private List<String> etapesIds;
 }

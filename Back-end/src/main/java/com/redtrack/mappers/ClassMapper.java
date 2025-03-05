@@ -12,25 +12,23 @@ import com.redtrack.model.Class;
 import com.redtrack.model.Role;
 import com.redtrack.model.User;
 
-@Mapper(componentModel = "spring", uses = {UserMapper.class})
+@Mapper(componentModel = "spring")
 public interface ClassMapper {
-    @Mapping(target = "formateurs", expression = "java(mapFormateurs(classe))")
-    @Mapping(target = "apprenants", expression = "java(mapApprenants(classe))")
+    @Mapping(target = "formateurs", expression = "java(mapFormateursIds(classe))")
+    @Mapping(target = "apprenants", expression = "java(mapApprenantsIds(classe))")
     ClassDTO classToClassDTO(Class classe);
 
-    default List<UserDTO> mapFormateurs(Class classe) {
+    default List<String> mapFormateursIds(Class classe) {
         return classe.getUsers().stream()
                 .filter(u -> u.getRole() == Role.FORMATEUR)
-                .map(this::mapUser)
+                .map(User::getId)
                 .collect(Collectors.toList());
     }
 
-    default List<UserDTO> mapApprenants(Class classe) {
+    default List<String> mapApprenantsIds(Class classe) {
         return classe.getUsers().stream()
                 .filter(u -> u.getRole() == Role.APPRENANT)
-                .map(this::mapUser)
+                .map(User::getId)
                 .collect(Collectors.toList());
     }
-
-    UserDTO mapUser(User user);
 }
