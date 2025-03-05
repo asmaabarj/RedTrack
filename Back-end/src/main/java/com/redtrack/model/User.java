@@ -2,6 +2,7 @@ package com.redtrack.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -34,5 +35,23 @@ public class User {
                 ", role=" + role +
                 ", active=" + active +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) &&
+               Objects.equals(email, user.email) &&
+               Objects.equals(nom, user.nom) &&
+               Objects.equals(prenom, user.prenom) &&
+               Objects.equals(role, user.role) &&
+               Objects.equals(active, user.active);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, nom, prenom, role, active);
     }
 }

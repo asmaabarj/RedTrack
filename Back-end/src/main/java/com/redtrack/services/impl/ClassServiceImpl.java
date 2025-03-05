@@ -138,6 +138,7 @@ public class ClassServiceImpl implements ClassService {
     }
 
 
+    @Override
     @PreAuthorize("hasAuthority('FORMATEUR')")
     public ClassDTO updateFormateurClass(String id, CreateClassRequest request) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -147,6 +148,10 @@ public class ClassServiceImpl implements ClassService {
         Class classe = classRepository.findById(id)
                 .orElseThrow(() -> new ClassException("Classe non trouvée"));
 
+        if (!classe.getActive()) {
+            throw new ClassException("Impossible de modifier une classe archivée");
+        }
+
         if (!classe.getUsers().contains(formateur)) {
             throw new ClassException("Vous n'êtes pas autorisé à modifier cette classe");
         }
@@ -154,7 +159,9 @@ public class ClassServiceImpl implements ClassService {
         classe.setNom(request.getNom());
         classe.setNiveau(request.getNiveau());
         classe.setAnnee(request.getAnnee());
-        return classMapper.classToClassDTO(classRepository.save(classe));
+
+        Class updatedClass = classRepository.save(classe);
+        return classMapper.classToClassDTO(updatedClass);
     }
 
 
