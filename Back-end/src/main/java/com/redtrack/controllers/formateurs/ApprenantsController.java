@@ -1,7 +1,10 @@
 package com.redtrack.controllers.formateurs;
 
+import javax.validation.Valid;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,14 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.redtrack.dtos.UserDTO;
 import com.redtrack.dtos.CreateApprenantRequest;
 import com.redtrack.dtos.UpdateApprenantRequest;
+import com.redtrack.dtos.UserDTO;
 import com.redtrack.services.interfaces.UserService;
 
 import lombok.RequiredArgsConstructor;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/formateur/apprenants")
@@ -55,5 +56,11 @@ public class ApprenantsController {
             @PathVariable String apprenantId,
             @Valid @RequestBody UpdateApprenantRequest request) {
         return ResponseEntity.ok(userService.updateApprenantByFormateur(apprenantId, request));
+    }
+
+    @GetMapping("/archives")
+    public ResponseEntity<Page<UserDTO>> getFormateurArchivedApprenants(
+            @PageableDefault(size = 10, sort = "nom") Pageable pageable) {
+        return ResponseEntity.ok(userService.getFormateurArchivedApprenants(pageable));
     }
 }

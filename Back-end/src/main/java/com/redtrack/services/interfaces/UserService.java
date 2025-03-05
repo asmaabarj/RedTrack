@@ -42,4 +42,6 @@ public interface UserService {
     void removeUserFromClass(String userId, String classId);
     List<ClassDTO> getUserClasses(String userId);
     List<UserDTO> getClassUsers(String classId);
+
+    Page<UserDTO> getFormateurArchivedApprenants(Pageable pageable);
 } 
