@@ -16,6 +16,6 @@ import com.redtrack.model.User;
 public interface UserRepository extends MongoRepository<User, String> {
     Optional<User> findByEmail(String email);
     Page<User> findByRoleAndActiveTrue(Role role, Pageable pageable);
-    Page<User> findByClasseAndRoleAndActiveTrue(Class classe, Role role, Pageable pageable);
-    List<User> findByClasseAndActiveTrue(Class classe);
+    Page<User> findByClassesContainingAndRoleAndActiveTrue(Class classe, Role role, Pageable pageable);
+    Page<User> findByRoleAndActiveFalse(Role role, Pageable pageable);
 }

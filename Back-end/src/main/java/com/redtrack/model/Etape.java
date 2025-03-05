@@ -1,6 +1,8 @@
 package com.redtrack.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -19,5 +21,5 @@ public class Etape {
     private Statut statut = Statut.EnCours;
     
     @DBRef
-    private Class classe;  
+    private List<Class> classes = new ArrayList<>();  
 }

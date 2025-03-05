@@ -1,5 +1,8 @@
 package com.redtrack.services.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -9,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.redtrack.dtos.ClassDTO;
 import com.redtrack.dtos.CreateApprenantRequest;
 import com.redtrack.dtos.UpdateApprenantRequest;
 import com.redtrack.dtos.UpdateUserRequest;
@@ -17,6 +21,7 @@ import com.redtrack.dtos.auth.RegisterRequest;
 import com.redtrack.dtos.auth.RegisterResponse;
 import com.redtrack.exceptions.ClassException;
 import com.redtrack.exceptions.UserException;
+import com.redtrack.mappers.ClassMapper;
 import com.redtrack.mappers.UserMapper;
 import com.redtrack.model.Class;
 import com.redtrack.model.Role;
@@ -37,6 +42,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final ClassRepository classRepository;
+    private final ClassMapper classMapper;
 
     @Override
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -45,8 +51,10 @@ public class UserServiceImpl implements UserService {
             throw new UserException("Cet email est déjà utilisé");
         }
 
-        Class classe = classRepository.findById(request.getClasseId())
-                .orElseThrow(() -> new ClassException("Classe non trouvée"));
+        List<Class> classes = request.getClasseIds().stream()
+                .map(id -> classRepository.findById(id)
+                        .orElseThrow(() -> new ClassException("Classe non trouvée avec l'ID: " + id)))
+                .collect(Collectors.toList());
 
         User user = new User();
         user.setEmail(request.getEmail());
@@ -54,9 +62,16 @@ public class UserServiceImpl implements UserService {
         user.setPrenom(request.getPrenom());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(request.getRole());
-        user.setClasse(classe);
+        user.getClasses().addAll(classes);
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        
+        // Ajouter l'utilisateur à toutes les classes
+        classes.forEach(classe -> {
+            classe.getUsers().add(savedUser);
+            classRepository.save(classe);
+        });
+
         return new RegisterResponse("Inscription réussie.");
     }
 
@@ -127,10 +142,14 @@ public class UserServiceImpl implements UserService {
     @PreAuthorize("hasAuthority('FORMATEUR')")
     public Page<UserDTO> getFormateurClassApprenants(Pageable pageable) {
         User formateur = getCurrentFormateur();
-        if (formateur.getClasse() == null) {
+        List<Class> classes = classRepository.findByUsersContaining(formateur);
+        
+        if (classes.isEmpty()) {
             throw new UserException("Aucune classe assignée à ce formateur");
         }
-        return userRepository.findByClasseAndRoleAndActiveTrue(formateur.getClasse(), Role.APPRENANT, pageable)
+
+        Class classe = classes.get(0);  // On prend la première classe
+        return userRepository.findByClassesContainingAndRoleAndActiveTrue(classe, Role.APPRENANT, pageable)
                 .map(userMapper::userToUserDTO);
     }
 
@@ -142,8 +161,14 @@ public class UserServiceImpl implements UserService {
         User apprenant = userRepository.findById(apprenantId)
                 .orElseThrow(() -> new UserException("Apprenant non trouvé"));
 
-        if (!formateur.getClasse().getId().equals(apprenant.getClasse().getId())) {
-            throw new UserException("Cet apprenant n'appartient pas à votre classe");
+        List<Class> formateurClasses = classRepository.findByUsersContaining(formateur);
+        List<Class> apprenantClasses = classRepository.findByUsersContaining(apprenant);
+
+        boolean hasCommonClass = formateurClasses.stream()
+                .anyMatch(formateurClass -> apprenantClasses.contains(formateurClass));
+
+        if (!hasCommonClass) {
+            throw new UserException("Cet apprenant n'appartient pas à vos classes");
         }
 
         apprenant.setActive(false);
@@ -157,8 +182,14 @@ public class UserServiceImpl implements UserService {
         User apprenant = userRepository.findById(apprenantId)
                 .orElseThrow(() -> new UserException("Apprenant non trouvé"));
 
-        if (!formateur.getClasse().getId().equals(apprenant.getClasse().getId())) {
-            throw new UserException("Cet apprenant n'appartient pas à votre classe");
+        List<Class> formateurClasses = classRepository.findByUsersContaining(formateur);
+        List<Class> apprenantClasses = classRepository.findByUsersContaining(apprenant);
+
+        boolean hasCommonClass = formateurClasses.stream()
+                .anyMatch(formateurClass -> apprenantClasses.contains(formateurClass));
+
+        if (!hasCommonClass) {
+            throw new UserException("Cet apprenant n'appartient pas à vos classes");
         }
 
         apprenant.setActive(true);
@@ -169,8 +200,9 @@ public class UserServiceImpl implements UserService {
     @PreAuthorize("hasAuthority('FORMATEUR')")
     public UserDTO createApprenantInFormateurClass(CreateApprenantRequest request) {
         User formateur = getCurrentFormateur();
+        List<Class> formateurClasses = classRepository.findByUsersContaining(formateur);
 
-        if (formateur.getClasse() == null) {
+        if (formateurClasses.isEmpty()) {
             throw new UserException("Aucune classe assignée à ce formateur");
         }
 
@@ -184,10 +216,16 @@ public class UserServiceImpl implements UserService {
         apprenant.setNom(request.getNom());
         apprenant.setPrenom(request.getPrenom());
         apprenant.setRole(Role.APPRENANT);
-        apprenant.setClasse(formateur.getClasse());
+        apprenant.getClasses().add(formateurClasses.get(0));  // Ajouter à la première classe du formateur
         apprenant.setActive(true);
 
-        return userMapper.userToUserDTO(userRepository.save(apprenant));
+        User savedApprenant = userRepository.save(apprenant);
+        
+        Class classe = formateurClasses.get(0);
+        classe.getUsers().add(savedApprenant);
+        classRepository.save(classe);
+
+        return userMapper.userToUserDTO(savedApprenant);
     }
 
     @Override
@@ -197,10 +235,14 @@ public class UserServiceImpl implements UserService {
         User apprenant = userRepository.findById(apprenantId)
                 .orElseThrow(() -> new UserException("Apprenant non trouvé"));
 
-        if (formateur.getClasse() == null ||
-                apprenant.getClasse() == null ||
-                !formateur.getClasse().getId().equals(apprenant.getClasse().getId())) {
-            throw new UserException("Cet apprenant n'appartient pas à votre classe");
+        List<Class> formateurClasses = classRepository.findByUsersContaining(formateur);
+        List<Class> apprenantClasses = classRepository.findByUsersContaining(apprenant);
+
+        boolean hasCommonClass = formateurClasses.stream()
+                .anyMatch(formateurClass -> apprenantClasses.contains(formateurClass));
+
+        if (!hasCommonClass) {
+            throw new UserException("Cet apprenant n'appartient pas à vos classes");
         }
 
         if (!apprenant.getEmail().equals(request.getEmail()) &&
@@ -226,5 +268,85 @@ public class UserServiceImpl implements UserService {
         }
 
         return formateur;
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Page<UserDTO> listFormateursArchives(Pageable pageable) {
+        Page<UserDTO> formateurs = userRepository.findByRoleAndActiveFalse(Role.FORMATEUR, pageable)
+                .map(userMapper::userToUserDTO);
+
+        if (formateurs.isEmpty()) {
+            throw new UserException("Il n'existe aucun formateur archivé");
+        }
+
+        return formateurs;
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Page<UserDTO> listApprenantsArchives(Pageable pageable) {
+        Page<UserDTO> apprenants = userRepository.findByRoleAndActiveFalse(Role.APPRENANT, pageable)
+                .map(userMapper::userToUserDTO);
+
+        if (apprenants.isEmpty()) {
+            throw new UserException("Il n'existe aucun apprenant archivé");
+        }
+
+        return apprenants;
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void assignUserToClass(String userId, String classId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserException("Utilisateur non trouvé"));
+        Class classe = classRepository.findById(classId)
+                .orElseThrow(() -> new ClassException("Classe non trouvée"));
+
+        if (!user.getClasses().contains(classe)) {
+            user.getClasses().add(classe);
+            userRepository.save(user);
+        }
+
+        if (!classe.getUsers().contains(user)) {
+            classe.getUsers().add(user);
+            classRepository.save(classe);
+        }
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void removeUserFromClass(String userId, String classId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserException("Utilisateur non trouvé"));
+        Class classe = classRepository.findById(classId)
+                .orElseThrow(() -> new ClassException("Classe non trouvée"));
+
+        user.getClasses().remove(classe);
+        userRepository.save(user);
+
+        classe.getUsers().remove(user);
+        classRepository.save(classe);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<ClassDTO> getUserClasses(String userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserException("Utilisateur non trouvé"));
+        return user.getClasses().stream()
+                .map(classMapper::classToClassDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<UserDTO> getClassUsers(String classId) {
+        Class classe = classRepository.findById(classId)
+                .orElseThrow(() -> new ClassException("Classe non trouvée"));
+        return classe.getUsers().stream()
+                .map(userMapper::userToUserDTO)
+                .collect(Collectors.toList());
     }
 }
