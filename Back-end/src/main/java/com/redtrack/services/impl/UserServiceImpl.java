@@ -66,7 +66,6 @@ public class UserServiceImpl implements UserService {
 
         User savedUser = userRepository.save(user);
         
-        // Ajouter l'utilisateur à toutes les classes
         classes.forEach(classe -> {
             classe.getUsers().add(savedUser);
             classRepository.save(classe);
@@ -148,8 +147,17 @@ public class UserServiceImpl implements UserService {
             throw new UserException("Aucune classe assignée à ce formateur");
         }
 
-        Class classe = classes.get(0);  // On prend la première classe
-        return userRepository.findByClassesContainingAndRoleAndActiveTrue(classe, Role.APPRENANT, pageable)
+        // Filtrer pour ne garder que les classes actives
+        List<Class> activeClasses = classes.stream()
+                .filter(Class::getActive)
+                .collect(Collectors.toList());
+
+        if (activeClasses.isEmpty()) {
+            throw new UserException("Aucune classe active n'est assignée à ce formateur");
+        }
+
+        // Récupérer tous les apprenants des classes actives
+        return userRepository.findByClassesInAndRoleAndActiveTrue(activeClasses, Role.APPRENANT, pageable)
                 .map(userMapper::userToUserDTO);
     }
 

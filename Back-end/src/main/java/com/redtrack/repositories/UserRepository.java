@@ -18,4 +18,5 @@ public interface UserRepository extends MongoRepository<User, String> {
     Page<User> findByRoleAndActiveTrue(Role role, Pageable pageable);
     Page<User> findByClassesContainingAndRoleAndActiveTrue(Class classe, Role role, Pageable pageable);
     Page<User> findByRoleAndActiveFalse(Role role, Pageable pageable);
+    Page<User> findByClassesInAndRoleAndActiveTrue(List<Class> classes, Role role, Pageable pageable);
 }
