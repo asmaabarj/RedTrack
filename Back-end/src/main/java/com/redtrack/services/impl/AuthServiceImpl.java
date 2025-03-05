@@ -1,20 +1,18 @@
 package com.redtrack.services.impl;
 
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.stereotype.Service;
-
 import com.redtrack.dtos.auth.AuthResponse;
 import com.redtrack.dtos.auth.LoginRequest;
-import com.redtrack.exceptions.AlreadyLoggedInException;
-import com.redtrack.exceptions.UserException;
 import com.redtrack.model.User;
 import com.redtrack.repositories.UserRepository;
 import com.redtrack.security.JwtService;
-import com.redtrack.security.SessionManager;
 import com.redtrack.services.interfaces.AuthService;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.stereotype.Service;
+import com.redtrack.exceptions.UserException;
+import com.redtrack.security.SessionManager;
+import com.redtrack.exceptions.AlreadyLoggedInException;
 
 @Service
 @RequiredArgsConstructor
@@ -33,16 +31,12 @@ public class AuthServiceImpl implements AuthService {
             throw new AlreadyLoggedInException("Vous êtes déjà connecté. Déconnectez-vous d'abord.");
         }
 
-        User user = userRepository.findByEmail(request.getEmail())
-            .orElseThrow(() -> new UserException("Utilisateur non trouvé"));
-
-        if (!user.getActive()) {
-            throw new UserException("Votre compte a été désactivé. Veuillez contacter l'administrateur.");
-        }
-
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
+        
+        User user = userRepository.findByEmail(request.getEmail())
+            .orElseThrow(() -> new UserException("Utilisateur non trouvé"));
         
         sessionManager.addSession(user.getEmail());
         return new AuthResponse(jwtService.generateToken(user));

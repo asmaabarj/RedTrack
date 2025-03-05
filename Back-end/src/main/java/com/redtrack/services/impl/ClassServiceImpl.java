@@ -138,12 +138,9 @@ public class ClassServiceImpl implements ClassService {
         User formateur = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserException("Formateur non trouvé"));
 
-        List<Class> classes = classRepository.findByUsersContaining(formateur).stream()
-                .filter(Class::getActive)
-                .collect(Collectors.toList());
-
+        List<Class> classes = classRepository.findByUsersContaining(formateur);
         if (classes.isEmpty()) {
-            throw new ClassException("Aucune classe active n'est assignée à ce formateur");
+            throw new ClassException("Aucune classe n'est assignée à ce formateur");
         }
 
         return classMapper.classToClassDTO(classes.get(0));
