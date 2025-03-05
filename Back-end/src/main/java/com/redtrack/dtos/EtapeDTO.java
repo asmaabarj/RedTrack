@@ -1,6 +1,7 @@
 package com.redtrack.dtos;
 
 import java.util.Date;
+import java.util.List;
 
 import com.redtrack.model.Statut;
 
@@ -13,4 +14,5 @@ public class EtapeDTO {
     private Date deadline;
     private String description;
     private Statut statut;
+    private List<String> classesIds;
 } 

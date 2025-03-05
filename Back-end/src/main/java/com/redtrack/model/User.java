@@ -1,5 +1,8 @@
 package com.redtrack.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,5 +22,5 @@ public class User {
     private Boolean active = true;
     
     @DBRef
-    private Class classe;
+    private List<Class> classes = new ArrayList<>();
 }

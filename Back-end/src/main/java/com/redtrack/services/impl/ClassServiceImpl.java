@@ -1,5 +1,6 @@
 package com.redtrack.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +49,7 @@ public class ClassServiceImpl implements ClassService {
         classe.setNom(request.getNom());
         classe.setNiveau(request.getNiveau());
         classe.setAnnee(request.getAnnee());
+        classe.setUsers(new ArrayList<>());
 
         return classMapper.classToClassDTO(classRepository.save(classe));
     }
@@ -119,17 +121,14 @@ public class ClassServiceImpl implements ClassService {
         Class classe = classRepository.findById(id)
                 .orElseThrow(() -> new ClassException("Classe non trouvée"));
 
-        logger.debug("Tentative de modification de classe - Formateur ID: {}, Email: {}, Classe ID: {}",
-                formateur.getId(), formateur.getEmail(), classe.getId());
-
-        if (formateur.getClasse() != null && formateur.getClasse().getId().equals(classe.getId())) {
-            classe.setNom(request.getNom());
-            classe.setNiveau(request.getNiveau());
-            classe.setAnnee(request.getAnnee());
-            return classMapper.classToClassDTO(classRepository.save(classe));
+        if (!classe.getUsers().contains(formateur)) {
+            throw new ClassException("Vous n'êtes pas autorisé à modifier cette classe");
         }
 
-        throw new ClassException("Vous n'êtes pas autorisé à modifier cette classe");
+        classe.setNom(request.getNom());
+        classe.setNiveau(request.getNiveau());
+        classe.setAnnee(request.getAnnee());
+        return classMapper.classToClassDTO(classRepository.save(classe));
     }
 
     @Override
@@ -139,11 +138,15 @@ public class ClassServiceImpl implements ClassService {
         User formateur = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserException("Formateur non trouvé"));
 
-        if (formateur.getClasse() == null) {
-            throw new ClassException("Aucune classe n'est assignée à ce formateur");
+        List<Class> classes = classRepository.findByUsersContaining(formateur).stream()
+                .filter(Class::getActive)
+                .collect(Collectors.toList());
+
+        if (classes.isEmpty()) {
+            throw new ClassException("Aucune classe active n'est assignée à ce formateur");
         }
 
-        return classMapper.classToClassDTO(formateur.getClasse());
+        return classMapper.classToClassDTO(classes.get(0));
     }
 
     @Override
@@ -152,8 +155,6 @@ public class ClassServiceImpl implements ClassService {
         Class classe = classRepository.findById(id)
                 .orElseThrow(() -> new ClassException("Classe non trouvée"));
 
-        List<User> users = userRepository.findByClasseAndActiveTrue(classe);
-        
         ClassDetailsDTO details = new ClassDetailsDTO();
         details.setId(classe.getId());
         details.setNom(classe.getNom());
@@ -161,12 +162,12 @@ public class ClassServiceImpl implements ClassService {
         details.setAnnee(classe.getAnnee());
         details.setActive(classe.getActive());
         
-        details.setFormateurs(users.stream()
+        details.setFormateurs(classe.getUsers().stream()
                 .filter(user -> user.getRole() == Role.FORMATEUR)
                 .map(userMapper::userToUserDTO)
                 .collect(Collectors.toList()));
                 
-        details.setApprenants(users.stream()
+        details.setApprenants(classe.getUsers().stream()
                 .filter(user -> user.getRole() == Role.APPRENANT)
                 .map(userMapper::userToUserDTO)
                 .collect(Collectors.toList()));

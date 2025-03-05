@@ -1,5 +1,7 @@
 package com.redtrack.dtos.auth;
 
+import java.util.List;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -30,6 +32,6 @@ public class RegisterRequest {
     @NotNull(message = "Le rôle est obligatoire")
     private Role role;
     
-    @NotBlank(message = "La classe est obligatoire")
-    private String classeId;
+    @NotNull(message = "La classe est obligatoire")
+    private List<String> classeIds;
 }
