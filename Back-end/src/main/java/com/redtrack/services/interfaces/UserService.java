@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.redtrack.dtos.ClassDTO;
-import com.redtrack.dtos.CreateApprenantRequest;
-import com.redtrack.dtos.UpdateApprenantRequest;
-import com.redtrack.dtos.UpdateUserRequest;
-import com.redtrack.dtos.UserDTO;
+import com.redtrack.dtos.classe.ClassDTO;
+import com.redtrack.dtos.user.CreateApprenantRequest;
+import com.redtrack.dtos.user.UpdateApprenantRequest;
+import com.redtrack.dtos.user.UpdateUserRequest;
+import com.redtrack.dtos.user.UserDTO;
 import com.redtrack.dtos.auth.RegisterRequest;
 import com.redtrack.dtos.auth.RegisterResponse;
-import com.redtrack.model.User;
+import com.redtrack.model.entities.User;
 
 public interface UserService {
     RegisterResponse register(RegisterRequest request);

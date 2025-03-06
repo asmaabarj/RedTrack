@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.redtrack.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
-import com.redtrack.model.Role;
+import com.redtrack.model.enums.Role;
 
 @Configuration
 @EnableWebSecurity

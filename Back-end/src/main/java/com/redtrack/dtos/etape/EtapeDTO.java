@@ -1,4 +1,4 @@
-package com.redtrack.dtos;
+package com.redtrack.dtos.etape;
 
 import java.util.Date;
 import java.util.List;

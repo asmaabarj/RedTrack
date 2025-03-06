@@ -1,7 +1,7 @@
 package com.redtrack.services.interfaces;
 
-import com.redtrack.dtos.RenduResponseDTO;
-import com.redtrack.dtos.CreateRenduResponseRequest;
+import com.redtrack.dtos.rendu.RenduResponseDTO;
+import com.redtrack.dtos.rendu.CreateRenduResponseRequest;
 import java.util.List;
 
 public interface RenduResponseService {

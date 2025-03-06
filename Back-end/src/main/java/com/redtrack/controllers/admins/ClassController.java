@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.redtrack.dtos.ClassDTO;
-import com.redtrack.dtos.ClassDetailsDTO;
-import com.redtrack.dtos.CreateClassRequest;
+import com.redtrack.dtos.classe.ClassDTO;
+import com.redtrack.dtos.classe.ClassDetailsDTO;
+import com.redtrack.dtos.classe.CreateClassRequest;
 import com.redtrack.services.interfaces.ClassService;
 
 import lombok.RequiredArgsConstructor;

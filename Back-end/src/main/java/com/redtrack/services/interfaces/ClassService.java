@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.redtrack.dtos.ClassDTO;
-import com.redtrack.dtos.ClassDetailsDTO;
-import com.redtrack.dtos.CreateClassRequest;
+import com.redtrack.dtos.classe.ClassDTO;
+import com.redtrack.dtos.classe.ClassDetailsDTO;
+import com.redtrack.dtos.classe.CreateClassRequest;
 public interface ClassService {
     ClassDTO createClass(CreateClassRequest request);
     ClassDTO getClass(String id);

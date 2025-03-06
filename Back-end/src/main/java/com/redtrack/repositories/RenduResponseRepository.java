@@ -1,6 +1,6 @@
 package com.redtrack.repositories;
 
-import com.redtrack.model.RenduResponse;
+import com.redtrack.model.entities.RenduResponse;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

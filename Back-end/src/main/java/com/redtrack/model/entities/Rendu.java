@@ -1,7 +1,8 @@
-package com.redtrack.model;
+package com.redtrack.model.entities;
 
 import java.util.Date;
 
+import com.redtrack.model.enums.Type;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;

@@ -2,7 +2,7 @@ package com.redtrack.controllers.admins;
 
 import javax.validation.Valid;
 
-import com.redtrack.dtos.ClassDTO;
+import com.redtrack.dtos.classe.ClassDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.redtrack.dtos.UpdateUserRequest;
-import com.redtrack.dtos.UserDTO;
+import com.redtrack.dtos.user.UpdateUserRequest;
+import com.redtrack.dtos.user.UserDTO;
 import com.redtrack.dtos.auth.RegisterRequest;
 import com.redtrack.dtos.auth.RegisterResponse;
 import com.redtrack.services.interfaces.UserService;

@@ -10,7 +10,7 @@ import com.redtrack.dtos.auth.LoginRequest;
 import com.redtrack.dtos.auth.UserProfileResponse;
 import com.redtrack.exceptions.AlreadyLoggedInException;
 import com.redtrack.exceptions.UserException;
-import com.redtrack.model.User;
+import com.redtrack.model.entities.User;
 import com.redtrack.repositories.UserRepository;
 import com.redtrack.security.JwtService;
 import com.redtrack.security.SessionManager;

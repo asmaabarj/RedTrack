@@ -1,6 +1,6 @@
-package com.redtrack.dtos;
+package com.redtrack.dtos.rendu;
 
-import com.redtrack.model.Type;
+import com.redtrack.model.enums.Type;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;

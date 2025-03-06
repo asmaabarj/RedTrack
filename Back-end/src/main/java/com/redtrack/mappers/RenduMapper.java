@@ -3,8 +3,8 @@ package com.redtrack.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.redtrack.dtos.RenduDTO;
-import com.redtrack.model.Rendu;
+import com.redtrack.dtos.rendu.RenduDTO;
+import com.redtrack.model.entities.Rendu;
 
 @Mapper(componentModel = "spring")
 public interface RenduMapper {

@@ -1,4 +1,4 @@
-package com.redtrack.model;
+package com.redtrack.model.entities;
 
 import java.util.ArrayList;
 import java.util.List;

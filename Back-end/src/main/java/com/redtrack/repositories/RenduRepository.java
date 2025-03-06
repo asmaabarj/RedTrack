@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import com.redtrack.model.Rendu;
+import com.redtrack.model.entities.Rendu;
 
 @Repository
 public interface RenduRepository extends MongoRepository<Rendu, String> {

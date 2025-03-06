@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.redtrack.dtos.EtapeAvecRendusDTO;
-import com.redtrack.dtos.RenduResponseDTO;
-import com.redtrack.dtos.CreateRenduResponseRequest;
+import com.redtrack.dtos.etape.EtapeAvecRendusDTO;
+import com.redtrack.dtos.rendu.RenduResponseDTO;
+import com.redtrack.dtos.rendu.CreateRenduResponseRequest;
 import com.redtrack.services.interfaces.RenduService;
 import com.redtrack.services.interfaces.RenduResponseService;
 

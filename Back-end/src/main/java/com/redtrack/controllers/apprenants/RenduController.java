@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.redtrack.dtos.RenduDTO;
-import com.redtrack.dtos.EtapeAvecRendusDTO;
+import com.redtrack.dtos.rendu.RenduDTO;
+import com.redtrack.dtos.etape.EtapeAvecRendusDTO;
 import com.redtrack.services.interfaces.RenduService;
 
 import lombok.RequiredArgsConstructor;

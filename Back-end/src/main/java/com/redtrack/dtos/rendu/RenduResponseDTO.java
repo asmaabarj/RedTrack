@@ -1,4 +1,4 @@
-package com.redtrack.dtos;
+package com.redtrack.dtos.rendu;
 import lombok.Data;
 import java.util.Date;
 

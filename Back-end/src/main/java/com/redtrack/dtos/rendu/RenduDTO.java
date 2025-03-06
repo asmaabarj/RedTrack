@@ -1,19 +1,22 @@
-package com.redtrack.dtos;
-import com.redtrack.model.Type;
-import lombok.Data;
+package com.redtrack.dtos.rendu;
+
 import java.util.Date;
-import java.util.List;
+
+import com.redtrack.model.enums.Type;
+
+import lombok.Data;
 
 @Data
-public class RenduAvecResponsesDTO {
+public class RenduDTO {
     private String id;
     private String livrable;
     private Date dateSoumission;
     private String commentaire;
     private Type type;
+
     private String etapeId;
+    
     private String apprenantId;
     private String apprenantNom;
     private String apprenantPrenom;
-    private List<RenduResponseDTO> responses;
 } 

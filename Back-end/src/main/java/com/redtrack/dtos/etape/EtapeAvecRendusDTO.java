@@ -1,8 +1,9 @@
-package com.redtrack.dtos;
+package com.redtrack.dtos.etape;
 
 import java.util.Date;
 import java.util.List;
 
+import com.redtrack.dtos.rendu.RenduAvecResponsesDTO;
 import lombok.Data;
 
 @Data

@@ -1,7 +1,7 @@
 package com.redtrack.config;
 
-import com.redtrack.model.Role;
-import com.redtrack.model.User;
+import com.redtrack.model.enums.Role;
+import com.redtrack.model.entities.User;
 import com.redtrack.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;

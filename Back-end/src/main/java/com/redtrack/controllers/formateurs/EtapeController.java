@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.redtrack.dtos.EtapeDTO;
+import com.redtrack.dtos.etape.EtapeDTO;
 import com.redtrack.exceptions.EtapeException;
 import com.redtrack.services.interfaces.EtapeService;
 

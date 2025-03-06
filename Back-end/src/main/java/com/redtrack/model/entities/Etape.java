@@ -1,9 +1,10 @@
-package com.redtrack.model;
+package com.redtrack.model.entities;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.redtrack.model.entities.Class;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -21,5 +22,5 @@ public class Etape {
     private Date createdAt = new Date();
     
     @DBRef
-    private List<Class> classes = new ArrayList<>();  
+    private List<Class> classes = new ArrayList<>();
 }

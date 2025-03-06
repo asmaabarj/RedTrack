@@ -1,4 +1,4 @@
-package com.redtrack.dtos;
+package com.redtrack.dtos.classe;
 
 import lombok.Data;
 

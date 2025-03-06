@@ -1,9 +1,10 @@
-package com.redtrack.model;
+package com.redtrack.model.entities;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.redtrack.model.enums.Role;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;

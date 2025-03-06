@@ -1,4 +1,4 @@
-package com.redtrack.model;
+package com.redtrack.model.enums;
 
 public enum Statut {
     AFaire,

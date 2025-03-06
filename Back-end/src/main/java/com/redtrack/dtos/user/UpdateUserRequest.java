@@ -1,4 +1,4 @@
-package com.redtrack.dtos;
+package com.redtrack.dtos.user;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

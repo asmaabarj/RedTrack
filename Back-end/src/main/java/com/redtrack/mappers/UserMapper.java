@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.redtrack.dtos.UserDTO;
-import com.redtrack.model.Class;
-import com.redtrack.model.User;
+import com.redtrack.dtos.user.UserDTO;
+import com.redtrack.model.entities.Class;
+import com.redtrack.model.entities.User;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {

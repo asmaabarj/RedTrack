@@ -7,8 +7,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.redtrack.dtos.EtapeDTO;
-import com.redtrack.model.Etape;
+import com.redtrack.dtos.etape.EtapeDTO;
+import com.redtrack.model.entities.Etape;
 import com.redtrack.repositories.ClassRepository;
 
 @Mapper(componentModel = "spring")

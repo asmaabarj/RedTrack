@@ -1,8 +1,8 @@
-package com.redtrack.dtos;
+package com.redtrack.dtos.user;
 
 import java.util.List;
 
-import com.redtrack.model.Role;
+import com.redtrack.model.enums.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

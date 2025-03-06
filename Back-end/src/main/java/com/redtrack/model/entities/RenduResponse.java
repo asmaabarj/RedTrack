@@ -1,4 +1,4 @@
-package com.redtrack.model;
+package com.redtrack.model.entities;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

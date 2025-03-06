@@ -8,13 +8,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.redtrack.dtos.EtapeDTO;
+import com.redtrack.dtos.etape.EtapeDTO;
 import com.redtrack.exceptions.EtapeException;
 import com.redtrack.exceptions.UserException;
 import com.redtrack.mappers.EtapeMapper;
-import com.redtrack.model.Class;
-import com.redtrack.model.Etape;
-import com.redtrack.model.User;
+import com.redtrack.model.entities.Class;
+import com.redtrack.model.entities.Etape;
+import com.redtrack.model.entities.User;
 import com.redtrack.repositories.ClassRepository;
 import com.redtrack.repositories.EtapeRepository;
 import com.redtrack.repositories.UserRepository;

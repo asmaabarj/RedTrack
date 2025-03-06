@@ -6,7 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import com.redtrack.model.User;
+import com.redtrack.model.entities.User;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;

@@ -2,7 +2,7 @@ package com.redtrack.services.interfaces;
 
 import java.util.List;
 
-import com.redtrack.dtos.EtapeDTO;
+import com.redtrack.dtos.etape.EtapeDTO;
 
 public interface EtapeService {
     EtapeDTO createEtape(EtapeDTO etapeDTO);

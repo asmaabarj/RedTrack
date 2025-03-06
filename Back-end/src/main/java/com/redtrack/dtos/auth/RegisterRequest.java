@@ -6,7 +6,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.redtrack.model.Role;
+import com.redtrack.model.enums.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

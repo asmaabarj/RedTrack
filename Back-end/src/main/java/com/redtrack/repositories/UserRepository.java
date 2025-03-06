@@ -8,9 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import com.redtrack.model.Class;
-import com.redtrack.model.Role;
-import com.redtrack.model.User;
+import com.redtrack.model.entities.Class;
+import com.redtrack.model.enums.Role;
+import com.redtrack.model.entities.User;
 
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {

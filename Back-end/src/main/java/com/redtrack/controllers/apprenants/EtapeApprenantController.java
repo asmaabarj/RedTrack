@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.redtrack.dtos.EtapeDTO;
+import com.redtrack.dtos.etape.EtapeDTO;
 import com.redtrack.services.interfaces.EtapeService;
 
 import lombok.RequiredArgsConstructor;

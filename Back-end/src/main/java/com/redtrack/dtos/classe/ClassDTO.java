@@ -1,10 +1,12 @@
-package com.redtrack.dtos;
+package com.redtrack.dtos.classe;
 
 import java.util.List;
+
+import com.redtrack.dtos.user.UserDTO;
 import lombok.Data;
 
 @Data
-public class ClassDetailsDTO {
+public class ClassDTO {
     private String id;
     private String nom;
     private String niveau;
@@ -12,4 +14,5 @@ public class ClassDetailsDTO {
     private Boolean active;
     private List<UserDTO> formateurs;
     private List<UserDTO> apprenants;
-} 
+    private List<String> etapesIds;
+}

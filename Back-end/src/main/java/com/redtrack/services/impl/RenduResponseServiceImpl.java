@@ -1,12 +1,13 @@
 package com.redtrack.services.impl;
 
-import com.redtrack.dtos.RenduResponseDTO;
-import com.redtrack.dtos.CreateRenduResponseRequest;
+import com.redtrack.dtos.rendu.RenduResponseDTO;
+import com.redtrack.dtos.rendu.CreateRenduResponseRequest;
 import com.redtrack.exceptions.RenduException;
 import com.redtrack.mappers.RenduResponseMapper;
-import com.redtrack.model.Rendu;
-import com.redtrack.model.RenduResponse;
-import com.redtrack.model.User;
+import com.redtrack.model.entities.Rendu;
+import com.redtrack.model.entities.RenduResponse;
+import com.redtrack.model.entities.User;
+import com.redtrack.model.entities.Class;
 import com.redtrack.repositories.ClassRepository;
 import com.redtrack.repositories.RenduResponseRepository;
 import com.redtrack.repositories.RenduRepository;
@@ -39,7 +40,7 @@ public class RenduResponseServiceImpl implements RenduResponseService {
         Rendu rendu = renduRepository.findById(renduId)
                 .orElseThrow(() -> new RenduException("Rendu non trouvé"));
 
-        List<com.redtrack.model.Class> formateurClasses = classRepository.findByUsersContaining(formateur);
+        List<Class> formateurClasses = classRepository.findByUsersContaining(formateur);
         boolean hasAccess = rendu.getEtape().getClasses().stream()
                 .anyMatch(formateurClasses::contains);
 

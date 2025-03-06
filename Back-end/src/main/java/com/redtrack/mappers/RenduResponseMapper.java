@@ -1,8 +1,8 @@
 package com.redtrack.mappers;
 
-import com.redtrack.dtos.CreateRenduResponseRequest;
-import com.redtrack.dtos.RenduResponseDTO;
-import com.redtrack.model.RenduResponse;
+import com.redtrack.dtos.rendu.CreateRenduResponseRequest;
+import com.redtrack.dtos.rendu.RenduResponseDTO;
+import com.redtrack.model.entities.RenduResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
