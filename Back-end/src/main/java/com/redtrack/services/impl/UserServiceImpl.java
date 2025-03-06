@@ -1,5 +1,6 @@
 package com.redtrack.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,7 +67,6 @@ public class UserServiceImpl implements UserService {
 
         User savedUser = userRepository.save(user);
         
-        // Ajouter l'utilisateur à toutes les classes
         classes.forEach(classe -> {
             classe.getUsers().add(savedUser);
             classRepository.save(classe);
@@ -148,8 +148,15 @@ public class UserServiceImpl implements UserService {
             throw new UserException("Aucune classe assignée à ce formateur");
         }
 
-        Class classe = classes.get(0);  // On prend la première classe
-        return userRepository.findByClassesContainingAndRoleAndActiveTrue(classe, Role.APPRENANT, pageable)
+        List<Class> activeClasses = classes.stream()
+                .filter(Class::getActive)
+                .collect(Collectors.toList());
+
+        if (activeClasses.isEmpty()) {
+            throw new UserException("Aucune classe active n'est assignée à ce formateur");
+        }
+
+        return userRepository.findByClassesInAndRoleAndActiveTrue(activeClasses, Role.APPRENANT, pageable)
                 .map(userMapper::userToUserDTO);
     }
 
@@ -206,9 +213,19 @@ public class UserServiceImpl implements UserService {
             throw new UserException("Aucune classe assignée à ce formateur");
         }
 
+        List<Class> activeClasses = formateurClasses.stream()
+                .filter(Class::getActive)
+                .collect(Collectors.toList());
+
+        if (activeClasses.isEmpty()) {
+            throw new UserException("Aucune classe active n'est assignée à ce formateur");
+        }
+
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new UserException("Cet email est déjà utilisé");
         }
+
+        Class activeClass = activeClasses.get(0);
 
         User apprenant = new User();
         apprenant.setEmail(request.getEmail());
@@ -216,14 +233,14 @@ public class UserServiceImpl implements UserService {
         apprenant.setNom(request.getNom());
         apprenant.setPrenom(request.getPrenom());
         apprenant.setRole(Role.APPRENANT);
-        apprenant.getClasses().add(formateurClasses.get(0));  // Ajouter à la première classe du formateur
         apprenant.setActive(true);
+        apprenant.setClasses(new ArrayList<>());
+        apprenant.getClasses().add(activeClass);
 
         User savedApprenant = userRepository.save(apprenant);
         
-        Class classe = formateurClasses.get(0);
-        classe.getUsers().add(savedApprenant);
-        classRepository.save(classe);
+        activeClass.getUsers().add(savedApprenant);
+        classRepository.save(activeClass);
 
         return userMapper.userToUserDTO(savedApprenant);
     }
@@ -348,5 +365,33 @@ public class UserServiceImpl implements UserService {
         return classe.getUsers().stream()
                 .map(userMapper::userToUserDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('FORMATEUR')")
+    public Page<UserDTO> getFormateurArchivedApprenants(Pageable pageable) {
+        User formateur = getCurrentFormateur();
+        List<Class> classes = classRepository.findByUsersContaining(formateur);
+        
+        if (classes.isEmpty()) {
+            throw new UserException("Aucune classe assignée à ce formateur");
+        }
+
+        List<Class> activeClasses = classes.stream()
+                .filter(Class::getActive)
+                .collect(Collectors.toList());
+
+        if (activeClasses.isEmpty()) {
+            throw new UserException("Aucune classe active n'est assignée à ce formateur");
+        }
+
+        Page<User> archivedApprenants = userRepository
+                .findByClassesInAndRoleAndActiveFalse(activeClasses, Role.APPRENANT, pageable);
+
+        if (archivedApprenants.isEmpty()) {
+            throw new UserException("Aucun apprenant archivé dans vos classes actives");
+        }
+
+        return archivedApprenants.map(userMapper::userToUserDTO);
     }
 }

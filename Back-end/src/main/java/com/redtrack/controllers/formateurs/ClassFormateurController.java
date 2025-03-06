@@ -1,5 +1,7 @@
 package com.redtrack.controllers.formateurs;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -24,9 +26,11 @@ import lombok.RequiredArgsConstructor;
 public class ClassFormateurController {
     private final ClassService classService;
 
+
+
     @GetMapping("/own")
-    public ResponseEntity<ClassDTO> getOwnClass() {
-        return ResponseEntity.ok(classService.getFormateurOwnClass());
+    public ResponseEntity<List<ClassDTO>> getFormateurClasses() {
+        return ResponseEntity.ok(classService.getFormateurClasses());
     }
 
     @PutMapping("/{id}")
@@ -35,4 +39,5 @@ public class ClassFormateurController {
             @Valid @RequestBody CreateClassRequest request) {
         return ResponseEntity.ok(classService.updateFormateurClass(id, request));
     }
+
 }

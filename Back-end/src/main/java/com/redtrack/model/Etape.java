@@ -18,7 +18,7 @@ public class Etape {
     private String titre;
     private Date deadline;
     private String description;
-    private Statut statut = Statut.EnCours;
+    private Date createdAt = new Date();
     
     @DBRef
     private List<Class> classes = new ArrayList<>();  
