@@ -12,5 +12,5 @@ public class EtapeAvecRendusDTO {
     private String description;
     private Date deadline;
     private Date createdAt;
-    private List<RenduDTO> rendus;
+    private List<RenduAvecResponsesDTO> rendus;
 } 

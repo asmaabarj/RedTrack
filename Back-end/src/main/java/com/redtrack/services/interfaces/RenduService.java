@@ -7,6 +7,6 @@ import com.redtrack.dtos.EtapeAvecRendusDTO;
 
 public interface RenduService {
     RenduDTO createRendu(RenduDTO renduDTO);
-    List<RenduDTO> getMesRendus();
     List<EtapeAvecRendusDTO> getMesEtapesAvecRendus();
+    List<EtapeAvecRendusDTO> getEtapesAvecRendusByApprenant(String apprenantId);
 }

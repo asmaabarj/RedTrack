@@ -30,10 +30,6 @@ public class RenduController {
         return ResponseEntity.ok(renduService.createRendu(renduDTO));
     }
 
-    @GetMapping
-    public ResponseEntity<List<RenduDTO>> getMesRendus() {
-        return ResponseEntity.ok(renduService.getMesRendus());
-    }
 
     @GetMapping("/etapes")
     public ResponseEntity<List<EtapeAvecRendusDTO>> getMesEtapesAvecRendus() {

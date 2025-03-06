@@ -9,7 +9,5 @@ import com.redtrack.model.Rendu;
 
 @Repository
 public interface RenduRepository extends MongoRepository<Rendu, String> {
-    List<Rendu> findByApprenantId(String apprenantId);
     List<Rendu> findByEtapeIdAndApprenantId(String etapeId, String apprenantId);
-    boolean existsByEtapeIdAndApprenantId(String etapeId, String apprenantId);
-} 
+}
