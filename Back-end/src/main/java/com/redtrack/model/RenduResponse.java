@@ -1,26 +1,23 @@
 package com.redtrack.model;
 
-import java.util.Date;
-
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.Data;
+import java.util.Date;
 
 @Data
-@Document(collection = "rendus")
-public class Rendu {
+@Document(collection = "rendusResponses")
+public class RenduResponse {
     @Id
     private String id;
-    private String livrable;
-    private Date dateSoumission = new Date();
     private String commentaire;
-    private Type type = Type.pending;
+    private Date dateSoumission = new Date();
     
     @DBRef
-    private Etape etape;
+    private User formateur;
     
     @DBRef
-    private User apprenant;
-} 
+    private Rendu rendu;
+}
