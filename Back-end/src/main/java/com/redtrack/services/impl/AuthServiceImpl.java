@@ -2,10 +2,12 @@ package com.redtrack.services.impl;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.redtrack.dtos.auth.AuthResponse;
 import com.redtrack.dtos.auth.LoginRequest;
+import com.redtrack.dtos.auth.UserProfileResponse;
 import com.redtrack.exceptions.AlreadyLoggedInException;
 import com.redtrack.exceptions.UserException;
 import com.redtrack.model.User;
@@ -51,6 +53,19 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void logout(String email) {
         sessionManager.removeSession(email);
+    }
+
+    @Override
+    public UserProfileResponse getCurrentUserProfile() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new UserException("Utilisateur non trouvé"));
+            
+        return new UserProfileResponse(
+            user.getEmail(),
+            user.getNom(),
+            user.getPrenom()
+        );
     }
 
 }

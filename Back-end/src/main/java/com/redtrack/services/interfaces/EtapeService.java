@@ -8,6 +8,5 @@ public interface EtapeService {
     EtapeDTO createEtape(EtapeDTO etapeDTO);
     EtapeDTO updateEtape(String id, EtapeDTO etapeDTO);
     List<EtapeDTO> getAllEtapes();
-    void deleteEtape(String id);
     List<EtapeDTO> getEtapesForCurrentApprenant();
 }
