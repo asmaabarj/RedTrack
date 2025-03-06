@@ -1,7 +1,7 @@
 package com.redtrack.model;
 
 public enum Statut {
-    EnCours,
+    AFaire,
     Termine,
     EnRetard
 } 

@@ -9,8 +9,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.redtrack.dtos.RenduDTO;
+import com.redtrack.dtos.EtapeAvecRendusDTO;
 import com.redtrack.exceptions.RenduException;
 import com.redtrack.mappers.RenduMapper;
+import com.redtrack.mappers.EtapeMapper;
 import com.redtrack.model.Class;
 import com.redtrack.model.Etape;
 import com.redtrack.model.Rendu;
@@ -31,6 +33,7 @@ public class RenduServiceImpl implements RenduService {
     private final UserRepository userRepository;
     private final EtapeRepository etapeRepository;
     private final ClassRepository classRepository;
+    private final EtapeMapper etapeMapper;
 
     @Override
     @PreAuthorize("hasAuthority('APPRENANT')")
@@ -46,14 +49,9 @@ public class RenduServiceImpl implements RenduService {
             throw new RenduException("Cette étape n'appartient pas à vos classes");
         }
 
-        if (renduRepository.existsByEtapeIdAndApprenantId(etape.getId(), apprenant.getId())) {
-            throw new RenduException("Vous avez déjà soumis un rendu pour cette étape");
-        }
-
         Rendu rendu = renduMapper.renduDTOToRendu(renduDTO);
         rendu.setEtape(etape);
         rendu.setApprenant(apprenant);
-        rendu.setDateSoumission(new Date());
 
         return renduMapper.renduToRenduDTO(renduRepository.save(rendu));
     }
@@ -66,6 +64,46 @@ public class RenduServiceImpl implements RenduService {
                 .stream()
                 .map(renduMapper::renduToRenduDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('APPRENANT')")
+    public List<EtapeAvecRendusDTO> getMesEtapesAvecRendus() {
+        User apprenant = getCurrentApprenant();
+        
+        // Récupérer la classe active de l'apprenant
+        List<Class> classes = classRepository.findByUsersContaining(apprenant);
+        List<Class> activeClasses = classes.stream()
+                .filter(Class::getActive)
+                .collect(Collectors.toList());
+                
+        if (activeClasses.isEmpty()) {
+            throw new RenduException("Aucune classe active trouvée");
+        }
+        
+        Class activeClass = activeClasses.get(0);
+        
+        // Récupérer toutes les étapes de la classe active, triées par date de création décroissante
+        List<Etape> etapes = etapeRepository.findByClassesContainingOrderByCreatedAtDesc(activeClass);
+        
+        // Pour chaque étape, récupérer les rendus de l'apprenant
+        return etapes.stream().map(etape -> {
+            EtapeAvecRendusDTO dto = new EtapeAvecRendusDTO();
+            dto.setId(etape.getId());
+            dto.setTitre(etape.getTitre());
+            dto.setDescription(etape.getDescription());
+            dto.setDeadline(etape.getDeadline());
+            dto.setCreatedAt(etape.getCreatedAt()); // Ajout de la date de création
+            
+            // Récupérer les rendus de l'apprenant pour cette étape
+            List<RenduDTO> rendus = renduRepository.findByEtapeIdAndApprenantId(etape.getId(), apprenant.getId())
+                    .stream()
+                    .map(renduMapper::renduToRenduDTO)
+                    .collect(Collectors.toList());
+            
+            dto.setRendus(rendus);
+            return dto;
+        }).collect(Collectors.toList());
     }
 
     private User getCurrentApprenant() {

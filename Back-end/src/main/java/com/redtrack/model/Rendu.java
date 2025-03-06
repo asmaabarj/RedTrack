@@ -14,8 +14,9 @@ public class Rendu {
     @Id
     private String id;
     private String livrable;
-    private Date dateSoumission;
+    private Date dateSoumission = new Date();
     private String commentaire;
+    private Type type = Type.pending;
     
     @DBRef
     private Etape etape;
