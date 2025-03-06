@@ -27,7 +27,7 @@ public interface UserService {
     UserDTO updateUser(String userId, UpdateUserRequest request);
 
     Page<UserDTO> getFormateurClassApprenants(Pageable pageable);
-    UserDTO createApprenantInFormateurClass(CreateApprenantRequest request);
+    UserDTO reateApprenantInFormateurClass(CreateApprenantRequest request);
     void archiveApprenantByFormateur(String apprenantId);
     void unarchiveApprenantByFormateur(String apprenantId);
 
