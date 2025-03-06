@@ -7,7 +7,7 @@ export const selectAuthState = createFeatureSelector<AuthState>('auth');
 
 export const selectAuthLoading = createSelector(
   selectAuthState,
-  (state) => state.loading
+  (state) => state.isLoading
 );
 
 export const selectAuthError = createSelector(

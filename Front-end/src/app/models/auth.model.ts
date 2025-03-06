@@ -5,4 +5,12 @@ export interface LoginRequest {
 
 export interface AuthResponse {
     token: string;
+    role: string;
+}
+
+export interface UserProfileResponse {
+    email: string;
+    nom: string;
+    prenom: string;
+    role: string;
 } 

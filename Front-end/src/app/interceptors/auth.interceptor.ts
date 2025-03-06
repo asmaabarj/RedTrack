@@ -1,27 +1,23 @@
-import { HttpInterceptorFn, HttpHeaders } from '@angular/common/http';
+import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
-import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { selectAuthToken } from '../store/auth/auth.selectors';
+import { first, mergeMap } from 'rxjs/operators';
 
-export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = localStorage.getItem('token');
-  const router = inject(Router);
-
-  if (token) {
-    const clonedReq = req.clone({
-      headers: new HttpHeaders({
-        'Authorization': `Bearer ${token}`
-      })
-    });
-    return next(clonedReq).pipe(
-      catchError(error => {
-        if (error.status === 401) {
-          localStorage.removeItem('token');
-          router.navigate(['/login']);
-        }
-        return throwError(() => error);
-      })
-    );
-  }
-  return next(req);
+export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
+  const store = inject(Store);
+  
+  return store.select(selectAuthToken).pipe(
+    first(),
+    mergeMap(token => {
+      if (token) {
+        req = req.clone({
+          setHeaders: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+      }
+      return next(req);
+    })
+  );
 };

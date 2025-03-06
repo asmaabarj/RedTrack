@@ -1,29 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthService } from '../../services/auth.service';
-import { AuthActions } from './auth.actions';
-import { switchMap, map, catchError, tap } from 'rxjs/operators';
+import * as AuthActions from './auth.actions';
+import { switchMap, map, catchError, tap, exhaustMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { JwtService } from '../../services/jwt.service';
-import { Role } from '../../models/user.model';
+import { StorageService } from '../../services/storage.service';
 
 @Injectable()
 export class AuthEffects {
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
-      switchMap(({ request }) =>
-        this.authService.login(request).pipe(
-          map(response => {
-            console.log('Login successful, response:', response);
-            localStorage.setItem('token', response.token);
-            return AuthActions.loginSuccess({ response });
-          }),
-          catchError(error => {
-            console.error('Login failed:', error);
-            return of(AuthActions.loginFailure({ error: error.message }));
-          })
+      exhaustMap(action =>
+        this.authService.login(action.credentials).pipe(
+          map(response => AuthActions.loginSuccess({ 
+            token: response.token, 
+            role: response.role 
+          })),
+          catchError(error => of(AuthActions.loginFailure({ 
+            error: error.error?.message || 'Email ou mot de passe incorrect' 
+          })))
         )
       )
     )
@@ -33,31 +31,42 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.loginSuccess),
-        tap(({ response }) => {
-          try {
-            console.log('Processing login success, token:', response.token);
-            const role = this.jwtService.extractRole(response.token);
-            console.log('Extracted role:', role);
-
-            switch (role) {
-              case Role.ADMIN:
-                console.log('Redirecting to admin dashboard...');
-                this.router.navigate(['/dashboard-admin']);
-                break;
-              case Role.FORMATTEUR:
-                this.router.navigate(['/dashboard-formatteur']);
-                break;
-              case Role.APPRENANT:
-                this.router.navigate(['/dashboard-apprenant']);
-                break;
-              default:
-                console.error('Unknown role:', role);
-                this.router.navigate(['/login']);
-            }
-          } catch (error) {
-            console.error('Error during redirection:', error);
+        tap(({ token, role }) => {
+          this.storageService.saveAuth({ token, role });
+          switch (role) {
+            case 'ADMIN':
+              this.router.navigate(['/dashboard-admin']);
+              break;
+            case 'FORMATEUR':
+              this.router.navigate(['/dashboard-formatteur']);
+              break;
+            case 'APPRENANT':
+              this.router.navigate(['/dashboard-apprenant']);
+              break;
           }
         })
+      ),
+    { dispatch: false }
+  );
+
+  logout$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.logout),
+        exhaustMap(() => 
+          this.authService.logout().pipe(
+            tap(() => {
+              this.storageService.clearAuth();
+              this.router.navigate(['/login']);
+            }),
+            catchError(error => {
+              console.error('Logout error:', error);
+              this.storageService.clearAuth();
+              this.router.navigate(['/login']);
+              return of(error);
+            })
+          )
+        )
       ),
     { dispatch: false }
   );
@@ -66,6 +75,7 @@ export class AuthEffects {
     private actions$: Actions,
     private authService: AuthService,
     private router: Router,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private storageService: StorageService
   ) {}
 } 

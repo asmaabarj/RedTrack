@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
+import { NavbarComponent } from '../../../components/navbar/navbar.component';
 
 @Component({
   selector: 'app-apprenant-dashboard',
   standalone: true,
-  imports: [],
-  templateUrl: './apprenant-dashboard.component.html',
-  styleUrl: './apprenant-dashboard.component.css'
+  imports: [NavbarComponent],
+  template: `
+    <app-navbar></app-navbar>
+    <div class="dashboard-content">
+      <h1>Apprenant Dashboard</h1>
+      <!-- other content -->
+    </div>
+  `
 })
-export class ApprenantDashboardComponent {
-
-}
+export class ApprenantDashboardComponent {}

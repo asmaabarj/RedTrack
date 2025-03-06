@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { LoginRequest, AuthResponse } from '../models/auth.model';
+import { LoginRequest, AuthResponse, UserProfileResponse } from '../models/auth.model';
 import { environment } from '../../environments/environment';
 import { tap } from 'rxjs/operators';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,16 +12,24 @@ import { tap } from 'rxjs/operators';
 export class AuthService {
   private apiUrl = '/api/auth';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private storageService: StorageService
+  ) {}
 
   login(credentials: LoginRequest): Observable<AuthResponse> {
-    console.log('Login request:', credentials);
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials).pipe(
-      tap(response => console.log('Auth response:', response))
-    );
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials);
   }
 
   logout(): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/logout`, {});
+    return this.http.post<void>(`${this.apiUrl}/logout`, {}, {
+      headers: {
+        'Authorization': `Bearer ${this.storageService.getAuth()?.token}`
+      }
+    });
+  }
+
+  getCurrentUserProfile(): Observable<UserProfileResponse> {
+    return this.http.get<UserProfileResponse>(`${this.apiUrl}/profile`);
   }
 } 

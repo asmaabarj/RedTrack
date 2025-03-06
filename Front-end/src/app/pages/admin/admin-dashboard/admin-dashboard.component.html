@@ -1,1 +1,36 @@
-<p>admin-dashboard works!</p>
+<app-navbar></app-navbar>
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold text-gray-800 text-center mb-8">Tableau de bord administrateur</h1>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Carte Gestion des Classes -->
+    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer" 
+         routerLink="/admin/classes">
+      <div class="text-center text-indigo-600 text-4xl mb-4">
+        <i class="fas fa-chalkboard"></i>
+      </div>
+      <h2 class="text-xl font-semibold text-gray-800 mb-3 text-center">Gestion des Classes</h2>
+      <p class="text-gray-600 text-center">Gérer les classes et les formations</p>
+    </div>
+
+    <!-- Carte Gestion des Formateurs -->
+    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+         routerLink="/admin/formateurs">
+      <div class="text-center text-indigo-600 text-4xl mb-4">
+        <i class="fas fa-chalkboard-teacher"></i>
+      </div>
+      <h2 class="text-xl font-semibold text-gray-800 mb-3 text-center">Gestion des Formateurs</h2>
+      <p class="text-gray-600 text-center">Gérer les formateurs et leurs affectations</p>
+    </div>
+
+    <!-- Carte Gestion des Apprenants -->
+    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+         routerLink="/admin/apprenants">
+      <div class="text-center text-indigo-600 text-4xl mb-4">
+        <i class="fas fa-user-graduate"></i>
+      </div>
+      <h2 class="text-xl font-semibold text-gray-800 mb-3 text-center">Gestion des Apprenants</h2>
+      <p class="text-gray-600 text-center">Gérer les apprenants et leurs inscriptions</p>
+    </div>
+  </div>
+</div>

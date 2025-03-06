@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AuthActions } from '../../../store/auth/auth.actions';
+import * as AuthActions from '../../../store/auth/auth.actions';
 import { selectAuthError, selectAuthLoading } from '../../../store/auth/auth.selectors';
 
 @Component({
@@ -10,9 +10,9 @@ import { selectAuthError, selectAuthLoading } from '../../../store/auth/auth.sel
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loading$ = this.store.select(selectAuthLoading);
   error$ = this.store.select(selectAuthError);
@@ -23,13 +23,16 @@ export class LoginComponent {
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', Validators.required]
     });
   }
 
-  onSubmit() {
+  ngOnInit(): void {}
+
+  onSubmit(): void {
     if (this.loginForm.valid) {
-      this.store.dispatch(AuthActions.login({ request: this.loginForm.value }));
+      console.log('Submitting form:', this.loginForm.value); 
+      this.store.dispatch(AuthActions.login({ credentials: this.loginForm.value }));
     }
   }
 }

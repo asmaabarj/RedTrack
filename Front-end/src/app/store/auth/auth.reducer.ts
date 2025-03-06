@@ -1,38 +1,40 @@
 import { createReducer, on } from '@ngrx/store';
-import { AuthActions } from './auth.actions';
+import * as AuthActions from './auth.actions';
 
 export interface AuthState {
   token: string | null;
-  loading: boolean;
+  role: string | null;
   error: string | null;
+  isLoading: boolean;
 }
 
-const initialState: AuthState = {
-  token: localStorage.getItem('token'),
-  loading: false,
-  error: null
+export const initialState: AuthState = {
+  token: null,
+  role: null,
+  error: null,
+  isLoading: false
 };
 
 export const authReducer = createReducer(
   initialState,
   on(AuthActions.login, state => ({
     ...state,
-    loading: true,
+    isLoading: true,
     error: null
   })),
-  on(AuthActions.loginSuccess, (state, { response }) => ({
+  on(AuthActions.loginSuccess, (state, { token, role }) => ({
     ...state,
-    token: response.token,
-    loading: false
+    token,
+    role,
+    isLoading: false,
+    error: null
   })),
   on(AuthActions.loginFailure, (state, { error }) => ({
     ...state,
     error,
-    loading: false
+    isLoading: false
   })),
-  on(AuthActions.logoutSuccess, () => ({
-    token: null,
-    loading: false,
-    error: null
+  on(AuthActions.logout, () => ({
+    ...initialState
   }))
 ); 

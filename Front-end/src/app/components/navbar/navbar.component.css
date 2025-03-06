@@ -1,0 +1,66 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand .logo {
+  height: 40px;
+}
+
+.navbar-profile {
+  position: relative;
+}
+
+.profile-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #333;
+  cursor: pointer;
+}
+
+.profile-button:hover {
+  color: #007bff;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 1rem;
+  min-width: 200px;
+  z-index: 1000;
+}
+
+.profile-info p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.dropdown-divider {
+  border-top: 1px solid #eee;
+  margin: 0.5rem 0;
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem;
+  border: none;
+  background: none;
+  color: #dc3545;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #f8f9fa;
+}

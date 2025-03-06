@@ -1,0 +1,26 @@
+<nav class="navbar">
+  <div class="navbar-brand">
+    <img src="assets/images/logo.png" alt="Logo" class="logo">
+  </div>
+  
+  <div class="navbar-profile" *ngIf="userProfile$ | async as profile">
+    <div class="profile-dropdown">
+      <button class="profile-button" (click)="toggleDropdown()">
+        <i class="fas fa-user-circle"></i>
+      </button>
+      
+      <div class="dropdown-menu" *ngIf="isDropdownOpen">
+        <div class="profile-info">
+          <p><strong>Email:</strong> {{ profile.email }}</p>
+          <p><strong>Nom:</strong> {{ profile.nom }}</p>
+          <p><strong>Prénom:</strong> {{ profile.prenom }}</p>
+        </div>
+        <div class="dropdown-divider"></div>
+        <button class="logout-button" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          Se déconnecter
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
