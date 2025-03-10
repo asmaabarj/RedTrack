@@ -1,38 +1,25 @@
-// import { Component, OnInit } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { Store } from '@ngrx/store';
-// import { Observable } from 'rxjs';
-// import { AuthService } from '../../services/auth.service';
-// import { Router } from '@angular/router';
-// import { UserProfileResponse } from '../../models/auth.model';
-// import * as AuthActions from '../../store/auth/auth.actions';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import * as AuthActions from '../../store/auth/auth.actions';
+import { selectAuthRole } from '../../store/auth/auth.selectors';
 
-// @Component({
-//   selector: 'app-navbar',
-//   standalone: true,
-//   imports: [CommonModule],
-//   templateUrl: './navbar.component.html',
-//   styleUrls: ['./navbar.component.css']
-// })
-// export class NavbarComponent implements OnInit {
-//   isDropdownOpen = false;
-//   userProfile$: Observable<UserProfileResponse>;
+@Component({
+  selector: 'app-navbar',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css']
+})
+export class NavbarComponent {
+  role$: Observable<string | null>;
 
-//   constructor(
-//     private authService: AuthService,
-//     private router: Router,
-//     private store: Store
-//   ) {
-//     this.userProfile$ = this.authService.getCurrentUserProfile();
-//   }
+  constructor(private store: Store) {
+    this.role$ = this.store.select(selectAuthRole);
+  }
 
-//   ngOnInit(): void {}
-
-//   toggleDropdown(): void {
-//     this.isDropdownOpen = !this.isDropdownOpen;
-//   }
-
-//   logout(): void {
-//     this.store.dispatch(AuthActions.logout());
-//   }
-// }
+  logout(): void {
+    this.store.dispatch(AuthActions.logout());
+  }
+}

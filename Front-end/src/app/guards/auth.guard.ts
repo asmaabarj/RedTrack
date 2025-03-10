@@ -1,40 +1,48 @@
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { map, take, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { selectAuthToken, selectAuthRole } from '../store/auth/auth.selectors';
 import { StorageService } from '../services/storage.service';
 
-export function authGuard(allowedRoles: string[]) {
+export const authGuard = (allowedRoles?: string[]) => {
   const router = inject(Router);
+  const store = inject(Store);
   const storageService = inject(StorageService);
 
-  if (!storageService.isLoggedIn()) {
-    router.navigate(['/login']);
-    return false;
-  }
-
-  const authData = storageService.getAuth();
-  
-  if (!authData || !authData.role) {
-    storageService.clearAuth(); 
-    router.navigate(['/login']);
-    return false;
-  }
-
-  if (!allowedRoles.includes(authData.role)) {
-    switch (authData.role) {
-      case 'ADMIN':
-        router.navigate(['/admin']);
-        break;
-      case 'FORMATEUR':
-        router.navigate(['/formateur']);
-        break;
-      case 'APPRENANT':
-        router.navigate(['/apprenant']);
-        break;
-      default:
+  return store.select(selectAuthToken).pipe(
+    take(1),
+    switchMap(token => {
+      // Check localStorage if no token in store
+      const authData = token ? null : storageService.getAuth();
+      if (authData?.token) {
+        // Restore auth state from localStorage
+        store.dispatch({
+          type: '[Auth] Login Success',
+          response: {
+            token: authData.token,
+            role: authData.role
+          }
+        });
+        return store.select(selectAuthRole);
+      }
+      
+      if (!token && !authData) {
         router.navigate(['/login']);
-    }
-    return false;
-  }
+        return of(false);
+      }
 
-  return true;
-}
+      return store.select(selectAuthRole).pipe(
+        take(1),
+        map(role => {
+          if (!role || !allowedRoles?.includes(role)) {
+            router.navigate(['/login']);
+            return false;
+          }
+          return true;
+        })
+      );
+    })
+  );
+};

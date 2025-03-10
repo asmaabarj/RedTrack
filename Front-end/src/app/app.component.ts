@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet, Router } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { StorageService } from './services/storage.service';
 import * as AuthActions from './store/auth/auth.actions';
@@ -24,18 +24,14 @@ import { CommonModule } from '@angular/common';
 export class AppComponent implements OnInit {
   constructor(
     private store: Store,
-    private storageService: StorageService,
-    private router: Router
+    private storageService: StorageService
   ) {}
 
   ngOnInit() {
-    this.storageService.clearAuth();
-
+    // Check stored authentication
     const authData = this.storageService.getAuth();
-    
-    if (!authData || !authData.token) {
-      this.router.navigate(['/login']);
-    } else {
+    if (authData?.token && authData?.role) {
+      // Restore auth state from localStorage
       this.store.dispatch(AuthActions.loginSuccess({ 
         response: { 
           token: authData.token, 
