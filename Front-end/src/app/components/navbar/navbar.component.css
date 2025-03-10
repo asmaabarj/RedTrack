@@ -40,3 +40,36 @@
 .logout-btn:hover {
   background-color: #c0392b;
 }
+
+.user-profile-icon {
+  position: relative;
+  cursor: pointer;
+}
+
+.user-profile-icon i {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.profile-tooltip {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  min-width: 200px;
+  color: #333;
+  z-index: 1000;
+  margin-top: 0.5rem;
+}
+
+.profile-tooltip p {
+  margin: 0.5rem 0;
+}
+
+.user-profile-icon:hover .profile-tooltip {
+  display: block;
+}

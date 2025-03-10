@@ -4,7 +4,14 @@
   </div>
   
   <div class="navbar-content">
-    <span class="role-info">{{ role$ | async }}</span>
+    <div class="user-profile-icon" *ngIf="userProfile$ | async as user">
+      <i class="fas fa-user-circle"></i>
+      <div class="profile-tooltip">
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Nom:</strong> {{ user.nom }}</p>
+        <p><strong>Prénom:</strong> {{ user.prenom }}</p>
+      </div>
+    </div>
     <button class="logout-btn" (click)="logout()">
       <i class="fas fa-sign-out-alt"></i>
       Déconnexion

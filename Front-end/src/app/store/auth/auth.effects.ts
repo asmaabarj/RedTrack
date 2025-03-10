@@ -57,6 +57,18 @@ export class AuthEffects {
     { dispatch: false }
   );
 
+  loadUserProfile$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.loadUserProfile),
+      mergeMap(() =>
+        this.authService.getUserProfile().pipe(
+          map(profile => AuthActions.loadUserProfileSuccess({ profile })),
+          catchError(error => of(AuthActions.loadUserProfileFailure({ error: error.message })))
+        )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private authService: AuthService,
