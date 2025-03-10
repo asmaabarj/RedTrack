@@ -1,18 +1,40 @@
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { map } from 'rxjs';
-import { selectAuthToken } from '../store/auth/auth.selectors';
+import { StorageService } from '../services/storage.service';
 
-export const authGuard = () => {
-  const store = inject(Store);
+export function authGuard(allowedRoles: string[]) {
   const router = inject(Router);
+  const storageService = inject(StorageService);
+
+  if (!storageService.isLoggedIn()) {
+    router.navigate(['/login']);
+    return false;
+  }
+
+  const authData = storageService.getAuth();
   
-  return store.select(selectAuthToken).pipe(
-    map(token => {
-      if (token) return true;
-      router.navigate(['/login']);
-      return false;
-    })
-  );
-}; 
+  if (!authData || !authData.role) {
+    storageService.clearAuth(); 
+    router.navigate(['/login']);
+    return false;
+  }
+
+  if (!allowedRoles.includes(authData.role)) {
+    switch (authData.role) {
+      case 'ADMIN':
+        router.navigate(['/admin']);
+        break;
+      case 'FORMATEUR':
+        router.navigate(['/formateur']);
+        break;
+      case 'APPRENANT':
+        router.navigate(['/apprenant']);
+        break;
+      default:
+        router.navigate(['/login']);
+    }
+    return false;
+  }
+
+  return true;
+}

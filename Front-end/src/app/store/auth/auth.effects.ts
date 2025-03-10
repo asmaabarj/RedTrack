@@ -1,27 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { AuthService } from '../../services/auth.service';
-import * as AuthActions from './auth.actions';
-import { switchMap, map, catchError, tap, exhaustMap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { map, mergeMap, catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { JwtService } from '../../services/jwt.service';
+import { AuthService } from '../../services/auth.service';
 import { StorageService } from '../../services/storage.service';
+import * as AuthActions from './auth.actions';
 
 @Injectable()
 export class AuthEffects {
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
-      exhaustMap(action =>
+      mergeMap((action) =>
         this.authService.login(action.credentials).pipe(
-          map(response => AuthActions.loginSuccess({ 
-            token: response.token, 
-            role: response.role 
-          })),
-          catchError(error => of(AuthActions.loginFailure({ 
-            error: error.error?.message || 'Email ou mot de passe incorrect' 
-          })))
+          map((response) => {
+            this.storageService.setAuth(response.token, response.role);
+            return AuthActions.loginSuccess({ response });
+          }),
+          catchError((error) => of(AuthActions.loginFailure({ error })))
         )
       )
     )
@@ -31,17 +28,16 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.loginSuccess),
-        tap(({ token, role }) => {
-          this.storageService.saveAuth({ token, role });
-          switch (role) {
+        tap(({ response }) => {
+          switch (response.role) {
             case 'ADMIN':
-              this.router.navigate(['/dashboard-admin']);
-              break;
-            case 'FORMATEUR':
-              this.router.navigate(['/dashboard-formatteur']);
+              this.router.navigate(['/admin']);
               break;
             case 'APPRENANT':
-              this.router.navigate(['/dashboard-apprenant']);
+              this.router.navigate(['/apprenant']);
+              break;
+            case 'FORMATEUR':
+              this.router.navigate(['/formateur']);
               break;
           }
         })
@@ -53,20 +49,10 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.logout),
-        exhaustMap(() => 
-          this.authService.logout().pipe(
-            tap(() => {
-              this.storageService.clearAuth();
-              this.router.navigate(['/login']);
-            }),
-            catchError(error => {
-              console.error('Logout error:', error);
-              this.storageService.clearAuth();
-              this.router.navigate(['/login']);
-              return of(error);
-            })
-          )
-        )
+        tap(() => {
+          this.storageService.clearAuth();
+          this.router.navigate(['/login']);
+        })
       ),
     { dispatch: false }
   );
@@ -74,8 +60,7 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private authService: AuthService,
-    private router: Router,
-    private jwtService: JwtService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private router: Router
   ) {}
-} 
+}

@@ -1,13 +1,21 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { AuthState } from './auth.reducer';
-import { inject } from '@angular/core';
-import { JwtService } from '../../services/jwt.service';
 
 export const selectAuthState = createFeatureSelector<AuthState>('auth');
 
+export const selectAuthToken = createSelector(
+  selectAuthState,
+  (state) => state.token
+);
+
+export const selectAuthRole = createSelector(
+  selectAuthState,
+  (state) => state.role
+);
+
 export const selectAuthLoading = createSelector(
   selectAuthState,
-  (state) => state.isLoading
+  (state) => state.loading
 );
 
 export const selectAuthError = createSelector(
@@ -15,16 +23,7 @@ export const selectAuthError = createSelector(
   (state) => state.error
 );
 
-export const selectAuthToken = createSelector(
+export const selectUserProfile = createSelector(
   selectAuthState,
-  (state) => state.token
+  (state) => state.userProfile
 );
-
-export const selectUserRole = createSelector(
-  selectAuthState,
-  (state) => {
-    if (!state.token) return null;
-    const jwtService = inject(JwtService);
-    return jwtService.extractRole(state.token);
-  }
-); 

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import * as AuthActions from '../../../store/auth/auth.actions';
 import { selectAuthError, selectAuthLoading } from '../../../store/auth/auth.selectors';
 
@@ -14,8 +15,8 @@ import { selectAuthError, selectAuthLoading } from '../../../store/auth/auth.sel
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  loading$ = this.store.select(selectAuthLoading);
   error$ = this.store.select(selectAuthError);
+  loading$ = this.store.select(selectAuthLoading);
 
   constructor(
     private fb: FormBuilder,
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
@@ -31,7 +32,6 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      console.log('Submitting form:', this.loginForm.value); 
       this.store.dispatch(AuthActions.login({ credentials: this.loginForm.value }));
     }
   }
