@@ -28,6 +28,18 @@ export const routes: Routes = [
     canActivate: [() => authGuard(['ADMIN'])]
   },
   {
+    path: 'admin/formateurs',
+    loadComponent: () => import('./pages/admin/manage-formateurs/formateurs-list/formateurs-list.component')
+      .then(m => m.FormateursListComponent),
+    canActivate: [() => authGuard(['ADMIN'])]
+  },
+  {
+    path: 'admin/apprenants',
+    loadComponent: () => import('./pages/admin/manage-apprenants/apprenants-list/apprenants-list.component')
+      .then(m => m.ApprenantsListComponent),
+    canActivate: [() => authGuard(['ADMIN'])]
+  },
+  {
     path: '',
     redirectTo: '/login',
     pathMatch: 'full'

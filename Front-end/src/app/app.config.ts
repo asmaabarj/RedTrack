@@ -9,12 +9,26 @@ import { AuthEffects } from './store/auth/auth.effects';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { classReducer } from './store/class/class.reducer';
 import { ClassEffects } from './store/class/class.effects';
+import { formateurReducer } from './store/formateur/formateur.reducer';
+import { FormateurEffects } from './store/formateur/formateur.effects';
+import { apprenantReducer } from './store/apprenant/apprenant.reducer';
+import { ApprenantEffects } from './store/apprenant/apprenant.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(withInterceptors([AuthInterceptor])),
-    provideStore({ auth: authReducer, class: classReducer }),
-    provideEffects([AuthEffects, ClassEffects])
+    provideStore({
+      auth: authReducer,
+      class: classReducer,
+      formateur: formateurReducer,
+      apprenant: apprenantReducer
+    }),
+    provideEffects([
+      AuthEffects,
+      ClassEffects,
+      FormateurEffects,
+      ApprenantEffects
+    ])
   ]
 };
