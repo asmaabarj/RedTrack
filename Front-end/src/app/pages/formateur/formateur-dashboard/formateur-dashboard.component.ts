@@ -11,11 +11,12 @@ import {
   selectFormateurClassesError 
 } from '../../../store/formateur-classes/formateur-classes.selectors';
 import { UpdateClasseComponent } from '../update-classe/update-classe.component';
+import { EtapesListComponent } from '../manage-etapes/etapes-list/etapes-list.component';
 
 @Component({
   selector: 'app-formateur-dashboard',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, UpdateClasseComponent],
+  imports: [CommonModule, NavbarComponent, UpdateClasseComponent, EtapesListComponent],
   templateUrl: './formateur-dashboard.component.html'
 })
 export class FormateurDashboardComponent implements OnInit {
