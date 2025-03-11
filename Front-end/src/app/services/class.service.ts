@@ -3,12 +3,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ClassResponse, Class, CreateClassRequest } from '../models/class.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClassService {
   private readonly API_URL = 'http://localhost:8080/api/admin/classes';
+  private API_URL_FORMATEUR = `${environment.apiUrl}/api/formateur/classes`;
 
   constructor(private http: HttpClient) {}
 
@@ -91,5 +93,13 @@ export class ClassService {
         return throwError(() => new Error('Erreur lors du chargement des détails de la classe'));
       })
     );
+  }
+
+  getFormateurClasses(): Observable<Class[]> {
+    return this.http.get<Class[]>(`${this.API_URL_FORMATEUR}/own`);
+  }
+
+  updateFormateurClass(id: string, classData: any): Observable<Class> {
+    return this.http.put<Class>(`${this.API_URL_FORMATEUR}/${id}`, classData);
   }
 } 

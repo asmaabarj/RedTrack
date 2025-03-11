@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
+import { FormateurDashboardComponent } from './pages/formateur/formateur-dashboard/formateur-dashboard.component';
 
 export const routes: Routes = [
   {
@@ -18,7 +19,7 @@ export const routes: Routes = [
   },
   {
     path: 'formateur',
-    loadComponent: () => import('./pages/formateur/formateur-dashboard/formateur-dashboard.component').then(m => m.FormateurDashboardComponent),
+    component: FormateurDashboardComponent,
     canActivate: [() => authGuard(['FORMATEUR'])]
   },
   {

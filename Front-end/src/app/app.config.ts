@@ -13,6 +13,8 @@ import { formateurReducer } from './store/formateur/formateur.reducer';
 import { FormateurEffects } from './store/formateur/formateur.effects';
 import { apprenantReducer } from './store/apprenant/apprenant.reducer';
 import { ApprenantEffects } from './store/apprenant/apprenant.effects';
+import { formateurClassesReducer } from './store/formateur-classes/formateur-classes.reducer';
+import { FormateurClassesEffects } from './store/formateur-classes/formateur-classes.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,13 +24,15 @@ export const appConfig: ApplicationConfig = {
       auth: authReducer,
       class: classReducer,
       formateur: formateurReducer,
-      apprenant: apprenantReducer
+      apprenant: apprenantReducer,
+      formateurClasses: formateurClassesReducer
     }),
     provideEffects([
       AuthEffects,
       ClassEffects,
       FormateurEffects,
-      ApprenantEffects
+      ApprenantEffects,
+      FormateurClassesEffects
     ])
   ]
 };
