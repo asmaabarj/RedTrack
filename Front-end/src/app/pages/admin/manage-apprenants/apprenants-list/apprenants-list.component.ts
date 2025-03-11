@@ -11,11 +11,12 @@ import { selectApprenants, selectApprenantsLoading } from '../../../../store/app
 import { selectClasses } from '../../../../store/class/class.selectors';
 import { FilterUsersPipe } from '../../../../pipes/filter-users.pipe';
 import { CreateUserComponent } from '../../create-user/create-user.component';
+import { UpdateUserComponent } from '../../update-user/update-user.component';
 
 @Component({
   selector: 'app-apprenants-list',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, FilterUsersPipe, CreateUserComponent],
+  imports: [CommonModule, NavbarComponent, FilterUsersPipe, CreateUserComponent, UpdateUserComponent],
   templateUrl: './apprenants-list.component.html'
 })
 export class ApprenantsListComponent implements OnInit {
@@ -25,6 +26,8 @@ export class ApprenantsListComponent implements OnInit {
   searchTerm: string = '';
   selectedClassId: string = '';
   showCreateModal = false;
+  showUpdateModal = false;
+  selectedUser: User | null = null;
 
   constructor(private store: Store) {
     this.apprenants$ = this.store.select(selectApprenants);
@@ -89,5 +92,15 @@ export class ApprenantsListComponent implements OnInit {
 
   onUserCreated(): void {
     this.loadApprenants();
+  }
+
+  onEdit(apprenant: User): void {
+    this.selectedUser = apprenant;
+    this.showUpdateModal = true;
+  }
+
+  closeUpdateModal(): void {
+    this.showUpdateModal = false;
+    this.selectedUser = null;
   }
 }

@@ -104,7 +104,9 @@
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
               <div class="flex gap-3">
-                <button class="text-indigo-600 hover:text-indigo-900">
+                <button 
+                  (click)="onEdit(apprenant)"
+                  class="text-indigo-600 hover:text-indigo-900">
                   <i class="fas fa-edit"></i>
                 </button>
                 <button 
@@ -137,3 +139,9 @@
   (closeModal)="closeCreateModal()"
   (userCreated)="onUserCreated()"
 ></app-create-user>
+
+<app-update-user
+  *ngIf="showUpdateModal && selectedUser"
+  [user]="selectedUser"
+  (closeModal)="closeUpdateModal()"
+></app-update-user>

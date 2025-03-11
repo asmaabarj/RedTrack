@@ -32,3 +32,9 @@ export interface RegisterRequest {
     role: Role;
     classeIds: string[];
   }
+
+export interface UpdateUserRequest {
+  email: string;
+  nom: string;
+  prenom: string;
+}

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError, firstValueFrom } from 'rxjs';
 import { catchError, mergeMap, tap } from 'rxjs/operators';
-import { UserResponse } from '../models/user.model';
+import { UserResponse, User, UpdateUserRequest } from '../models/user.model';
 import { ClassDTO } from '../models/class.model';
 import { RegisterRequest } from '../models/user.model';
 
@@ -64,5 +64,9 @@ export class UserService {
         return throwError(() => new Error(error.error?.message || 'Erreur lors de la création de l\'utilisateur'));
       })
     );
+  }
+
+  updateUser(userId: string, request: UpdateUserRequest): Observable<User> {
+    return this.http.put<User>(`${this.API_URL}/users/${userId}`, request);
   }
 } 
