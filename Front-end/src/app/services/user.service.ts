@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError, firstValueFrom } from 'rxjs';
-import { catchError, mergeMap } from 'rxjs/operators';
+import { catchError, mergeMap, tap } from 'rxjs/operators';
 import { UserResponse } from '../models/user.model';
 import { ClassDTO } from '../models/class.model';
 import { RegisterRequest } from '../models/user.model';
@@ -56,10 +56,12 @@ export class UserService {
   }
 
   register(request: RegisterRequest): Observable<any> {
+    console.log('Sending register request:', request);
     return this.http.post(`${this.API_URL}/register`, request).pipe(
+      tap(response => console.log('Register response:', response)),
       catchError(error => {
         console.error('Error registering user:', error);
-        return throwError(() => new Error('Erreur lors de la création de l\'utilisateur'));
+        return throwError(() => new Error(error.error?.message || 'Erreur lors de la création de l\'utilisateur'));
       })
     );
   }

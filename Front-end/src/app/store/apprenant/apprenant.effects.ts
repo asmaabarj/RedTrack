@@ -39,4 +39,25 @@ export class ApprenantEffects {
     private actions$: Actions,
     private userService: UserService
   ) {}
+
+  createApprenant$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ApprenantActions.createApprenant),
+      mergeMap(({ request }) =>
+        this.userService.register(request).pipe(
+          map(() => ApprenantActions.createApprenantSuccess()),
+          catchError(error => 
+            of(ApprenantActions.createApprenantFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  createApprenantSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ApprenantActions.createApprenantSuccess),
+      map(() => ApprenantActions.loadApprenants())
+    )
+  );
 } 

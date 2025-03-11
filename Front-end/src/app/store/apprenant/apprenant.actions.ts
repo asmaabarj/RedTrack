@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { User, UserResponse } from '../../models/user.model';
+import { RegisterRequest } from '../../models/user.model';
 
 export const loadApprenants = createAction(
   '[Apprenant] Load Apprenants'
@@ -27,5 +28,19 @@ export const archiveApprenantSuccess = createAction(
 
 export const archiveApprenantFailure = createAction(
   '[Apprenant] Archive Apprenant Failure',
+  props<{ error: string }>()
+);
+
+export const createApprenant = createAction(
+  '[Apprenant] Create Apprenant',
+  props<{ request: RegisterRequest }>()
+);
+
+export const createApprenantSuccess = createAction(
+  '[Apprenant] Create Apprenant Success'
+);
+
+export const createApprenantFailure = createAction(
+  '[Apprenant] Create Apprenant Failure',
   props<{ error: string }>()
 ); 

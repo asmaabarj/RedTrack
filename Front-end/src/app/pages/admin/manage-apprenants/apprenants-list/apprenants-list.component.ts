@@ -7,17 +7,19 @@ import { User } from '../../../../models/user.model';
 import * as ApprenantActions from '../../../../store/apprenant/apprenant.actions';
 import { selectApprenants, selectApprenantsLoading } from '../../../../store/apprenant/apprenant.selectors';
 import { FilterUsersPipe } from '../../../../pipes/filter-users.pipe';
+import { CreateUserComponent } from '../../create-user/create-user.component';
 
 @Component({
   selector: 'app-apprenants-list',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, FilterUsersPipe],
+  imports: [CommonModule, NavbarComponent, FilterUsersPipe, CreateUserComponent],
   templateUrl: './apprenants-list.component.html'
 })
 export class ApprenantsListComponent implements OnInit {
   apprenants$: Observable<User[]>;
   loading$: Observable<boolean>;
   searchTerm: string = '';
+  showCreateModal = false;
 
   constructor(private store: Store) {
     this.apprenants$ = this.store.select(selectApprenants);
@@ -54,5 +56,17 @@ export class ApprenantsListComponent implements OnInit {
     if (confirm(`Êtes-vous sûr de vouloir archiver ${apprenant.prenom} ${apprenant.nom} ?`)) {
       this.store.dispatch(ApprenantActions.archiveApprenant({ id: apprenant.id }));
     }
+  }
+
+  openCreateModal(): void {
+    this.showCreateModal = true;
+  }
+
+  closeCreateModal(): void {
+    this.showCreateModal = false;
+  }
+
+  onUserCreated(): void {
+    this.loadApprenants();
   }
 }

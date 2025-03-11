@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -8,6 +8,7 @@ import * as ClassActions from '../../../store/class/class.actions';
 import { selectClasses } from '../../../store/class/class.selectors';
 import { Role } from '../../../models/user.model';
 import * as FormateurActions from '../../../store/formateur/formateur.actions';
+import * as ApprenantActions from '../../../store/apprenant/apprenant.actions';
 
 @Component({
   selector: 'app-create-user',
@@ -17,6 +18,7 @@ import * as FormateurActions from '../../../store/formateur/formateur.actions';
   styleUrl: './create-user.component.css'
 })
 export class CreateUserComponent implements OnInit {
+  @Input() userType: 'FORMATEUR' | 'APPRENANT' = 'FORMATEUR';
   @Output() closeModal = new EventEmitter<void>();
   @Output() userCreated = new EventEmitter<void>();
 
@@ -45,10 +47,16 @@ export class CreateUserComponent implements OnInit {
     if (this.userForm.valid) {
       const formData = {
         ...this.userForm.value,
-        role: Role.FORMATEUR,
+        role: this.userType === 'FORMATEUR' ? Role.FORMATEUR : Role.APPRENANT,
         classeIds: [this.userForm.value.classeIds]
       };
-      this.store.dispatch(FormateurActions.createFormateur({ request: formData }));
+
+      if (this.userType === 'FORMATEUR') {
+        this.store.dispatch(FormateurActions.createFormateur({ request: formData }));
+      } else {
+        this.store.dispatch(ApprenantActions.createApprenant({ request: formData }));
+      }
+      
       this.closeModal.emit();
     }
   }
