@@ -1,1 +1,102 @@
-<p>create-user works!</p>
+<div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+  <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-medium">Ajouter un formateur</h3>
+      <button 
+        (click)="onClose()"
+        class="text-gray-400 hover:text-gray-500"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <!-- Prénom -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          Prénom
+        </label>
+        <input
+          type="text"
+          formControlName="prenom"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          [class.border-red-500]="userForm.get('prenom')?.invalid && userForm.get('prenom')?.touched"
+        >
+      </div>
+
+      <!-- Nom -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          Nom
+        </label>
+        <input
+          type="text"
+          formControlName="nom"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          [class.border-red-500]="userForm.get('nom')?.invalid && userForm.get('nom')?.touched"
+        >
+      </div>
+
+      <!-- Email -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          Email
+        </label>
+        <input
+          type="email"
+          formControlName="email"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          [class.border-red-500]="userForm.get('email')?.invalid && userForm.get('email')?.touched"
+        >
+      </div>
+
+      <!-- Password -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          Mot de passe
+        </label>
+        <input
+          type="password"
+          formControlName="password"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          [class.border-red-500]="userForm.get('password')?.invalid && userForm.get('password')?.touched"
+        >
+      </div>
+
+      <!-- Classes -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          Classe
+        </label>
+        <select
+          formControlName="classeIds"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          [class.border-red-500]="userForm.get('classeIds')?.invalid && userForm.get('classeIds')?.touched"
+        >
+          <option value="">Sélectionner une classe</option>
+          <option *ngFor="let class of classes$ | async" [value]="class.id">
+            {{ class.nom }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="flex justify-end gap-3">
+        <button
+          type="button"
+          (click)="onClose()"
+          class="px-4 py-2 text-gray-600 hover:text-gray-800"
+        >
+          Annuler
+        </button>
+        <button
+          type="submit"
+          [disabled]="userForm.invalid"
+          class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50"
+        >
+          Créer
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { User, UserResponse } from '../../models/user.model';
+import { RegisterRequest } from '../../models/user.model';
 
 export const loadFormateurs = createAction(
   '[Formateur] Load Formateurs'
@@ -27,5 +28,19 @@ export const archiveFormateurSuccess = createAction(
 
 export const archiveFormateurFailure = createAction(
   '[Formateur] Archive Formateur Failure',
+  props<{ error: string }>()
+);
+
+export const createFormateur = createAction(
+  '[Formateur] Create Formateur',
+  props<{ request: RegisterRequest }>()
+);
+
+export const createFormateurSuccess = createAction(
+  '[Formateur] Create Formateur Success'
+);
+
+export const createFormateurFailure = createAction(
+  '[Formateur] Create Formateur Failure',
   props<{ error: string }>()
 ); 

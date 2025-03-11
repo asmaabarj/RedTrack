@@ -18,8 +18,17 @@ export interface UserResponse {
   number: number;
 }
 
-// export enum Role {
-//     ADMIN = 'ADMIN',
-//     FORMATEUR = 'FORMATEUR',
-//     APPRENANT = 'APPRENANT'
-// }
+export enum Role {
+    ADMIN = 'ADMIN',
+    FORMATEUR = 'FORMATEUR',
+    APPRENANT = 'APPRENANT'
+}
+
+export interface RegisterRequest {
+    email: string;
+    password: string;
+    nom: string;
+    prenom: string;
+    role: Role;
+    classeIds: string[];
+  }

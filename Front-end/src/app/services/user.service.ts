@@ -4,6 +4,7 @@ import { Observable, throwError, firstValueFrom } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
 import { UserResponse } from '../models/user.model';
 import { ClassDTO } from '../models/class.model';
+import { RegisterRequest } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -52,5 +53,14 @@ export class UserService {
 
   getFormateurs(): Observable<UserResponse> {
     return this.http.get<UserResponse>(`${this.API_URL}/formateurs`);
+  }
+
+  register(request: RegisterRequest): Observable<any> {
+    return this.http.post(`${this.API_URL}/register`, request).pipe(
+      catchError(error => {
+        console.error('Error registering user:', error);
+        return throwError(() => new Error('Erreur lors de la création de l\'utilisateur'));
+      })
+    );
   }
 } 

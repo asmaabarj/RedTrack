@@ -35,6 +35,27 @@ export class FormateurEffects {
     )
   );
 
+  createFormateur$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FormateurActions.createFormateur),
+      mergeMap(({ request }) =>
+        this.userService.register(request).pipe(
+          map(() => FormateurActions.createFormateurSuccess()),
+          catchError(error => 
+            of(FormateurActions.createFormateurFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  createFormateurSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FormateurActions.createFormateurSuccess),
+      map(() => FormateurActions.loadFormateurs())
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private userService: UserService
