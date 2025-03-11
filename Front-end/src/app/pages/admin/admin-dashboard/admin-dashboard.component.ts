@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../../components/navbar/navbar.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
   imports: [CommonModule, NavbarComponent],
-  template: `
-    <app-navbar></app-navbar>
-    <div class="dashboard-content">
-      <h1>Dashboard Admin</h1>
-    </div>
-  `
+  templateUrl: './admin-dashboard.component.html',
 })
-export class AdminDashboardComponent {}
+export class AdminDashboardComponent {
+  constructor(private router: Router) {}
+
+  navigate(path: string): void {
+    this.router.navigate([path]);
+  }
+}

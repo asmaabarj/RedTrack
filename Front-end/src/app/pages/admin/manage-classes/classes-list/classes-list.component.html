@@ -1,70 +1,84 @@
 <app-navbar></app-navbar>
-<div class="container mx-auto px-4 py-8">
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold text-gray-800">Gestion des Classes</h1>
-    <button routerLink="/admin/classes/add" 
-            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
-      <i class="fas fa-plus mr-2"></i>Ajouter une classe
-    </button>
-  </div>
-
-  <!-- Search and Filter Section -->
-  <div class="bg-white p-4 rounded-lg shadow mb-6">
-    <div class="flex gap-4">
-      <div class="flex-1">
-        <input type="text" 
-               placeholder="Rechercher une classe..." 
-               class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+<div class="container mx-auto p-4">
+  <div class="mb-6">
+    <div class="flex justify-between items-center mb-4">
+      <h1 class="text-2xl font-bold">Liste des Classes</h1>
+      <!-- Add Class Button -->
+      <button 
+        (click)="openCreateClassModal()"
+        class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center gap-2"
+      >
+        <i class="fas fa-plus"></i>
+        Ajouter une classe
+      </button>
+    </div>
+    
+    <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+      <!-- Search Bar -->
+      <div class="relative w-full md:w-64">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="onSearch($event)"
+          placeholder="Rechercher une classe..."
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
       </div>
-      <select class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-        <option value="">Toutes les formations</option>
-        <option value="dev">Développement Web</option>
-        <option value="data">Data Science</option>
-      </select>
+
+      <!-- Niveau Filter -->
+      <div class="flex gap-2 items-center">
+        <span class="text-gray-700">Niveau:</span>
+        <div class="flex gap-2">
+          <button
+            *ngFor="let niveau of niveaux"
+            (click)="onNiveauChange(niveau)"
+            [class]="selectedNiveau === niveau 
+              ? 'px-4 py-2 bg-indigo-600 text-white rounded-lg' 
+              : 'px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300'"
+          >
+            {{ niveau }}
+          </button>
+          <button
+            *ngIf="selectedNiveau"
+            (click)="onNiveauChange('')"
+            class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+          >
+            Tout afficher
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="loading$ | async" class="text-center">
+    Chargement...
+  </div>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div *ngFor="let class of classes$ | async" 
+         class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow">
+      <h2 class="text-xl font-semibold">{{ class.nom }}</h2>
+      <p class="text-gray-600">Niveau: {{ class.niveau }}</p>
+      <p class="text-gray-600">Année: {{ class.annee }}</p>
+      <p class="text-gray-600">
+        Statut: 
+        <span [class]="class.active ? 'text-green-600' : 'text-red-600'">
+          {{ class.active ? 'Active' : 'Archivée' }}
+        </span>
+      </p>
     </div>
   </div>
 
-  <!-- Classes List -->
-  <div class="bg-white rounded-lg shadow overflow-hidden">
-    <table class="min-w-full divide-y divide-gray-200">
-      <thead class="bg-gray-50">
-        <tr>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Formation</th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nb Étudiants</th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-        </tr>
-      </thead>
-      <tbody class="bg-white divide-y divide-gray-200">
-        @for (classe of classes; track classe.id) {
-          <tr class="hover:bg-gray-50">
-            <td class="px-6 py-4 whitespace-nowrap">{{ classe.nom }}</td>
-            <td class="px-6 py-4 whitespace-nowrap">{{ classe.formation }}</td>
-            <td class="px-6 py-4 whitespace-nowrap">{{ classe.nbEtudiants }}</td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              <div class="flex space-x-3">
-                <button class="text-indigo-600 hover:text-indigo-900">
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button class="text-red-600 hover:text-red-900">
-                  <i class="fas fa-trash"></i>
-                </button>
-              </div>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Pagination -->
-  <div class="flex justify-center mt-6">
-    <nav class="flex space-x-2">
-      <button class="px-3 py-1 rounded border hover:bg-gray-100">&laquo;</button>
-      <button class="px-3 py-1 rounded border bg-indigo-600 text-white">1</button>
-      <button class="px-3 py-1 rounded border hover:bg-gray-100">2</button>
-      <button class="px-3 py-1 rounded border hover:bg-gray-100">3</button>
-      <button class="px-3 py-1 rounded border hover:bg-gray-100">&raquo;</button>
-    </nav>
+  <!-- No Results Message -->
+  <div *ngIf="(classes$ | async)?.length === 0" class="text-center mt-4 text-gray-600">
+    Aucune classe trouvée
   </div>
 </div>
+
+<!-- Create Class Modal -->
+<app-create-classe
+  *ngIf="showCreateModal"
+  (closeModal)="closeCreateClassModal()"
+  (classCreated)="onClassCreated()"
+></app-create-classe>

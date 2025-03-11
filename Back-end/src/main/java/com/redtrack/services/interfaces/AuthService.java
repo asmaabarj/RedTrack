@@ -8,4 +8,5 @@ public interface AuthService {
     AuthResponse login(LoginRequest request);
     void logout(String email);
     UserProfileResponse getCurrentUserProfile();
+    void invalidateToken(String token);
 }

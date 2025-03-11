@@ -69,4 +69,12 @@ public class AuthServiceImpl implements AuthService {
         );
     }
 
+    @Override
+    public void invalidateToken(String token) {
+        String email = jwtService.extractUsername(token);
+        if (email != null) {
+            sessionManager.removeSession(email);
+        }
+    }
+
 }

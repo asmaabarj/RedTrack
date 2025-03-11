@@ -22,6 +22,12 @@ export const routes: Routes = [
     canActivate: [() => authGuard(['FORMATEUR'])]
   },
   {
+    path: 'admin/classes',
+    loadComponent: () => import('./pages/admin/manage-classes/classes-list/classes-list.component')
+      .then(m => m.ClassesListComponent),
+    canActivate: [() => authGuard(['ADMIN'])]
+  },
+  {
     path: '',
     redirectTo: '/login',
     pathMatch: 'full'
