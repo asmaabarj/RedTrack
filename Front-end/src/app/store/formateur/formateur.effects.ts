@@ -21,6 +21,20 @@ export class FormateurEffects {
     )
   );
 
+  archiveFormateur$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FormateurActions.archiveFormateur),
+      mergeMap(({ id }) =>
+        this.userService.archiveUser(id).pipe(
+          map(() => FormateurActions.archiveFormateurSuccess({ id })),
+          catchError(error => 
+            of(FormateurActions.archiveFormateurFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private userService: UserService

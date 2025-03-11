@@ -13,4 +13,19 @@ export const loadFormateursSuccess = createAction(
 export const loadFormateursFailure = createAction(
   '[Formateur] Load Formateurs Failure',
   props<{ error: string }>()
+);
+
+export const archiveFormateur = createAction(
+  '[Formateur] Archive Formateur',
+  props<{ id: string }>()
+);
+
+export const archiveFormateurSuccess = createAction(
+  '[Formateur] Archive Formateur Success',
+  props<{ id: string }>()
+);
+
+export const archiveFormateurFailure = createAction(
+  '[Formateur] Archive Formateur Failure',
+  props<{ error: string }>()
 ); 

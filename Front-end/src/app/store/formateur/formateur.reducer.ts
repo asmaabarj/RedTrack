@@ -33,5 +33,9 @@ export const formateurReducer = createReducer(
     ...state,
     loading: false,
     error
+  })),
+  on(FormateurActions.archiveFormateurSuccess, (state, { id }) => ({
+    ...state,
+    formateurs: state.formateurs.filter(formateur => formateur.id !== id)
   }))
 ); 

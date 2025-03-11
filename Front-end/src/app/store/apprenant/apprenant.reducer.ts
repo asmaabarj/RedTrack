@@ -36,8 +36,6 @@ export const apprenantReducer = createReducer(
   })),
   on(ApprenantActions.archiveApprenantSuccess, (state, { id }) => ({
     ...state,
-    apprenants: state.apprenants.map(apprenant =>
-      apprenant.id === id ? { ...apprenant, active: false } : apprenant
-    )
+    apprenants: state.apprenants.filter(apprenant => apprenant.id !== id)
   }))
 ); 

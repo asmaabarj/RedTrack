@@ -29,4 +29,10 @@ export class FormateursListComponent implements OnInit {
   loadFormateurs(): void {
     this.store.dispatch(FormateurActions.loadFormateurs());
   }
+
+  onArchive(formateur: User): void {
+    if (confirm(`Êtes-vous sûr de vouloir archiver ${formateur.prenom} ${formateur.nom} ?`)) {
+      this.store.dispatch(FormateurActions.archiveFormateur({ id: formateur.id }));
+    }
+  }
 }

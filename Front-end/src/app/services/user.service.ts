@@ -42,7 +42,12 @@ export class UserService {
   }
 
   archiveUser(userId: string): Observable<any> {
-    return this.http.put(`${this.API_URL}/users/${userId}/archive`, {});
+    return this.http.put(`${this.API_URL}/users/${userId}/archive`, {}).pipe(
+      catchError(error => {
+        console.error('Error archiving user:', error);
+        return throwError(() => new Error('Erreur lors de l\'archivage de l\'utilisateur'));
+      })
+    );
   }
 
   getFormateurs(): Observable<UserResponse> {
