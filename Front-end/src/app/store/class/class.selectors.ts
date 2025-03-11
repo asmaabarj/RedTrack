@@ -16,4 +16,9 @@ export const selectClassesLoading = createSelector(
 export const selectClassesError = createSelector(
   selectClassState,
   state => state.error
+);
+
+export const selectArchivedClasses = createSelector(
+  selectClassState,
+  state => state.archivedClasses
 ); 

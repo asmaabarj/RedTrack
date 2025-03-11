@@ -7,7 +7,7 @@ import { NavbarComponent } from '../../../../components/navbar/navbar.component'
 import { CreateClasseComponent } from '../create-classe/create-classe.component';
 import { Class } from '../../../../models/class.model';
 import * as ClassActions from '../../../../store/class/class.actions';
-import { selectClasses, selectClassesLoading } from '../../../../store/class/class.selectors';
+import { selectClasses, selectClassesLoading, selectArchivedClasses } from '../../../../store/class/class.selectors';
 import { EditClasseComponent } from '../edit-classe/edit-classe.component';
 
 @Component({
@@ -24,30 +24,51 @@ import { EditClasseComponent } from '../edit-classe/edit-classe.component';
 })
 export class ClassesListComponent implements OnInit {
   classes$: Observable<Class[]>;
+  archivedClasses$: Observable<Class[]>;
   loading$: Observable<boolean>;
   searchTerm: string = '';
   selectedNiveau: string = '';
+  showArchived = false;
   showCreateModal = false;
   showEditModal = false;
   selectedClass: Class | null = null;
 
-  niveaux = ['1ère année', '2ème année'];
+  niveaux = ['Toutes les classes', '1ère année', '2ème année'];
 
   constructor(private store: Store) {
     this.loading$ = this.store.select(selectClassesLoading);
     this.classes$ = this.store.select(selectClasses).pipe(
       map(classes => this.filterClasses(classes))
     );
+    this.archivedClasses$ = this.store.select(selectArchivedClasses).pipe(
+      map(classes => this.filterClasses(classes))
+    );
   }
 
   ngOnInit() {
-    this.store.dispatch(ClassActions.loadClasses());
+    this.selectedNiveau = 'Toutes les classes';
+    this.loadClasses();
+  }
+
+  loadClasses() {
+    if (this.showArchived) {
+      this.store.dispatch(ClassActions.loadArchivedClasses());
+    } else {
+      this.store.dispatch(ClassActions.loadClasses());
+    }
+  }
+
+  toggleArchivedView(): void {
+    this.showArchived = !this.showArchived;
+    this.loadClasses();
   }
 
   private filterClasses(classes: Class[]): Class[] {
     return classes.filter(classe => {
-      const matchesSearch = classe.nom.toLowerCase().includes(this.searchTerm.toLowerCase());
-      const matchesNiveau = !this.selectedNiveau || classe.niveau === this.selectedNiveau;
+      const matchesSearch = this.searchTerm ? 
+        classe.nom.toLowerCase().includes(this.searchTerm.toLowerCase()) : true;
+      const matchesNiveau = this.selectedNiveau && this.selectedNiveau !== 'Toutes les classes' ? 
+        classe.niveau === this.selectedNiveau : true;
       return matchesSearch && matchesNiveau;
     });
   }
@@ -58,14 +79,24 @@ export class ClassesListComponent implements OnInit {
   }
 
   onNiveauChange(niveau: string): void {
-    this.selectedNiveau = niveau;
+    this.selectedNiveau = niveau === this.selectedNiveau ? 'Toutes les classes' : niveau;
     this.updateFilter();
   }
 
   private updateFilter(): void {
+    // Force update of both observables
     this.classes$ = this.store.select(selectClasses).pipe(
       map(classes => this.filterClasses(classes))
     );
+    this.archivedClasses$ = this.store.select(selectArchivedClasses).pipe(
+      map(classes => this.filterClasses(classes))
+    );
+  }
+
+  clearFilters(): void {
+    this.searchTerm = '';
+    this.selectedNiveau = 'Toutes les classes';
+    this.updateFilter();
   }
 
   openCreateClassModal(): void {
@@ -100,5 +131,11 @@ export class ClassesListComponent implements OnInit {
   onClassUpdated(): void {
     this.closeEditModal();
     this.store.dispatch(ClassActions.loadClasses());
+  }
+
+  onUnarchive(classe: Class): void {
+    if (confirm(`Êtes-vous sûr de vouloir désarchiver la classe ${classe.nom}?`)) {
+      this.store.dispatch(ClassActions.unarchiveClass({ id: classe.id }));
+    }
   }
 }

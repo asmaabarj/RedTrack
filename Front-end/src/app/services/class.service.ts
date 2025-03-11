@@ -12,6 +12,7 @@ export class ClassService {
 
   constructor(private http: HttpClient) {}
 
+  // Active Classes Methods
   getClasses(): Observable<ClassResponse> {
     return this.http.get<ClassResponse>(this.API_URL).pipe(
       catchError(error => {
@@ -30,26 +31,12 @@ export class ClassService {
     );
   }
 
-  createClass(request: CreateClassRequest): Observable<Class> {
-    return this.http.post<Class>(this.API_URL, request).pipe(
+  // Archive Management Methods
+  getArchivedClasses(): Observable<ClassResponse> {
+    return this.http.get<ClassResponse>(`${this.API_URL}/archived`).pipe(
       catchError(error => {
-        console.error('Error creating class:', error);
-        if (error.status === 409) {
-          return throwError(() => new Error('Une classe avec ce nom existe déjà'));
-        }
-        return throwError(() => new Error('Erreur lors de la création de la classe'));
-      })
-    );
-  }
-
-  updateClass(id: string, request: CreateClassRequest): Observable<Class> {
-    return this.http.put<Class>(`${this.API_URL}/${id}`, request).pipe(
-      catchError(error => {
-        console.error(`Error updating class ${id}:`, error);
-        if (error.status === 409) {
-          return throwError(() => new Error('Une classe avec ce nom existe déjà'));
-        }
-        return throwError(() => new Error('Erreur lors de la mise à jour de la classe'));
+        console.error('Error fetching archived classes:', error);
+        return throwError(() => new Error('Erreur lors du chargement des classes archivées'));
       })
     );
   }
@@ -72,11 +59,27 @@ export class ClassService {
     );
   }
 
-  getArchivedClasses(): Observable<ClassResponse> {
-    return this.http.get<ClassResponse>(`${this.API_URL}/archived`).pipe(
+  // CRUD Operations
+  createClass(request: CreateClassRequest): Observable<Class> {
+    return this.http.post<Class>(this.API_URL, request).pipe(
       catchError(error => {
-        console.error('Error fetching archived classes:', error);
-        return throwError(() => new Error('Erreur lors du chargement des classes archivées'));
+        console.error('Error creating class:', error);
+        if (error.status === 409) {
+          return throwError(() => new Error('Une classe avec ce nom existe déjà'));
+        }
+        return throwError(() => new Error('Erreur lors de la création de la classe'));
+      })
+    );
+  }
+
+  updateClass(id: string, request: CreateClassRequest): Observable<Class> {
+    return this.http.put<Class>(`${this.API_URL}/${id}`, request).pipe(
+      catchError(error => {
+        console.error(`Error updating class ${id}:`, error);
+        if (error.status === 409) {
+          return throwError(() => new Error('Une classe avec ce nom existe déjà'));
+        }
+        return throwError(() => new Error('Erreur lors de la mise à jour de la classe'));
       })
     );
   }

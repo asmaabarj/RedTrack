@@ -62,4 +62,33 @@ export const updateClassSuccess = createAction(
 export const updateClassFailure = createAction(
   '[Class] Update Class Failure',
   props<{ error: string }>()
+);
+
+export const loadArchivedClasses = createAction(
+  '[Class] Load Archived Classes'
+);
+
+export const loadArchivedClassesSuccess = createAction(
+  '[Class] Load Archived Classes Success',
+  props<{ response: ClassResponse }>()
+);
+
+export const loadArchivedClassesFailure = createAction(
+  '[Class] Load Archived Classes Failure',
+  props<{ error: string }>()
+);
+
+export const unarchiveClass = createAction(
+  '[Class] Unarchive Class',
+  props<{ id: string }>()
+);
+
+export const unarchiveClassSuccess = createAction(
+  '[Class] Unarchive Class Success',
+  props<{ id: string }>()
+);
+
+export const unarchiveClassFailure = createAction(
+  '[Class] Unarchive Class Failure',
+  props<{ error: string }>()
 ); 

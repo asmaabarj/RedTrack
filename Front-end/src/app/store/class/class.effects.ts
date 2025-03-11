@@ -74,6 +74,42 @@ export class ClassEffects {
     )
   );
 
+  loadArchivedClasses$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClassActions.loadArchivedClasses),
+      mergeMap(() =>
+        this.classService.getArchivedClasses().pipe(
+          map(response => ClassActions.loadArchivedClassesSuccess({ response })),
+          catchError(error => 
+            of(ClassActions.loadArchivedClassesFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  unarchiveClass$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClassActions.unarchiveClass),
+      mergeMap(({ id }) =>
+        this.classService.unarchiveClass(id).pipe(
+          map(() => ClassActions.unarchiveClassSuccess({ id })),
+          catchError(error => 
+            of(ClassActions.unarchiveClassFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  // Reload appropriate list after unarchive
+  unarchiveClassSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClassActions.unarchiveClassSuccess),
+      map(() => ClassActions.loadArchivedClasses())
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private classService: ClassService
