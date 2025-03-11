@@ -8,11 +8,12 @@ import * as FormateurActions from '../../../../store/formateur/formateur.actions
 import { selectFormateurs, selectFormateursLoading } from '../../../../store/formateur/formateur.selectors';
 import { FilterUsersPipe } from '../../../../pipes/filter-users.pipe';
 import { CreateUserComponent } from '../../create-user/create-user.component';
+import { UpdateUserComponent } from '../../update-user/update-user.component';
 
 @Component({
   selector: 'app-formateurs-list',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, FilterUsersPipe, CreateUserComponent],
+  imports: [CommonModule, NavbarComponent, FilterUsersPipe, CreateUserComponent, UpdateUserComponent],
   templateUrl: './formateurs-list.component.html'
 })
 export class FormateursListComponent implements OnInit {
@@ -20,6 +21,8 @@ export class FormateursListComponent implements OnInit {
   loading$: Observable<boolean>;
   searchTerm: string = '';
   showCreateModal = false;
+  showUpdateModal = false;
+  selectedUser: User | null = null;
 
   constructor(private store: Store) {
     this.formateurs$ = this.store.select(selectFormateurs);
@@ -68,5 +71,15 @@ export class FormateursListComponent implements OnInit {
 
   onUserCreated(): void {
     this.loadFormateurs();
+  }
+
+  onEdit(formateur: User): void {
+    this.selectedUser = formateur;
+    this.showUpdateModal = true;
+  }
+
+  closeUpdateModal(): void {
+    this.showUpdateModal = false;
+    this.selectedUser = null;
   }
 }

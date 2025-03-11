@@ -74,7 +74,9 @@
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
               <div class="flex gap-3">
-                <button class="text-indigo-600 hover:text-indigo-900">
+                <button 
+                  (click)="onEdit(formateur)"
+                  class="text-indigo-600 hover:text-indigo-900">
                   <i class="fas fa-edit"></i>
                 </button>
                 <button 
@@ -107,3 +109,11 @@
   (closeModal)="closeCreateModal()"
   (userCreated)="onUserCreated()"
 ></app-create-user>
+
+<!-- Add update modal at the end of the template -->
+<app-update-user
+  *ngIf="showUpdateModal && selectedUser"
+  [user]="selectedUser"
+  [userType]="'FORMATEUR'"
+  (closeModal)="closeUpdateModal()"
+></app-update-user>

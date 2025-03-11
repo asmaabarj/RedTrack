@@ -6,6 +6,7 @@ import { Class } from '../../../models/class.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as ApprenantActions from '../../../store/apprenant/apprenant.actions';
+import * as FormateurActions from '../../../store/formateur/formateur.actions';
 import * as ClassActions from '../../../store/class/class.actions';
 import { selectClasses } from '../../../store/class/class.selectors';
 
@@ -17,6 +18,7 @@ import { selectClasses } from '../../../store/class/class.selectors';
 })
 export class UpdateUserComponent implements OnInit {
   @Input() user!: User;
+  @Input() userType: 'FORMATEUR' | 'APPRENANT' = 'APPRENANT';
   @Output() closeModal = new EventEmitter<void>();
   
   updateForm: FormGroup;
@@ -55,11 +57,19 @@ export class UpdateUserComponent implements OnInit {
       const { classeId, password, ...userData } = this.updateForm.value;
       const request = password ? { ...userData, password } : userData;
       
-      this.store.dispatch(ApprenantActions.updateApprenant({
-        id: this.user.id,
-        request,
-        newClassId: classeId
-      }));
+      if (this.userType === 'FORMATEUR') {
+        this.store.dispatch(FormateurActions.updateFormateur({
+          id: this.user.id,
+          request,
+          newClassId: classeId
+        }));
+      } else {
+        this.store.dispatch(ApprenantActions.updateApprenant({
+          id: this.user.id,
+          request,
+          newClassId: classeId
+        }));
+      }
       this.closeModal.emit();
     }
   }
