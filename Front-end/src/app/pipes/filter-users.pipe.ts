@@ -6,13 +6,25 @@ import { User } from '../models/user.model';
   standalone: true
 })
 export class FilterUsersPipe implements PipeTransform {
-  transform(users: User[] | null, searchTerm: string): User[] {
-    if (!users || !searchTerm) return users || [];
+  transform(users: User[] | null, searchTerm: string, classId?: string): User[] {
+    if (!users) return [];
     
-    const searchLower = searchTerm.toLowerCase();
-    return users.filter(user => 
-      user.nom.toLowerCase().includes(searchLower) ||
-      user.prenom.toLowerCase().includes(searchLower)
-    );
+    let filtered = users;
+
+    if (searchTerm) {
+      const searchLower = searchTerm.toLowerCase();
+      filtered = filtered.filter(user => 
+        user.nom.toLowerCase().includes(searchLower) ||
+        user.prenom.toLowerCase().includes(searchLower)
+      );
+    }
+
+    if (classId) {
+      filtered = filtered.filter(user => 
+        user.classes?.some(classe => classe.id === classId)
+      );
+    }
+
+    return filtered;
   }
 }
