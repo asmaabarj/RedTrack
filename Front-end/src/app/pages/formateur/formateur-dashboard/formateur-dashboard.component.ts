@@ -13,4 +13,4 @@ import { NavbarComponent } from '../../../components/navbar/navbar.component';
     </div>
   `
 })
-export class FormatteurDashboardComponent {}
+export class FormateurDashboardComponent {}

@@ -10,6 +10,6 @@
 
 // export enum Role {
 //     ADMIN = 'ADMIN',
-//     FORMATTEUR = 'FORMATTEUR',
+//     FORMATEUR = 'FORMATEUR',
 //     APPRENANT = 'APPRENANT'
 // }

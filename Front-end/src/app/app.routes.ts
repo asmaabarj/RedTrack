@@ -18,7 +18,7 @@ export const routes: Routes = [
   },
   {
     path: 'formateur',
-    loadComponent: () => import('./pages/formatteur/formatteur-dashboard/formatteur-dashboard.component').then(m => m.FormatteurDashboardComponent),
+    loadComponent: () => import('./pages/formateur/formateur-dashboard/formateur-dashboard.component').then(m => m.FormateurDashboardComponent),
     canActivate: [() => authGuard(['FORMATEUR'])]
   },
   {
