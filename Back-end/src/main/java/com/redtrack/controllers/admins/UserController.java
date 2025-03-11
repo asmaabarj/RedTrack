@@ -102,4 +102,13 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> getClassUsers(@PathVariable String classId) {
         return ResponseEntity.ok(userService.getClassUsers(classId));
     }
+
+    @PutMapping("/users/{userId}/classes/{oldClassId}/{newClassId}")
+    public ResponseEntity<String> updateUserClass(
+            @PathVariable String userId,
+            @PathVariable String oldClassId,
+            @PathVariable String newClassId) {
+        userService.updateUserClass(userId, oldClassId, newClassId);
+        return ResponseEntity.ok("Classe de l'utilisateur mise à jour avec succès");
+    }
 }

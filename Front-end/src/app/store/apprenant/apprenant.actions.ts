@@ -48,7 +48,7 @@ export const createApprenantFailure = createAction(
 
 export const updateApprenant = createAction(
   '[Apprenant] Update Apprenant',
-  props<{ id: string, request: UpdateUserRequest }>()
+  props<{ id: string, request: UpdateUserRequest, newClassId: string }>()
 );
 
 export const updateApprenantSuccess = createAction(

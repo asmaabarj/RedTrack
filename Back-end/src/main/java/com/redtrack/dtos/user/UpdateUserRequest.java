@@ -19,4 +19,6 @@ public class UpdateUserRequest {
     @NotBlank(message = "L'email est obligatoire")
     @Email(message = "Format d'email invalide")
     private String email;
+    
+    private String password;
 } 

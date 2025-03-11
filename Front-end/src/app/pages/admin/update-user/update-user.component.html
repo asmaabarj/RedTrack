@@ -50,6 +50,45 @@
         >
       </div>
 
+      <!-- Nouveau mot de passe (optionnel) -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          Nouveau mot de passe (optionnel)
+        </label>
+        <div class="relative">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="Laisser vide pour ne pas modifier"
+          >
+          <button
+            type="button"
+            (click)="togglePasswordVisibility()"
+            class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
+          >
+            <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Classe -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          Classe
+        </label>
+        <select
+          formControlName="classeId"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          [class.border-red-500]="updateForm.get('classeId')?.invalid && updateForm.get('classeId')?.touched"
+        >
+          <option value="">Sélectionner une classe</option>
+          <option *ngFor="let class of classes$ | async" [value]="class.id">
+            {{ class.nom }}
+          </option>
+        </select>
+      </div>
+
       <!-- Submit Button -->
       <div class="flex justify-end gap-3">
         <button

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError, firstValueFrom } from 'rxjs';
+import { Observable, throwError, firstValueFrom, of } from 'rxjs';
 import { catchError, mergeMap, tap } from 'rxjs/operators';
 import { UserResponse, User, UpdateUserRequest } from '../models/user.model';
 import { ClassDTO } from '../models/class.model';
@@ -68,5 +68,19 @@ export class UserService {
 
   updateUser(userId: string, request: UpdateUserRequest): Observable<User> {
     return this.http.put<User>(`${this.API_URL}/users/${userId}`, request);
+  }
+
+  updateUserClass(userId: string, classId: string): Observable<void> {
+    // Get current classes first
+    return this.http.get<any>(`${this.API_URL}/users/${userId}/classes`).pipe(
+      mergeMap(classes => {
+        if (classes && classes.length > 0) {
+          // Remove from old class and add to new class in sequence
+          return this.http.put<void>(`${this.API_URL}/users/${userId}/classes/${classes[0].id}/${classId}`, {});
+        }
+        // If no current class, just add to new class
+        return this.http.post<void>(`${this.API_URL}/users/${userId}/classes/${classId}`, {});
+      })
+    );
   }
 } 

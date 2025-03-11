@@ -44,4 +44,5 @@ public interface UserService {
     List<UserDTO> getClassUsers(String classId);
 
     Page<UserDTO> getFormateurArchivedApprenants(Pageable pageable);
+    void updateUserClass(String userId, String oldClassId, String newClassId);
 } 

@@ -64,9 +64,13 @@ export class ApprenantEffects {
   updateApprenant$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ApprenantActions.updateApprenant),
-      mergeMap(({ id, request }) =>
+      mergeMap(({ id, request, newClassId }) =>
         this.userService.updateUser(id, request).pipe(
-          map(user => ApprenantActions.updateApprenantSuccess({ user })),
+          mergeMap(user => 
+            this.userService.updateUserClass(id, newClassId).pipe(
+              map(() => ApprenantActions.updateApprenantSuccess({ user }))
+            )
+          ),
           catchError(error => 
             of(ApprenantActions.updateApprenantFailure({ error: error.message }))
           )

@@ -133,6 +133,11 @@ public class UserServiceImpl implements UserService {
         user.setNom(request.getNom());
         user.setPrenom(request.getPrenom());
         user.setEmail(request.getEmail());
+        
+        // Update password only if provided
+        if (request.getPassword() != null && !request.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
 
         User updatedUser = userRepository.save(user);
         return userMapper.userToUserDTO(updatedUser);
@@ -393,5 +398,29 @@ public class UserServiceImpl implements UserService {
         }
 
         return archivedApprenants.map(userMapper::userToUserDTO);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void updateUserClass(String userId, String oldClassId, String newClassId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserException("Utilisateur non trouvé"));
+        Class oldClass = classRepository.findById(oldClassId)
+                .orElseThrow(() -> new ClassException("Ancienne classe non trouvée"));
+        Class newClass = classRepository.findById(newClassId)
+                .orElseThrow(() -> new ClassException("Nouvelle classe non trouvée"));
+
+        // Remove from old class
+        user.getClasses().remove(oldClass);
+        oldClass.getUsers().remove(user);
+        
+        // Add to new class
+        user.getClasses().add(newClass);
+        newClass.getUsers().add(user);
+
+        // Save all changes in a single transaction
+        userRepository.save(user);
+        classRepository.save(oldClass);
+        classRepository.save(newClass);
     }
 }
