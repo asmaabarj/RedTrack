@@ -59,4 +59,32 @@ export const updateFormateurSuccess = createAction(
 export const updateFormateurFailure = createAction(
   '[Formateur] Update Formateur Failure',
   props<{ error: string }>()
+);
+
+export const loadArchivedFormateurs = createAction(
+  '[Formateur] Load Archived Formateurs'
+);
+
+export const loadArchivedFormateursSuccess = createAction(
+  '[Formateur] Load Archived Formateurs Success',
+  props<{ formateurs: User[] }>()
+);
+
+export const loadArchivedFormateursFailure = createAction(
+  '[Formateur] Load Archived Formateurs Failure',
+  props<{ error: string }>()
+);
+
+export const unarchiveFormateur = createAction(
+  '[Formateur] Unarchive Formateur',
+  props<{ id: string }>()
+);
+
+export const unarchiveFormateurSuccess = createAction(
+  '[Formateur] Unarchive Formateur Success'
+);
+
+export const unarchiveFormateurFailure = createAction(
+  '[Formateur] Unarchive Formateur Failure',
+  props<{ error: string }>()
 ); 

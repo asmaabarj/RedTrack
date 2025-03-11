@@ -36,6 +36,23 @@ export const apprenantReducer = createReducer(
   })),
   on(ApprenantActions.archiveApprenantSuccess, (state, { id }) => ({
     ...state,
-    apprenants: state.apprenants.filter(apprenant => apprenant.id !== id)
+    apprenants: state.apprenants.map(apprenant =>
+      apprenant.id === id ? { ...apprenant, active: false } : apprenant
+    )
+  })),
+  on(ApprenantActions.loadArchivedApprenants, state => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  on(ApprenantActions.loadArchivedApprenantsSuccess, (state, { apprenants }) => ({
+    ...state,
+    apprenants,
+    loading: false
+  })),
+  on(ApprenantActions.loadArchivedApprenantsFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false
   }))
 ); 

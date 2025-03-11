@@ -2,8 +2,19 @@
 <div class="container mx-auto p-4">
   <div class="mb-6">
     <div class="flex justify-between items-center mb-4">
-      <h1 class="text-2xl font-bold">Liste des Apprenants</h1>
+      <div class="flex items-center gap-4">
+        <h1 class="text-2xl font-bold">Liste des Apprenants</h1>
+        <button 
+          (click)="toggleArchived()"
+          class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 flex items-center gap-2"
+          [class.bg-gray-100]="showArchived"
+        >
+          <i class="fas fa-archive"></i>
+          {{ showArchived ? 'Apprenants actifs' : 'Apprenants archivés' }}
+        </button>
+      </div>
       <button 
+        *ngIf="!showArchived"
         (click)="openCreateModal()"
         class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center gap-2"
       >
@@ -61,7 +72,8 @@
             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Email
             </th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <!-- Only show Classes column for active apprenants -->
+            <th *ngIf="!showArchived" scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Classes
             </th>
             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -82,7 +94,8 @@
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm text-gray-500">{{ apprenant.email }}</div>
             </td>
-            <td class="px-6 py-4">
+            <!-- Only show Classes cell for active apprenants -->
+            <td *ngIf="!showArchived" class="px-6 py-4">
               <div class="text-sm text-gray-500">
                 <div *ngFor="let class of apprenant.classes" class="mb-1">
                   <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
@@ -104,16 +117,30 @@
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
               <div class="flex gap-3">
+                <!-- Show edit and archive buttons only for active apprenants -->
+                <ng-container *ngIf="!showArchived">
+                  <button 
+                    (click)="onEdit(apprenant)"
+                    class="text-indigo-600 hover:text-indigo-900">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button 
+                    (click)="onArchive(apprenant)"
+                    class="text-red-600 hover:text-red-900">
+                    <i class="fas fa-archive"></i>
+                  </button>
+                </ng-container>
+
+                <!-- Show unarchive button only for archived apprenants -->
                 <button 
-                  (click)="onEdit(apprenant)"
-                  class="text-indigo-600 hover:text-indigo-900">
-                  <i class="fas fa-edit"></i>
+                  *ngIf="showArchived"
+                  (click)="onUnarchive(apprenant)"
+                  class="text-green-600 hover:text-green-900"
+                  title="Désarchiver">
+                  <i class="fas fa-box-open"></i>
                 </button>
-                <button 
-                  (click)="onArchive(apprenant)"
-                  class="text-red-600 hover:text-red-900">
-                  <i class="fas fa-archive"></i>
-                </button>
+
+                <!-- View button always visible -->
                 <button class="text-blue-600 hover:text-blue-900">
                   <i class="fas fa-eye"></i>
                 </button>

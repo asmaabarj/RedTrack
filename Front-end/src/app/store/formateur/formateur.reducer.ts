@@ -37,5 +37,20 @@ export const formateurReducer = createReducer(
   on(FormateurActions.archiveFormateurSuccess, (state, { id }) => ({
     ...state,
     formateurs: state.formateurs.filter(formateur => formateur.id !== id)
+  })),
+  on(FormateurActions.loadArchivedFormateurs, state => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  on(FormateurActions.loadArchivedFormateursSuccess, (state, { formateurs }) => ({
+    ...state,
+    formateurs,
+    loading: false
+  })),
+  on(FormateurActions.loadArchivedFormateursFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false
   }))
 ); 

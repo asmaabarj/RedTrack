@@ -59,4 +59,32 @@ export const updateApprenantSuccess = createAction(
 export const updateApprenantFailure = createAction(
   '[Apprenant] Update Apprenant Failure',
   props<{ error: string }>()
+);
+
+export const loadArchivedApprenants = createAction(
+  '[Apprenant] Load Archived Apprenants'
+);
+
+export const loadArchivedApprenantsSuccess = createAction(
+  '[Apprenant] Load Archived Apprenants Success',
+  props<{ apprenants: User[] }>()
+);
+
+export const loadArchivedApprenantsFailure = createAction(
+  '[Apprenant] Load Archived Apprenants Failure',
+  props<{ error: string }>()
+);
+
+export const unarchiveApprenant = createAction(
+  '[Apprenant] Unarchive Apprenant',
+  props<{ id: string }>()
+);
+
+export const unarchiveApprenantSuccess = createAction(
+  '[Apprenant] Unarchive Apprenant Success'
+);
+
+export const unarchiveApprenantFailure = createAction(
+  '[Apprenant] Unarchive Apprenant Failure',
+  props<{ error: string }>()
 ); 

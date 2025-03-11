@@ -28,6 +28,7 @@ export class ApprenantsListComponent implements OnInit {
   showCreateModal = false;
   showUpdateModal = false;
   selectedUser: User | null = null;
+  showArchived = false;
 
   constructor(private store: Store) {
     this.apprenants$ = this.store.select(selectApprenants);
@@ -41,7 +42,11 @@ export class ApprenantsListComponent implements OnInit {
   }
 
   loadApprenants(): void {
-    this.store.dispatch(ApprenantActions.loadApprenants());
+    if (this.showArchived) {
+      this.store.dispatch(ApprenantActions.loadArchivedApprenants());
+    } else {
+      this.store.dispatch(ApprenantActions.loadApprenants());
+    }
   }
 
   onSearch(event: Event): void {
@@ -102,5 +107,16 @@ export class ApprenantsListComponent implements OnInit {
   closeUpdateModal(): void {
     this.showUpdateModal = false;
     this.selectedUser = null;
+  }
+
+  toggleArchived(): void {
+    this.showArchived = !this.showArchived;
+    this.loadApprenants();
+  }
+
+  onUnarchive(apprenant: User): void {
+    if (confirm(`Êtes-vous sûr de vouloir désarchiver l'apprenant ${apprenant.prenom} ${apprenant.nom} ?`)) {
+      this.store.dispatch(ApprenantActions.unarchiveApprenant({ id: apprenant.id }));
+    }
   }
 }

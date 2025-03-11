@@ -81,6 +81,41 @@ export class FormateurEffects {
     )
   );
 
+  loadArchivedFormateurs$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FormateurActions.loadArchivedFormateurs),
+      mergeMap(() =>
+        this.userService.getArchivedFormateurs().pipe(
+          map(formateurs => FormateurActions.loadArchivedFormateursSuccess({ formateurs })),
+          catchError(error => 
+            of(FormateurActions.loadArchivedFormateursFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  unarchiveFormateur$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FormateurActions.unarchiveFormateur),
+      mergeMap(({ id }) =>
+        this.userService.unarchiveUser(id).pipe(
+          map(() => FormateurActions.unarchiveFormateurSuccess()),
+          catchError(error => 
+            of(FormateurActions.unarchiveFormateurFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  unarchiveFormateurSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FormateurActions.unarchiveFormateurSuccess),
+      map(() => FormateurActions.loadArchivedFormateurs())
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private userService: UserService

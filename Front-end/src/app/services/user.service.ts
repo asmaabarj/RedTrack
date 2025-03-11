@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError, firstValueFrom, of } from 'rxjs';
-import { catchError, mergeMap, tap } from 'rxjs/operators';
+import { catchError, mergeMap, tap, map } from 'rxjs/operators';
 import { UserResponse, User, UpdateUserRequest } from '../models/user.model';
 import { ClassDTO } from '../models/class.model';
 import { RegisterRequest } from '../models/user.model';
@@ -75,12 +75,26 @@ export class UserService {
     return this.http.get<any>(`${this.API_URL}/users/${userId}/classes`).pipe(
       mergeMap(classes => {
         if (classes && classes.length > 0) {
-          // Remove from old class and add to new class in sequence
           return this.http.put<void>(`${this.API_URL}/users/${userId}/classes/${classes[0].id}/${classId}`, {});
         }
-        // If no current class, just add to new class
         return this.http.post<void>(`${this.API_URL}/users/${userId}/classes/${classId}`, {});
       })
+    );
+  }
+
+  getArchivedApprenants(): Observable<User[]> {
+    return this.http.get<any>(`${this.API_URL}/apprenants/archives`).pipe(
+      map(response => response.content)
+    );
+  }
+
+  unarchiveUser(userId: string): Observable<void> {
+    return this.http.put<void>(`${this.API_URL}/users/${userId}/unarchive`, {});
+  }
+
+  getArchivedFormateurs(): Observable<User[]> {
+    return this.http.get<any>(`${this.API_URL}/formateurs/archives`).pipe(
+      map(response => response.content)
     );
   }
 } 

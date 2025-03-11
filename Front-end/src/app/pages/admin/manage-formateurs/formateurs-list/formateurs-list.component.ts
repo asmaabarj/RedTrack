@@ -23,6 +23,7 @@ export class FormateursListComponent implements OnInit {
   showCreateModal = false;
   showUpdateModal = false;
   selectedUser: User | null = null;
+  showArchived = false;
 
   constructor(private store: Store) {
     this.formateurs$ = this.store.select(selectFormateurs);
@@ -34,7 +35,16 @@ export class FormateursListComponent implements OnInit {
   }
 
   loadFormateurs(): void {
-    this.store.dispatch(FormateurActions.loadFormateurs());
+    if (this.showArchived) {
+      this.store.dispatch(FormateurActions.loadArchivedFormateurs());
+    } else {
+      this.store.dispatch(FormateurActions.loadFormateurs());
+    }
+  }
+
+  toggleArchived(): void {
+    this.showArchived = !this.showArchived;
+    this.loadFormateurs();
   }
 
   onSearch(event: Event): void {
@@ -58,6 +68,12 @@ export class FormateursListComponent implements OnInit {
   onArchive(formateur: User): void {
     if (confirm(`Êtes-vous sûr de vouloir archiver ${formateur.prenom} ${formateur.nom} ?`)) {
       this.store.dispatch(FormateurActions.archiveFormateur({ id: formateur.id }));
+    }
+  }
+
+  onUnarchive(formateur: User): void {
+    if (confirm(`Êtes-vous sûr de vouloir désarchiver ${formateur.prenom} ${formateur.nom} ?`)) {
+      this.store.dispatch(FormateurActions.unarchiveFormateur({ id: formateur.id }));
     }
   }
 

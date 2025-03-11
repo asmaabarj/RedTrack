@@ -85,4 +85,43 @@ export class ApprenantEffects {
       map(() => ApprenantActions.loadApprenants())
     )
   );
+
+  loadArchivedApprenants$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ApprenantActions.loadArchivedApprenants),
+      mergeMap(() =>
+        this.userService.getArchivedApprenants().pipe(
+          map(apprenants => {
+            console.log('Archived apprenants loaded:', apprenants);
+            return ApprenantActions.loadArchivedApprenantsSuccess({ apprenants });
+          }),
+          catchError(error => {
+            console.error('Error loading archived apprenants:', error);
+            return of(ApprenantActions.loadArchivedApprenantsFailure({ error: error.message }));
+          })
+        )
+      )
+    )
+  );
+
+  unarchiveApprenant$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ApprenantActions.unarchiveApprenant),
+      mergeMap(({ id }) =>
+        this.userService.unarchiveUser(id).pipe(
+          map(() => ApprenantActions.unarchiveApprenantSuccess()),
+          catchError(error => 
+            of(ApprenantActions.unarchiveApprenantFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  unarchiveApprenantSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ApprenantActions.unarchiveApprenantSuccess),
+      map(() => ApprenantActions.loadArchivedApprenants())
+    )
+  );
 } 
