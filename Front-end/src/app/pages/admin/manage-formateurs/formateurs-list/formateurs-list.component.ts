@@ -6,16 +6,18 @@ import { NavbarComponent } from '../../../../components/navbar/navbar.component'
 import { User } from '../../../../models/user.model';
 import * as FormateurActions from '../../../../store/formateur/formateur.actions';
 import { selectFormateurs, selectFormateursLoading } from '../../../../store/formateur/formateur.selectors';
+import { FilterUsersPipe } from '../../../../pipes/filter-users.pipe';
 
 @Component({
   selector: 'app-formateurs-list',
   standalone: true,
-  imports: [CommonModule, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, FilterUsersPipe],
   templateUrl: './formateurs-list.component.html'
 })
 export class FormateursListComponent implements OnInit {
   formateurs$: Observable<User[]>;
   loading$: Observable<boolean>;
+  searchTerm: string = '';
 
   constructor(private store: Store) {
     this.formateurs$ = this.store.select(selectFormateurs);
@@ -28,6 +30,24 @@ export class FormateursListComponent implements OnInit {
 
   loadFormateurs(): void {
     this.store.dispatch(FormateurActions.loadFormateurs());
+  }
+
+  onSearch(event: Event): void {
+    this.searchTerm = (event.target as HTMLInputElement).value;
+  }
+
+  clearSearch(): void {
+    this.searchTerm = '';
+  }
+
+  filterFormateurs(formateurs: User[]): User[] {
+    if (!this.searchTerm) return formateurs;
+    
+    const searchLower = this.searchTerm.toLowerCase();
+    return formateurs.filter(formateur => 
+      formateur.nom.toLowerCase().includes(searchLower) ||
+      formateur.prenom.toLowerCase().includes(searchLower)
+    );
   }
 
   onArchive(formateur: User): void {

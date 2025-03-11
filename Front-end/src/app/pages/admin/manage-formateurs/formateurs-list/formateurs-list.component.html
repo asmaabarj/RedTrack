@@ -11,6 +11,24 @@
       </button>
     </div>
 
+    <!-- Search Bar -->
+    <div class="relative w-full md:w-96 mb-4">
+      <input
+        type="text"
+        [value]="searchTerm"
+        (input)="onSearch($event)"
+        placeholder="Rechercher un formateur..."
+        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      >
+      <button 
+        *ngIf="searchTerm"
+        (click)="clearSearch()"
+        class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
     <!-- Loading Spinner -->
     <div *ngIf="loading$ | async" class="flex justify-center my-8">
       <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
@@ -36,7 +54,7 @@
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-          <tr *ngFor="let formateur of formateurs$ | async" class="hover:bg-gray-50">
+          <tr *ngFor="let formateur of formateurs$ | async | filterUsers:searchTerm" class="hover:bg-gray-50">
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm font-medium text-gray-900">
                 {{ formateur.nom }} {{ formateur.prenom }}
