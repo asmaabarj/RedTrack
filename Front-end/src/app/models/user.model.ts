@@ -1,3 +1,5 @@
+import { Class } from './class.model';
+
 export interface User {
   id: string;
   email: string;
@@ -5,7 +7,7 @@ export interface User {
   prenom: string;
   role: 'ADMIN' | 'FORMATEUR' | 'APPRENANT';
   active: boolean;
-  classesIds: string[];
+  classes?: Class[];
 }
 
 export interface UserResponse {

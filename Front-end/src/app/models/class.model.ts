@@ -19,3 +19,11 @@ export interface CreateClassRequest {
   niveau: string;
   annee: string;
 }
+
+export interface ClassDTO {
+  id: string;
+  nom: string;
+  niveau: string;
+  annee: string;
+  active: boolean;
+}
