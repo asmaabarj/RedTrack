@@ -8,6 +8,7 @@ import { CreateClasseComponent } from '../create-classe/create-classe.component'
 import { Class } from '../../../../models/class.model';
 import * as ClassActions from '../../../../store/class/class.actions';
 import { selectClasses, selectClassesLoading } from '../../../../store/class/class.selectors';
+import { EditClasseComponent } from '../edit-classe/edit-classe.component';
 
 @Component({
   selector: 'app-classes-list',
@@ -16,7 +17,8 @@ import { selectClasses, selectClassesLoading } from '../../../../store/class/cla
     CommonModule, 
     NavbarComponent, 
     FormsModule, 
-    CreateClasseComponent
+    CreateClasseComponent,
+    EditClasseComponent
   ],
   templateUrl: './classes-list.component.html'
 })
@@ -26,6 +28,8 @@ export class ClassesListComponent implements OnInit {
   searchTerm: string = '';
   selectedNiveau: string = '';
   showCreateModal = false;
+  showEditModal = false;
+  selectedClass: Class | null = null;
 
   niveaux = ['1ère année', '2ème année'];
 
@@ -74,6 +78,27 @@ export class ClassesListComponent implements OnInit {
 
   onClassCreated(): void {
     this.closeCreateClassModal();
+    this.store.dispatch(ClassActions.loadClasses());
+  }
+
+  onArchive(classe: Class): void {
+    if (confirm(`Êtes-vous sûr de vouloir archiver la classe ${classe.nom}?`)) {
+      this.store.dispatch(ClassActions.archiveClass({ id: classe.id }));
+    }
+  }
+
+  onEdit(classe: Class): void {
+    this.selectedClass = classe;
+    this.showEditModal = true;
+  }
+
+  closeEditModal(): void {
+    this.showEditModal = false;
+    this.selectedClass = null;
+  }
+
+  onClassUpdated(): void {
+    this.closeEditModal();
     this.store.dispatch(ClassActions.loadClasses());
   }
 }

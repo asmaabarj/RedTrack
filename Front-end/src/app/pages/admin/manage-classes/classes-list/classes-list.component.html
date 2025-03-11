@@ -58,7 +58,19 @@
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
     <div *ngFor="let class of classes$ | async" 
          class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow">
-      <h2 class="text-xl font-semibold">{{ class.nom }}</h2>
+      <div class="flex justify-between items-start mb-2">
+        <h2 class="text-xl font-semibold">{{ class.nom }}</h2>
+        <div class="flex gap-2">
+          <button (click)="onEdit(class)" 
+                  class="text-blue-600 hover:text-blue-800">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button (click)="onArchive(class)" 
+                  class="text-red-600 hover:text-red-800">
+            <i class="fas fa-archive"></i>
+          </button>
+        </div>
+      </div>
       <p class="text-gray-600">Niveau: {{ class.niveau }}</p>
       <p class="text-gray-600">Année: {{ class.annee }}</p>
       <p class="text-gray-600">
@@ -82,3 +94,11 @@
   (closeModal)="closeCreateClassModal()"
   (classCreated)="onClassCreated()"
 ></app-create-classe>
+
+<!-- Edit Class Modal -->
+<app-edit-classe
+  *ngIf="showEditModal && selectedClass"
+  [classe]="selectedClass"
+  (closeModal)="closeEditModal()"
+  (classUpdated)="onClassUpdated()"
+></app-edit-classe>

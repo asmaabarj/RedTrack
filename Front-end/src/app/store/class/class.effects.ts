@@ -35,6 +35,45 @@ export class ClassEffects {
     )
   );
 
+  archiveClass$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClassActions.archiveClass),
+      mergeMap(({ id }) =>
+        this.classService.archiveClass(id).pipe(
+          map(() => {
+            // Reload classes after successful archive
+            return ClassActions.loadClasses();
+          }),
+          catchError(error => 
+            of(ClassActions.archiveClassFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  updateClass$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClassActions.updateClass),
+      mergeMap(({ id, request }) =>
+        this.classService.updateClass(id, request).pipe(
+          map(updatedClass => ClassActions.updateClassSuccess({ class: updatedClass })),
+          catchError(error => 
+            of(ClassActions.updateClassFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  // Reload classes after successful update
+  updateClassSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClassActions.updateClassSuccess),
+      map(() => ClassActions.loadClasses())
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private classService: ClassService

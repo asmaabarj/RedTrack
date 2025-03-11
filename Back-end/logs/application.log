@@ -6567,3 +6567,446 @@ io.jsonwebtoken.ExpiredJwtException: JWT expired at 2025-03-11T10:55:40Z. Curren
 2025-03-11 11:03:29 [RMI TCP Connection(2)-192.168.8.249] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
 2025-03-11 11:03:29 [RMI TCP Connection(2)-192.168.8.249] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 2025-03-11 11:03:29 [RMI TCP Connection(2)-192.168.8.249] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-03-11 11:07:42 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/auth/login
+2025-03-11 11:07:42 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:07:42 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:07:42 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing POST /api/auth/login
+2025-03-11 11:07:42 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:07:42 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-03-11 11:07:42 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [POST /api/auth/login] with attributes [permitAll]
+2025-03-11 11:07:42 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured POST /api/auth/login
+2025-03-11 11:07:42 [http-nio-8080-exec-2] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:07:42 [http-nio-8080-exec-2] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:07:43 [http-nio-8080-exec-2] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:07:43 [http-nio-8080-exec-2] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:07:43 [http-nio-8080-exec-2] DEBUG o.s.s.a.d.DaoAuthenticationProvider - Authenticated user
+2025-03-11 11:07:43 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:07:43 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/auth/profile
+2025-03-11 11:07:43 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:07:43 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:07:43 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:07:43 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:07:43 [http-nio-8080-exec-6] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:07:43 [http-nio-8080-exec-6] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:07:43 [http-nio-8080-exec-6] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:07:43 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:07:43 [http-nio-8080-exec-6] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:07:43 [http-nio-8080-exec-6] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:07:43 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:07:44 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/admin/classes
+2025-03-11 11:07:44 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:07:44 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:07:44 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:07:44 [http-nio-8080-exec-5] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:07:44 [http-nio-8080-exec-5] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:07:44 [http-nio-8080-exec-4] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:07:44 [http-nio-8080-exec-4] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:07:44 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:07:44 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:07:44 [http-nio-8080-exec-4] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:07:44 [http-nio-8080-exec-4] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:07:44 [http-nio-8080-exec-5] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/admin/classes] with attributes [hasAuthority('ADMIN')]
+2025-03-11 11:07:44 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/admin/classes
+2025-03-11 11:07:44 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:07:44 [http-nio-8080-exec-5] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.redtrack.controllers.admins.ClassController.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.controllers.admins.ClassController] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:07:44 [http-nio-8080-exec-5] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.data.domain.Page com.redtrack.services.impl.ClassServiceImpl.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.services.impl.ClassServiceImpl] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:07:44 [http-nio-8080-exec-5] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "active" : true}, Fields: {}, Sort: {}
+2025-03-11 11:07:44 [http-nio-8080-exec-5] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "active" : true} fields: Document{{}} for class: class com.redtrack.model.entities.Class in collection: classes
+2025-03-11 11:07:44 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:07:48 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing POST /api/auth/logout
+2025-03-11 11:07:48 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:07:48 [http-nio-8080-exec-7] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:07:48 [http-nio-8080-exec-7] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:07:48 [http-nio-8080-exec-7] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [POST /api/auth/logout] with attributes [permitAll]
+2025-03-11 11:07:48 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured POST /api/auth/logout
+2025-03-11 11:07:48 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:07:58 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing POST /api/auth/login
+2025-03-11 11:07:58 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:07:58 [http-nio-8080-exec-8] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-03-11 11:07:58 [http-nio-8080-exec-8] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [POST /api/auth/login] with attributes [permitAll]
+2025-03-11 11:07:58 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured POST /api/auth/login
+2025-03-11 11:07:58 [http-nio-8080-exec-8] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "salima@test.com"}, Fields: {}, Sort: {}
+2025-03-11 11:07:58 [http-nio-8080-exec-8] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "salima@test.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:07:59 [http-nio-8080-exec-8] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "salima@test.com"}, Fields: {}, Sort: {}
+2025-03-11 11:07:59 [http-nio-8080-exec-8] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "salima@test.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:07:59 [http-nio-8080-exec-8] DEBUG o.s.s.a.d.DaoAuthenticationProvider - Authenticated user
+2025-03-11 11:07:59 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:07:59 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:07:59 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:07:59 [http-nio-8080-exec-10] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "salima@test.com"}, Fields: {}, Sort: {}
+2025-03-11 11:07:59 [http-nio-8080-exec-10] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "salima@test.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:07:59 [http-nio-8080-exec-10] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:07:59 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:07:59 [http-nio-8080-exec-10] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "salima@test.com"}, Fields: {}, Sort: {}
+2025-03-11 11:07:59 [http-nio-8080-exec-10] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "salima@test.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:07:59 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:08:02 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing POST /api/auth/logout
+2025-03-11 11:08:02 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:08:02 [http-nio-8080-exec-9] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "salima@test.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:02 [http-nio-8080-exec-9] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "salima@test.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:02 [http-nio-8080-exec-9] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [POST /api/auth/logout] with attributes [permitAll]
+2025-03-11 11:08:02 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured POST /api/auth/logout
+2025-03-11 11:08:02 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:08:14 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /api/auth/login
+2025-03-11 11:08:14 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:08:14 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-03-11 11:08:14 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [POST /api/auth/login] with attributes [permitAll]
+2025-03-11 11:08:14 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured POST /api/auth/login
+2025-03-11 11:08:14 [http-nio-8080-exec-1] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:14 [http-nio-8080-exec-1] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:14 [http-nio-8080-exec-1] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:14 [http-nio-8080-exec-1] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:14 [http-nio-8080-exec-1] DEBUG o.s.s.a.d.DaoAuthenticationProvider - Authenticated user
+2025-03-11 11:08:14 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:08:15 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:08:15 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:08:15 [http-nio-8080-exec-2] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:15 [http-nio-8080-exec-2] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:15 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:08:15 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:08:15 [http-nio-8080-exec-2] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:15 [http-nio-8080-exec-2] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:15 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:08:17 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/admin/classes
+2025-03-11 11:08:17 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:08:17 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:08:17 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:08:17 [http-nio-8080-exec-3] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:17 [http-nio-8080-exec-3] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:17 [http-nio-8080-exec-6] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:17 [http-nio-8080-exec-6] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:17 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/admin/classes] with attributes [hasAuthority('ADMIN')]
+2025-03-11 11:08:17 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/admin/classes
+2025-03-11 11:08:17 [http-nio-8080-exec-6] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:08:17 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:08:17 [http-nio-8080-exec-3] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.redtrack.controllers.admins.ClassController.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.controllers.admins.ClassController] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:08:17 [http-nio-8080-exec-6] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:17 [http-nio-8080-exec-6] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:17 [http-nio-8080-exec-3] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.data.domain.Page com.redtrack.services.impl.ClassServiceImpl.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.services.impl.ClassServiceImpl] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:08:17 [http-nio-8080-exec-3] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "active" : true}, Fields: {}, Sort: {}
+2025-03-11 11:08:17 [http-nio-8080-exec-3] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "active" : true} fields: Document{{}} for class: class com.redtrack.model.entities.Class in collection: classes
+2025-03-11 11:08:17 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:08:17 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:08:20 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:08:20 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:08:20 [http-nio-8080-exec-4] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:20 [http-nio-8080-exec-4] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:20 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:08:20 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:08:20 [http-nio-8080-exec-4] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:20 [http-nio-8080-exec-4] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:20 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:08:21 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/admin/classes
+2025-03-11 11:08:21 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:08:21 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:08:21 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:08:21 [http-nio-8080-exec-5] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:21 [http-nio-8080-exec-7] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:21 [http-nio-8080-exec-5] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:21 [http-nio-8080-exec-7] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:21 [http-nio-8080-exec-7] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:4, serverValue:235}] to localhost:27017
+2025-03-11 11:08:21 [http-nio-8080-exec-5] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/admin/classes] with attributes [hasAuthority('ADMIN')]
+2025-03-11 11:08:21 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/admin/classes
+2025-03-11 11:08:21 [http-nio-8080-exec-5] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.redtrack.controllers.admins.ClassController.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.controllers.admins.ClassController] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:08:21 [http-nio-8080-exec-5] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.data.domain.Page com.redtrack.services.impl.ClassServiceImpl.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.services.impl.ClassServiceImpl] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:08:21 [http-nio-8080-exec-5] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "active" : true}, Fields: {}, Sort: {}
+2025-03-11 11:08:21 [http-nio-8080-exec-7] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:08:21 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:08:21 [http-nio-8080-exec-5] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "active" : true} fields: Document{{}} for class: class com.redtrack.model.entities.Class in collection: classes
+2025-03-11 11:08:21 [http-nio-8080-exec-7] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:21 [http-nio-8080-exec-7] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:21 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:08:22 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:08:43 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing POST /api/admin/classes
+2025-03-11 11:08:43 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:08:43 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/admin/classes
+2025-03-11 11:08:43 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:08:43 [http-nio-8080-exec-8] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:43 [http-nio-8080-exec-10] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:43 [http-nio-8080-exec-10] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:43 [http-nio-8080-exec-8] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:43 [http-nio-8080-exec-10] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/admin/classes] with attributes [hasAuthority('ADMIN')]
+2025-03-11 11:08:43 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/admin/classes
+2025-03-11 11:08:43 [http-nio-8080-exec-8] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [POST /api/admin/classes] with attributes [hasAuthority('ADMIN')]
+2025-03-11 11:08:43 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured POST /api/admin/classes
+2025-03-11 11:08:43 [http-nio-8080-exec-10] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.redtrack.controllers.admins.ClassController.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.controllers.admins.ClassController] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:08:43 [http-nio-8080-exec-10] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.data.domain.Page com.redtrack.services.impl.ClassServiceImpl.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.services.impl.ClassServiceImpl] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:08:43 [http-nio-8080-exec-10] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "active" : true}, Fields: {}, Sort: {}
+2025-03-11 11:08:43 [http-nio-8080-exec-10] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "active" : true} fields: Document{{}} for class: class com.redtrack.model.entities.Class in collection: classes
+2025-03-11 11:08:43 [http-nio-8080-exec-8] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.redtrack.controllers.admins.ClassController.createClass(com.redtrack.dtos.classe.CreateClassRequest); target is of class [com.redtrack.controllers.admins.ClassController] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:08:43 [http-nio-8080-exec-8] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public com.redtrack.dtos.classe.ClassDTO com.redtrack.services.impl.ClassServiceImpl.createClass(com.redtrack.dtos.classe.CreateClassRequest); target is of class [com.redtrack.services.impl.ClassServiceImpl] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:08:43 [http-nio-8080-exec-8] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "nom" : "Quo iure doloribus t"}, Fields: {}, Sort: {}
+2025-03-11 11:08:43 [http-nio-8080-exec-8] DEBUG o.s.data.mongodb.core.MongoTemplate - Executing count: { "nom" : "Quo iure doloribus t"} in collection: classes
+2025-03-11 11:08:43 [http-nio-8080-exec-8] DEBUG o.s.data.mongodb.core.MongoTemplate - Inserting Document containing fields: [nom, niveau, annee, active, etapes, users, _class] in collection: classes
+2025-03-11 11:08:43 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:08:43 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:08:47 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:08:47 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:08:47 [http-nio-8080-exec-9] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:47 [http-nio-8080-exec-9] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:47 [http-nio-8080-exec-9] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:08:47 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:08:47 [http-nio-8080-exec-9] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:47 [http-nio-8080-exec-9] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:47 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:08:48 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/admin/classes
+2025-03-11 11:08:48 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:08:48 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:08:48 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:08:48 [http-nio-8080-exec-2] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:48 [http-nio-8080-exec-1] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:48 [http-nio-8080-exec-2] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:48 [http-nio-8080-exec-1] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:48 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:08:48 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:08:48 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/admin/classes] with attributes [hasAuthority('ADMIN')]
+2025-03-11 11:08:48 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/admin/classes
+2025-03-11 11:08:48 [http-nio-8080-exec-1] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.redtrack.controllers.admins.ClassController.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.controllers.admins.ClassController] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:08:48 [http-nio-8080-exec-2] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:48 [http-nio-8080-exec-1] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.data.domain.Page com.redtrack.services.impl.ClassServiceImpl.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.services.impl.ClassServiceImpl] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:08:48 [http-nio-8080-exec-1] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "active" : true}, Fields: {}, Sort: {}
+2025-03-11 11:08:48 [http-nio-8080-exec-2] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:48 [http-nio-8080-exec-1] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "active" : true} fields: Document{{}} for class: class com.redtrack.model.entities.Class in collection: classes
+2025-03-11 11:08:48 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:08:48 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:08:53 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:08:53 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:08:53 [http-nio-8080-exec-6] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:53 [http-nio-8080-exec-6] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:53 [http-nio-8080-exec-6] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:08:53 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:08:53 [http-nio-8080-exec-6] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:53 [http-nio-8080-exec-6] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:53 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:08:54 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:08:54 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:08:54 [http-nio-8080-exec-3] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:54 [http-nio-8080-exec-3] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:54 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:08:54 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:08:54 [http-nio-8080-exec-3] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:54 [http-nio-8080-exec-3] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:54 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:08:55 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/admin/classes
+2025-03-11 11:08:55 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:08:55 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:08:55 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:08:55 [http-nio-8080-exec-4] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:55 [http-nio-8080-exec-4] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:55 [http-nio-8080-exec-7] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:55 [http-nio-8080-exec-7] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:55 [http-nio-8080-exec-7] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:08:55 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:08:55 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/admin/classes] with attributes [hasAuthority('ADMIN')]
+2025-03-11 11:08:55 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/admin/classes
+2025-03-11 11:08:55 [http-nio-8080-exec-7] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:08:55 [http-nio-8080-exec-4] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.redtrack.controllers.admins.ClassController.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.controllers.admins.ClassController] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:08:55 [http-nio-8080-exec-4] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.data.domain.Page com.redtrack.services.impl.ClassServiceImpl.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.services.impl.ClassServiceImpl] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:08:55 [http-nio-8080-exec-7] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:08:55 [http-nio-8080-exec-4] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "active" : true}, Fields: {}, Sort: {}
+2025-03-11 11:08:55 [http-nio-8080-exec-4] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "active" : true} fields: Document{{}} for class: class com.redtrack.model.entities.Class in collection: classes
+2025-03-11 11:08:55 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:08:55 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:09:01 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing POST /api/admin/classes
+2025-03-11 11:09:01 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:09:01 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/admin/classes
+2025-03-11 11:09:01 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:09:01 [http-nio-8080-exec-5] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:09:01 [http-nio-8080-exec-10] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:09:01 [http-nio-8080-exec-5] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:09:01 [http-nio-8080-exec-10] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:09:01 [http-nio-8080-exec-5] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [POST /api/admin/classes] with attributes [hasAuthority('ADMIN')]
+2025-03-11 11:09:01 [http-nio-8080-exec-10] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/admin/classes] with attributes [hasAuthority('ADMIN')]
+2025-03-11 11:09:01 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured POST /api/admin/classes
+2025-03-11 11:09:01 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/admin/classes
+2025-03-11 11:09:01 [http-nio-8080-exec-10] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.redtrack.controllers.admins.ClassController.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.controllers.admins.ClassController] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:09:01 [http-nio-8080-exec-10] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.data.domain.Page com.redtrack.services.impl.ClassServiceImpl.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.services.impl.ClassServiceImpl] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:09:01 [http-nio-8080-exec-5] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.redtrack.controllers.admins.ClassController.createClass(com.redtrack.dtos.classe.CreateClassRequest); target is of class [com.redtrack.controllers.admins.ClassController] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:09:01 [http-nio-8080-exec-10] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "active" : true}, Fields: {}, Sort: {}
+2025-03-11 11:09:01 [http-nio-8080-exec-5] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public com.redtrack.dtos.classe.ClassDTO com.redtrack.services.impl.ClassServiceImpl.createClass(com.redtrack.dtos.classe.CreateClassRequest); target is of class [com.redtrack.services.impl.ClassServiceImpl] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:09:01 [http-nio-8080-exec-5] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "nom" : "Et minus doloremque "}, Fields: {}, Sort: {}
+2025-03-11 11:09:01 [http-nio-8080-exec-10] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "active" : true} fields: Document{{}} for class: class com.redtrack.model.entities.Class in collection: classes
+2025-03-11 11:09:01 [http-nio-8080-exec-5] DEBUG o.s.data.mongodb.core.MongoTemplate - Executing count: { "nom" : "Et minus doloremque "} in collection: classes
+2025-03-11 11:09:01 [http-nio-8080-exec-5] DEBUG o.s.data.mongodb.core.MongoTemplate - Inserting Document containing fields: [nom, niveau, annee, active, etapes, users, _class] in collection: classes
+2025-03-11 11:09:01 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:09:01 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:09:03 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:09:03 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:09:03 [http-nio-8080-exec-8] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:09:03 [http-nio-8080-exec-8] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:09:03 [http-nio-8080-exec-8] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:09:03 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:09:03 [http-nio-8080-exec-8] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:09:03 [http-nio-8080-exec-8] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:09:03 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:09:04 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/admin/classes
+2025-03-11 11:09:04 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:09:04 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:09:04 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:09:04 [http-nio-8080-exec-9] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:09:04 [http-nio-8080-exec-9] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:09:04 [http-nio-8080-exec-2] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:09:04 [http-nio-8080-exec-2] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:09:04 [http-nio-8080-exec-9] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/admin/classes] with attributes [hasAuthority('ADMIN')]
+2025-03-11 11:09:04 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/admin/classes
+2025-03-11 11:09:04 [http-nio-8080-exec-9] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.redtrack.controllers.admins.ClassController.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.controllers.admins.ClassController] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:09:04 [http-nio-8080-exec-9] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.data.domain.Page com.redtrack.services.impl.ClassServiceImpl.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.services.impl.ClassServiceImpl] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:09:04 [http-nio-8080-exec-9] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "active" : true}, Fields: {}, Sort: {}
+2025-03-11 11:09:04 [http-nio-8080-exec-9] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "active" : true} fields: Document{{}} for class: class com.redtrack.model.entities.Class in collection: classes
+2025-03-11 11:09:04 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:09:04 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:09:04 [http-nio-8080-exec-2] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:09:04 [http-nio-8080-exec-2] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:09:04 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:09:04 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:14:12 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:14:12 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:14:12 [http-nio-8080-exec-3] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:14:12 [http-nio-8080-exec-3] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:14:12 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:14:12 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:14:12 [http-nio-8080-exec-3] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:14:12 [http-nio-8080-exec-3] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:14:12 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:14:17 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:14:17 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:14:17 [http-nio-8080-exec-7] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:14:17 [http-nio-8080-exec-7] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:14:17 [http-nio-8080-exec-7] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:14:17 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:14:17 [http-nio-8080-exec-7] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:14:17 [http-nio-8080-exec-7] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:14:17 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:14:22 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:14:22 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:14:22 [http-nio-8080-exec-4] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:14:22 [http-nio-8080-exec-4] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:14:22 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:14:22 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:14:22 [http-nio-8080-exec-4] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:14:22 [http-nio-8080-exec-4] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:14:22 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:15:11 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:15:11 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:15:11 [http-nio-8080-exec-5] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:15:11 [http-nio-8080-exec-5] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:15:11 [http-nio-8080-exec-5] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:15:11 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:15:11 [http-nio-8080-exec-5] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:15:11 [http-nio-8080-exec-5] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:15:11 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:15:30 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:15:30 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:15:30 [http-nio-8080-exec-10] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:15:30 [http-nio-8080-exec-10] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:15:30 [http-nio-8080-exec-10] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:15:30 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:15:30 [http-nio-8080-exec-10] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:15:30 [http-nio-8080-exec-10] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:15:30 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:15:31 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/admin/classes
+2025-03-11 11:15:31 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:15:31 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:15:31 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:15:31 [http-nio-8080-exec-8] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:15:31 [http-nio-8080-exec-8] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:15:31 [http-nio-8080-exec-2] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:15:31 [http-nio-8080-exec-2] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:15:31 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:15:31 [http-nio-8080-exec-8] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/admin/classes] with attributes [hasAuthority('ADMIN')]
+2025-03-11 11:15:31 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:15:31 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/admin/classes
+2025-03-11 11:15:31 [http-nio-8080-exec-2] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:15:31 [http-nio-8080-exec-8] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.redtrack.controllers.admins.ClassController.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.controllers.admins.ClassController] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:15:31 [http-nio-8080-exec-8] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.data.domain.Page com.redtrack.services.impl.ClassServiceImpl.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.services.impl.ClassServiceImpl] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:15:31 [http-nio-8080-exec-2] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:15:31 [http-nio-8080-exec-8] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "active" : true}, Fields: {}, Sort: {}
+2025-03-11 11:15:31 [http-nio-8080-exec-8] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "active" : true} fields: Document{{}} for class: class com.redtrack.model.entities.Class in collection: classes
+2025-03-11 11:15:31 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:15:31 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:15:39 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/admin/classes/67c5b400850fed6db51ff050/archive
+2025-03-11 11:15:39 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:15:39 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:15:39 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing PUT /api/admin/classes/67c5b400850fed6db51ff050/archive
+2025-03-11 11:15:39 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:15:39 [http-nio-8080-exec-6] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:15:39 [http-nio-8080-exec-6] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:15:39 [http-nio-8080-exec-6] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [PUT /api/admin/classes/67c5b400850fed6db51ff050/archive] with attributes [hasAuthority('ADMIN')]
+2025-03-11 11:15:39 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured PUT /api/admin/classes/67c5b400850fed6db51ff050/archive
+2025-03-11 11:15:39 [http-nio-8080-exec-6] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.redtrack.controllers.admins.ClassController.archiveClass(java.lang.String); target is of class [com.redtrack.controllers.admins.ClassController] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:15:39 [http-nio-8080-exec-6] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public void com.redtrack.services.impl.ClassServiceImpl.archiveClass(java.lang.String); target is of class [com.redtrack.services.impl.ClassServiceImpl] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:15:39 [http-nio-8080-exec-6] DEBUG o.s.data.mongodb.core.MongoTemplate - findOne using query: { "id" : "67c5b400850fed6db51ff050"} fields: Document{{}} for class: class com.redtrack.model.entities.Class in collection: classes
+2025-03-11 11:15:39 [http-nio-8080-exec-6] DEBUG o.s.data.mongodb.core.MongoTemplate - Saving Document containing fields: [_id, nom, niveau, annee, active, etapes, users, _class]
+2025-03-11 11:15:39 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:15:41 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:15:41 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:15:41 [http-nio-8080-exec-1] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:15:41 [http-nio-8080-exec-1] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:15:41 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:15:41 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:15:41 [http-nio-8080-exec-1] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:15:41 [http-nio-8080-exec-1] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:15:41 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:15:42 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/admin/classes
+2025-03-11 11:15:42 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:15:42 [http-nio-8080-exec-3] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:15:42 [http-nio-8080-exec-3] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:15:42 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:15:42 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:15:42 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/admin/classes] with attributes [hasAuthority('ADMIN')]
+2025-03-11 11:15:42 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/admin/classes
+2025-03-11 11:15:42 [http-nio-8080-exec-7] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:15:42 [http-nio-8080-exec-7] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:15:42 [http-nio-8080-exec-3] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.redtrack.controllers.admins.ClassController.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.controllers.admins.ClassController] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:15:42 [http-nio-8080-exec-3] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.data.domain.Page com.redtrack.services.impl.ClassServiceImpl.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.services.impl.ClassServiceImpl] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:15:42 [http-nio-8080-exec-3] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "active" : true}, Fields: {}, Sort: {}
+2025-03-11 11:15:42 [http-nio-8080-exec-3] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "active" : true} fields: Document{{}} for class: class com.redtrack.model.entities.Class in collection: classes
+2025-03-11 11:15:42 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:15:42 [http-nio-8080-exec-7] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:15:42 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:15:42 [http-nio-8080-exec-7] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:15:42 [http-nio-8080-exec-7] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:15:42 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:15:49 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/admin/classes/67d019cddc05d2076e04f2b7/archive
+2025-03-11 11:15:49 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:15:49 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:15:49 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing PUT /api/admin/classes/67d019cddc05d2076e04f2b7/archive
+2025-03-11 11:15:49 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:15:49 [http-nio-8080-exec-5] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:15:49 [http-nio-8080-exec-5] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:15:49 [http-nio-8080-exec-5] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [PUT /api/admin/classes/67d019cddc05d2076e04f2b7/archive] with attributes [hasAuthority('ADMIN')]
+2025-03-11 11:15:49 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured PUT /api/admin/classes/67d019cddc05d2076e04f2b7/archive
+2025-03-11 11:15:49 [http-nio-8080-exec-5] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.redtrack.controllers.admins.ClassController.archiveClass(java.lang.String); target is of class [com.redtrack.controllers.admins.ClassController] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:15:49 [http-nio-8080-exec-5] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public void com.redtrack.services.impl.ClassServiceImpl.archiveClass(java.lang.String); target is of class [com.redtrack.services.impl.ClassServiceImpl] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:15:49 [http-nio-8080-exec-5] DEBUG o.s.data.mongodb.core.MongoTemplate - findOne using query: { "id" : "67d019cddc05d2076e04f2b7"} fields: Document{{}} for class: class com.redtrack.model.entities.Class in collection: classes
+2025-03-11 11:15:49 [http-nio-8080-exec-5] DEBUG o.s.data.mongodb.core.MongoTemplate - Saving Document containing fields: [_id, nom, niveau, annee, active, etapes, users, _class]
+2025-03-11 11:15:49 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:15:50 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:15:50 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:15:50 [http-nio-8080-exec-10] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:15:50 [http-nio-8080-exec-10] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:15:50 [http-nio-8080-exec-10] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:15:50 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:15:50 [http-nio-8080-exec-10] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:15:50 [http-nio-8080-exec-10] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:15:50 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:15:51 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/profile
+2025-03-11 11:15:51 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/admin/classes
+2025-03-11 11:15:51 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:15:51 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Set SecurityContextHolder to empty SecurityContext
+2025-03-11 11:15:51 [http-nio-8080-exec-8] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:15:51 [http-nio-8080-exec-8] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:15:51 [http-nio-8080-exec-2] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:15:51 [http-nio-8080-exec-2] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:15:51 [http-nio-8080-exec-8] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/auth/profile] with attributes [permitAll]
+2025-03-11 11:15:51 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/profile
+2025-03-11 11:15:51 [http-nio-8080-exec-8] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "email" : "admin@redtrack.com"}, Fields: {}, Sort: {}
+2025-03-11 11:15:51 [http-nio-8080-exec-8] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "email" : "admin@redtrack.com"} fields: Document{{}} for class: class com.redtrack.model.entities.User in collection: users
+2025-03-11 11:15:51 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request
+2025-03-11 11:15:51 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.i.FilterSecurityInterceptor - Authorized filter invocation [GET /api/admin/classes] with attributes [hasAuthority('ADMIN')]
+2025-03-11 11:15:51 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/admin/classes
+2025-03-11 11:15:51 [http-nio-8080-exec-2] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.redtrack.controllers.admins.ClassController.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.controllers.admins.ClassController] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:15:51 [http-nio-8080-exec-2] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.data.domain.Page com.redtrack.services.impl.ClassServiceImpl.getAllClasses(org.springframework.data.domain.Pageable); target is of class [com.redtrack.services.impl.ClassServiceImpl] with attributes [[authorize: 'hasAuthority('ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-03-11 11:15:51 [http-nio-8080-exec-2] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "active" : true}, Fields: {}, Sort: {}
+2025-03-11 11:15:51 [http-nio-8080-exec-2] DEBUG o.s.data.mongodb.core.MongoTemplate - find using query: { "active" : true} fields: Document{{}} for class: class com.redtrack.model.entities.Class in collection: classes
+2025-03-11 11:15:51 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.SecurityContextPersistenceFilter - Cleared SecurityContextHolder to complete request

@@ -27,4 +27,39 @@ export const createClassSuccess = createAction(
 export const createClassFailure = createAction(
   '[Class] Create Class Failure',
   props<{ error: string }>()
+);
+
+export const archiveClass = createAction(
+  '[Class] Archive Class',
+  props<{ id: string }>()
+);
+
+export const archiveClassSuccess = createAction(
+  '[Class] Archive Class Success',
+  props<{ id: string }>()
+);
+
+export const archiveClassFailure = createAction(
+  '[Class] Archive Class Failure',
+  props<{ error: string }>()
+);
+
+export const setSelectedClass = createAction(
+  '[Class] Set Selected Class',
+  props<{ class: Class }>()
+);
+
+export const updateClass = createAction(
+  '[Class] Update Class',
+  props<{ id: string, request: CreateClassRequest }>()
+);
+
+export const updateClassSuccess = createAction(
+  '[Class] Update Class Success',
+  props<{ class: Class }>()
+);
+
+export const updateClassFailure = createAction(
+  '[Class] Update Class Failure',
+  props<{ error: string }>()
 ); 
