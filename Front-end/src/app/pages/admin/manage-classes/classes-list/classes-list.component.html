@@ -113,3 +113,11 @@
   (closeModal)="closeCreateClassModal()"
   (classCreated)="onClassCreated()"
 ></app-create-classe>
+
+<!-- Edit Class Modal -->
+<app-edit-classe
+  *ngIf="showEditModal && selectedClass"
+  [classe]="selectedClass"
+  (closeModal)="closeEditModal()"
+  (classUpdated)="onClassUpdated()"
+></app-edit-classe>

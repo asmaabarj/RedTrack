@@ -130,7 +130,7 @@ export class ClassesListComponent implements OnInit {
 
   onClassUpdated(): void {
     this.closeEditModal();
-    this.store.dispatch(ClassActions.loadClasses());
+    this.loadClasses();
   }
 
   onUnarchive(classe: Class): void {
