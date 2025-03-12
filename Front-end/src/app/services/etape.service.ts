@@ -15,4 +15,12 @@ export class EtapeService {
   getAllEtapes(): Observable<Etape[]> {
     return this.http.get<Etape[]>(this.API_URL);
   }
+
+  createEtape(etape: any): Observable<Etape> {
+    return this.http.post<Etape>(this.API_URL, etape);
+  }
+
+  updateEtape(id: string, etape: any): Observable<Etape> {
+    return this.http.put<Etape>(`${this.API_URL}/${id}`, etape);
+  }
 } 

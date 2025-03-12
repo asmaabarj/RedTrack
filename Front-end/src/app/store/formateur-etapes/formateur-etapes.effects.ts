@@ -24,6 +24,44 @@ export class FormateurEtapesEffects {
     )
   );
 
+  createEtape$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FormateurEtapesActions.createEtape),
+      mergeMap(({ etape }) =>
+        this.etapeService.createEtape(etape).pipe(
+          map(createdEtape => FormateurEtapesActions.createEtapeSuccess({ etape: createdEtape })),
+          catchError(error => of(FormateurEtapesActions.createEtapeFailure({ error: error.message })))
+        )
+      )
+    )
+  );
+
+  createEtapeSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FormateurEtapesActions.createEtapeSuccess),
+      map(() => FormateurEtapesActions.loadEtapes())
+    )
+  );
+
+  updateEtape$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FormateurEtapesActions.updateEtape),
+      mergeMap(({ id, etape }) =>
+        this.etapeService.updateEtape(id, etape).pipe(
+          map(updatedEtape => FormateurEtapesActions.updateEtapeSuccess({ etape: updatedEtape })),
+          catchError(error => of(FormateurEtapesActions.updateEtapeFailure({ error: error.message })))
+        )
+      )
+    )
+  );
+
+  updateEtapeSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FormateurEtapesActions.updateEtapeSuccess),
+      map(() => FormateurEtapesActions.loadEtapes())
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private etapeService: EtapeService
