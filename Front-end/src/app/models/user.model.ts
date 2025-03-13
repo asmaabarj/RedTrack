@@ -39,3 +39,16 @@ export interface UpdateUserRequest {
   prenom: string;
   password?: string;
 }
+
+export interface CreateApprenantRequest {
+  email: string;
+  password: string;
+  nom: string;
+  prenom: string;
+}
+
+export interface UpdateApprenantRequest {
+  email: string;
+  nom: string;
+  prenom: string;
+}

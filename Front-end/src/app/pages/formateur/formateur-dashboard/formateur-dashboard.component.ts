@@ -12,11 +12,18 @@ import {
 } from '../../../store/formateur-classes/formateur-classes.selectors';
 import { UpdateClasseComponent } from '../update-classe/update-classe.component';
 import { EtapesListComponent } from '../manage-etapes/etapes-list/etapes-list.component';
+import { RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-formateur-dashboard',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, UpdateClasseComponent, EtapesListComponent],
+  imports: [
+    CommonModule, 
+    NavbarComponent, 
+    UpdateClasseComponent, 
+    EtapesListComponent,
+    RouterModule
+  ],
   templateUrl: './formateur-dashboard.component.html'
 })
 export class FormateurDashboardComponent implements OnInit {

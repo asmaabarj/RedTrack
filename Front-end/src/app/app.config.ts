@@ -17,6 +17,8 @@ import { formateurClassesReducer } from './store/formateur-classes/formateur-cla
 import { FormateurClassesEffects } from './store/formateur-classes/formateur-classes.effects';
 import { formateurEtapesReducer } from './store/formateur-etapes/formateur-etapes.reducer';
 import { FormateurEtapesEffects } from './store/formateur-etapes/formateur-etapes.effects';
+import { formateurApprenantReducer } from './store/formateur-apprenants/formateur-apprenants.reducer';
+import { FormateurApprenantEffects } from './store/formateur-apprenants/formateur-apprenants.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,7 +30,8 @@ export const appConfig: ApplicationConfig = {
       formateur: formateurReducer,
       apprenant: apprenantReducer,
       formateurClasses: formateurClassesReducer,
-      formateurEtapes: formateurEtapesReducer
+      formateurEtapes: formateurEtapesReducer,
+      formateurApprenant: formateurApprenantReducer 
     }),
     provideEffects([
       AuthEffects,
@@ -36,7 +39,8 @@ export const appConfig: ApplicationConfig = {
       FormateurEffects,
       ApprenantEffects,
       FormateurClassesEffects,
-      FormateurEtapesEffects
+      FormateurEtapesEffects,
+      FormateurApprenantEffects 
     ])
   ]
 };
