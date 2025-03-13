@@ -1,13 +1,11 @@
 package com.redtrack.services.interfaces;
 
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 import com.redtrack.dtos.classe.ClassDTO;
 import com.redtrack.dtos.classe.ClassDetailsDTO;
 import com.redtrack.dtos.classe.CreateClassRequest;
+import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 public interface ClassService {
     ClassDTO createClass(CreateClassRequest request);
     ClassDTO getClass(String id);
@@ -19,4 +17,5 @@ public interface ClassService {
     Page<ClassDTO> getArchivedClasses(Pageable pageable);
     ClassDetailsDTO getClassDetails(String id);
     List<ClassDTO> getFormateurClasses();
+    List<ClassDTO> getApprenantClasses();
 }

@@ -11,6 +11,7 @@ import { environment } from '../../environments/environment';
 export class ClassService {
   private readonly API_URL = 'http://localhost:8080/api/admin/classes';
   private API_URL_FORMATEUR = `${environment.apiUrl}/api/formateur/classes`;
+  private API_URL_APPRENANT = `${environment.apiUrl}/api/apprenant/classes`;
 
   constructor(private http: HttpClient) {}
 
@@ -102,4 +103,8 @@ export class ClassService {
   updateFormateurClass(id: string, classData: any): Observable<Class> {
     return this.http.put<Class>(`${this.API_URL_FORMATEUR}/${id}`, classData);
   }
+
+  getApprenantClasses(): Observable<Class[]> {
+    return this.http.get<Class[]>(`${this.API_URL_APPRENANT}/own`);
+  } 
 } 

@@ -1,17 +1,5 @@
 package com.redtrack.services.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-
 import com.redtrack.dtos.classe.ClassDTO;
 import com.redtrack.dtos.classe.ClassDetailsDTO;
 import com.redtrack.dtos.classe.CreateClassRequest;
@@ -20,13 +8,22 @@ import com.redtrack.exceptions.UserException;
 import com.redtrack.mappers.ClassMapper;
 import com.redtrack.mappers.UserMapper;
 import com.redtrack.model.entities.Class;
-import com.redtrack.model.enums.Role;
 import com.redtrack.model.entities.User;
+import com.redtrack.model.enums.Role;
 import com.redtrack.repositories.ClassRepository;
 import com.redtrack.repositories.UserRepository;
 import com.redtrack.services.interfaces.ClassService;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -183,5 +180,25 @@ public List<ClassDTO> getFormateurClasses() {
             .map(classMapper::classToClassDTO)
             .collect(Collectors.toList());
 }
+
+@Override
+@PreAuthorize("hasAuthority('APPRENANT')")
+public List<ClassDTO> getApprenantClasses() {
+    String email = SecurityContextHolder.getContext().getAuthentication().getName();
+    User apprenant = userRepository.findByEmail(email)
+            .orElseThrow(() -> new UserException("Apprenant non trouvé"));
+
+    List<Class> classes = classRepository.findByUsersContaining(apprenant);
+    if (classes.isEmpty()) {
+        throw new ClassException("Aucune classe n'est assignée à ce apprenant");
+    }
+
+    return classes.stream()
+            .filter(classe -> classe.getActive()) 
+            .map(classMapper::classToClassDTO)
+            .collect(Collectors.toList());
+}
+
+
     
 }

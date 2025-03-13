@@ -1,9 +1,26 @@
 package com.redtrack.services.impl;
 
+import com.redtrack.dtos.auth.RegisterRequest;
+import com.redtrack.dtos.auth.RegisterResponse;
+import com.redtrack.dtos.classe.ClassDTO;
+import com.redtrack.dtos.user.CreateApprenantRequest;
+import com.redtrack.dtos.user.UpdateApprenantRequest;
+import com.redtrack.dtos.user.UpdateUserRequest;
+import com.redtrack.dtos.user.UserDTO;
+import com.redtrack.exceptions.ClassException;
+import com.redtrack.exceptions.UserException;
+import com.redtrack.mappers.ClassMapper;
+import com.redtrack.mappers.UserMapper;
+import com.redtrack.model.entities.Class;
+import com.redtrack.model.entities.User;
+import com.redtrack.model.enums.Role;
+import com.redtrack.repositories.ClassRepository;
+import com.redtrack.repositories.UserRepository;
+import com.redtrack.services.interfaces.UserService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -12,26 +29,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.redtrack.dtos.classe.ClassDTO;
-import com.redtrack.dtos.user.CreateApprenantRequest;
-import com.redtrack.dtos.user.UpdateApprenantRequest;
-import com.redtrack.dtos.user.UpdateUserRequest;
-import com.redtrack.dtos.user.UserDTO;
-import com.redtrack.dtos.auth.RegisterRequest;
-import com.redtrack.dtos.auth.RegisterResponse;
-import com.redtrack.exceptions.ClassException;
-import com.redtrack.exceptions.UserException;
-import com.redtrack.mappers.ClassMapper;
-import com.redtrack.mappers.UserMapper;
-import com.redtrack.model.entities.Class;
-import com.redtrack.model.enums.Role;
-import com.redtrack.model.entities.User;
-import com.redtrack.repositories.ClassRepository;
-import com.redtrack.repositories.UserRepository;
-import com.redtrack.services.interfaces.UserService;
-
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -410,7 +407,6 @@ public class UserServiceImpl implements UserService {
         Class newClass = classRepository.findById(newClassId)
                 .orElseThrow(() -> new ClassException("Nouvelle classe non trouvée"));
 
-        // Remove from old class
         user.getClasses().remove(oldClass);
         oldClass.getUsers().remove(user);
         
@@ -418,7 +414,6 @@ public class UserServiceImpl implements UserService {
         user.getClasses().add(newClass);
         newClass.getUsers().add(user);
 
-        // Save all changes in a single transaction
         userRepository.save(user);
         classRepository.save(oldClass);
         classRepository.save(newClass);
