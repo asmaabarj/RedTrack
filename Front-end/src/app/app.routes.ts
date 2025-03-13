@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
 import { FormateurDashboardComponent } from './pages/formateur/formateur-dashboard/formateur-dashboard.component';
-import { ApprenantsListComponent } from './pages/formateur/manage-apprenants/apprenants-list/apprenants-list.component';
 
 export const routes: Routes = [
   {
@@ -16,6 +15,12 @@ export const routes: Routes = [
   {
     path: 'apprenant',
     loadComponent: () => import('./pages/apprenant/apprenant-dashboard/apprenant-dashboard.component').then(m => m.ApprenantDashboardComponent),
+    canActivate: [() => authGuard(['APPRENANT'])]
+  },
+  {
+    path: 'apprenant/rendus',
+    loadComponent: () => import('./pages/apprenant/apprenant-rendus/apprenant-rendus.component')
+      .then(m => m.ApprenantRendusComponent),
     canActivate: [() => authGuard(['APPRENANT'])]
   },
   {
@@ -47,6 +52,7 @@ export const routes: Routes = [
       .then(m => m.ApprenantsListComponent),
     canActivate: [() => authGuard(['FORMATEUR'])]
   },
+
   {
     path: '',
     redirectTo: '/login',

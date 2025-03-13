@@ -9,6 +9,7 @@ import { environment } from '../../environments/environment';
 })
 export class EtapeService {
   private API_URL = `${environment.apiUrl}/api/formateur/etapes`;
+  private API_URL_APP = `${environment.apiUrl}/api/apprenant/etapes`;
 
   constructor(private http: HttpClient) {}
 
@@ -22,5 +23,9 @@ export class EtapeService {
 
   updateEtape(id: string, etape: any): Observable<Etape> {
     return this.http.put<Etape>(`${this.API_URL}/${id}`, etape);
+  }
+
+  getApprenantEtapes(): Observable<Etape[]> {
+    return this.http.get<Etape[]>(this.API_URL_APP);
   }
 } 
