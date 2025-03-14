@@ -9,11 +9,19 @@ import { selectApprenants, selectLoading, selectError } from '../../../../store/
 import { NavbarComponent } from '../../../../components/navbar/navbar.component';
 import { CreateApprenantComponent } from '../create-apprenant/create-apprenant.component';
 import { UpdateApprenantComponent } from '../update-apprenant/update-apprenant.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-apprenants-list',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, CreateApprenantComponent, UpdateApprenantComponent, FormsModule],
+  imports: [
+    CommonModule, 
+    NavbarComponent, 
+    CreateApprenantComponent, 
+    UpdateApprenantComponent, 
+    FormsModule,
+    RouterModule
+  ],
   templateUrl: './apprenants-list.component.html',
 })
 export class ApprenantsListComponent implements OnInit {

@@ -1,1 +1,69 @@
-<p>apprenant-details works!</p>
+<app-navbar></app-navbar>
+<div class="container mx-auto p-4">
+  <h1 class="text-2xl font-bold mb-6">Détails de l'apprenant</h1>
+
+  <div *ngIf="loading$ | async" class="flex justify-center my-8">
+    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+  </div>
+
+  <div *ngIf="error$ | async as error" class="text-red-600 mb-4">
+    {{ error }}
+  </div>
+
+  <div *ngIf="etapes$ | async as etapes" class="space-y-6">
+    <div *ngFor="let etape of etapes" class="bg-white rounded-lg shadow-lg p-6">
+      <div class="mb-4">
+        <h2 class="text-xl font-semibold">{{ etape.titre }}</h2>
+        <p class="text-gray-600">{{ etape.description }}</p>
+        <p class="text-sm text-gray-500">Date limite: {{ etape.deadline | date:'dd/MM/yyyy' }}</p>
+      </div>
+
+      <div *ngFor="let rendu of etape.rendus" class="mt-4 border-t pt-4">
+        <div class="flex justify-between items-start">
+          <div>
+            <p class="font-medium">Livrable: {{ rendu.livrable }}</p>
+            <p class="text-gray-600">{{ rendu.commentaire }}</p>
+            <p class="text-sm text-gray-500">Soumis le: {{ rendu.dateSoumission | date:'dd/MM/yyyy HH:mm' }}</p>
+          </div>
+          <div class="flex flex-col items-end gap-2">
+            <span [class]="'px-2 py-1 rounded-full text-xs ' + getStatusClass(rendu.type)">
+              {{ rendu.type }}
+            </span>
+            <button 
+              (click)="onSubmitResponse(rendu)"
+              class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 text-sm flex items-center gap-2"
+            >
+              <i class="fas fa-reply"></i>
+              Soumettre une réponse
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="rendu.responses?.length" class="mt-4 pl-4 border-l-2 border-gray-200">
+          <div *ngFor="let response of rendu.responses" class="mb-2 bg-gray-50 p-3 rounded">
+            <div class="flex items-center gap-2 mb-2">
+              <i class="fas fa-user-tie text-gray-600"></i>
+              <span class="font-medium">{{ response.formateurNom }} {{ response.formateurPrenom }}</span>
+            </div>
+            <p>{{ response.commentaire }}</p>
+            <p class="text-sm text-gray-500 mt-1">
+              Le {{ response.dateSoumission | date:'dd/MM/yyyy HH:mm' }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showResponseModal && selectedRendu" 
+       class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full"
+       (click)="onCloseModal()">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white"
+         (click)="$event.stopPropagation()">
+      <app-create-reponse-rendu
+        [rendu]="selectedRendu"
+        (closeModal)="onCloseModal()"
+      ></app-create-reponse-rendu>
+    </div>
+  </div>
+</div>

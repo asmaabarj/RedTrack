@@ -52,6 +52,12 @@ export const routes: Routes = [
       .then(m => m.ApprenantsListComponent),
     canActivate: [() => authGuard(['FORMATEUR'])]
   },
+  {
+    path: 'formateur/apprenants/:id',
+    loadComponent: () => import('./pages/formateur/manage-apprenants/apprenant-details/apprenant-details.component')
+      .then(m => m.ApprenantDetailsComponent),
+    canActivate: [() => authGuard(['FORMATEUR'])]
+  },
 
   {
     path: '',

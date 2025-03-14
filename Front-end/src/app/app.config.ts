@@ -25,6 +25,8 @@ import { apprenantEtapesReducer } from './store/apprenant-etapes/apprenant-etape
 import { ApprenantEtapesEffects } from './store/apprenant-etapes/apprenant-etapes.effects';
 import { rendusReducer } from './store/apprenant-rendus/apprenant-rendus.reducer';
 import { RendusEffects } from './store/apprenant-rendus/apprenant-rendus.effects';
+import { formateurRendusReducer } from './store/formateur-rendus/formateur-rendus.reducer';
+import { FormateurRendusEffects } from './store/formateur-rendus/formateur-rendus.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -40,7 +42,8 @@ export const appConfig: ApplicationConfig = {
       formateurApprenant: formateurApprenantReducer,
       apprenantClasses: apprenantClassesReducer,
       apprenantEtapes: apprenantEtapesReducer,
-      rendus: rendusReducer
+      rendus: rendusReducer,
+      formateurRendus: formateurRendusReducer
     }),
     provideEffects([
       AuthEffects,
@@ -52,7 +55,8 @@ export const appConfig: ApplicationConfig = {
       FormateurApprenantEffects,
       ApprenantClassesEffects,
       ApprenantEtapesEffects,
-      RendusEffects
+      RendusEffects,
+      FormateurRendusEffects
     ])
   ]
 };
