@@ -8,13 +8,15 @@ export const login = createAction(
 
 export const loginSuccess = createAction(
   '[Auth] Login Success',
-  props<{ response: AuthResponse }>()
+  props<{ response: AuthResponse; isNewLogin: boolean }>()
 );
 
 export const loginFailure = createAction(
   '[Auth] Login Failure',
   props<{ error: string }>()
 );
+
+export const checkStoredAuth = createAction('[Auth] Check Stored Auth');
 
 export const logout = createAction('[Auth] Logout');
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { NavbarComponent } from '../../../components/navbar/navbar.component';
 import { EtapeAvecRendus } from '../../../models/rendu.model';
 import * as RendusActions from '../../../store/apprenant-rendus/apprenant-rendus.actions';
@@ -22,7 +22,13 @@ export class ApprenantRendusComponent implements OnInit {
   selectedEtape: EtapeAvecRendus | null = null;
 
   constructor(private store: Store) {
-    this.etapes$ = this.store.select(selectRendus);
+    this.etapes$ = this.store.select(selectRendus).pipe(
+      tap(etapes => {
+        if (etapes.length > 0 && !this.selectedEtape) {
+          this.selectedEtape = etapes[0];
+        }
+      })
+    );
     this.loading$ = this.store.select(selectLoading);
     this.error$ = this.store.select(selectError);
   }
@@ -31,11 +37,22 @@ export class ApprenantRendusComponent implements OnInit {
     this.store.dispatch(RendusActions.loadRendus());
   }
 
+  selectEtape(etape: EtapeAvecRendus): void {
+    this.selectedEtape = etape;
+  }
+
+  getInitials(name: string): string {
+    return name.charAt(0).toUpperCase();
+  }
+
   getStatusClass(type: string): string {
     switch (type) {
-      case 'accepted': return 'bg-green-100 text-green-800';
-      case 'rejected': return 'bg-red-100 text-red-800';
-      default: return 'bg-yellow-100 text-yellow-800';
+      case 'accepted': 
+        return 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-600/20';
+      case 'rejected': 
+        return 'bg-red-50 text-red-700 ring-1 ring-red-600/20';
+      default: 
+        return 'bg-amber-50 text-amber-700 ring-1 ring-amber-600/20';
     }
   }
 

@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../../components/navbar/navbar.component';
 import { Router } from '@angular/router';
+import { StatsService } from '../../../services/stats.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -9,8 +10,32 @@ import { Router } from '@angular/router';
   imports: [CommonModule, NavbarComponent],
   templateUrl: './admin-dashboard.component.html',
 })
-export class AdminDashboardComponent {
-  constructor(private router: Router) {}
+export class AdminDashboardComponent implements OnInit {
+  stats = {
+    activeFormateurs: 0,
+    activeApprenants: 0,
+    activeClasses: 0
+  };
+
+  constructor(
+    private router: Router,
+    private statsService: StatsService
+  ) {}
+
+  ngOnInit() {
+    this.loadStats();
+  }
+
+  private loadStats() {
+    this.statsService.getStats().subscribe({
+      next: (data) => {
+        this.stats = data;
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des statistiques:', error);
+      }
+    });
+  }
 
   navigate(path: string): void {
     this.router.navigate([path]);

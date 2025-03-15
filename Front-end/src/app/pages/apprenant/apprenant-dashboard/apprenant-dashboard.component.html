@@ -1,87 +1,127 @@
 <app-navbar></app-navbar>
-<div class="container mx-auto p-4">
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold">Tableau de bord</h1>
-  </div>
-
-  <!-- Classes Section -->
-  <section class="mb-8">
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-2xl font-bold">Ma Classe</h2>
-      <button 
-        class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center gap-2"
-        routerLink="/apprenant/rendus"
-      >
-        <i class="fas fa-file-alt"></i>
-        Mes rendus
-      </button>
-    </div>
-    <div *ngIf="loading$ | async" class="flex justify-center my-8">
-      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
-    </div>
-    <div *ngIf="error$ | async as error" class="text-red-600 mb-4">
-      {{ error }}
-    </div>
-    <div *ngIf="(classes$ | async) as classes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div *ngFor="let classe of classes" class="bg-white rounded-lg p-6 shadow">
-        <h3 class="text-xl font-semibold mb-2">{{ classe.nom }}</h3>
-        <div class="text-gray-600">
-          <p class="mb-1">Niveau: {{ classe.niveau }}</p>
-          <p>Année: {{ classe.annee }}</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Etapes Section -->
-  <section>
-    <h2 class="text-2xl font-bold mb-6">Mes Étapes</h2>
-    <div *ngIf="etapesLoading$ | async" class="flex justify-center my-8">
-      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
-    </div>
-    <div *ngIf="(etapes$ | async) as etapes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div *ngFor="let etape of etapes" class="bg-white rounded-lg p-6 shadow">
-        <h3 class="text-xl font-semibold mb-2">{{ etape.titre }}</h3>
-        <p class="text-gray-600 mb-2">{{ truncateDescription(etape.description) }}</p>
-        <button 
-          *ngIf="shouldShowMore(etape.description)"
-          (click)="showEtapeDetails(etape)"
-          class="text-indigo-600 hover:text-indigo-800 text-sm font-medium"
-        >
-          Afficher plus
-        </button>
-        <div class="text-sm text-gray-500 mt-2">
-          <p>Date limite: {{ etape.deadline | date:'dd/MM/yyyy' }}</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Etape Detail Modal -->
-    <div *ngIf="showEtapeModal && selectedEtape" 
-         class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full"
-         (click)="closeEtapeModal()">
-      <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white"
-           (click)="$event.stopPropagation()">
-        <div class="mt-3">
-          <h3 class="text-lg font-bold leading-6 text-gray-900 mb-2">
-            {{ selectedEtape.titre }}
-          </h3>
-          <p class="text-gray-600 mb-4">
-            {{ selectedEtape.description }}
-          </p>
-          <div class="text-sm text-gray-500">
-            <p>Date limite: {{ selectedEtape.deadline | date:'dd/MM/yyyy' }}</p>
+<div class="dashboard-container min-h-screen bg-slate-50/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header Section -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-8">
+      <div *ngIf="(classes$ | async) as classes" class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+        <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            <h1 class="text-2xl font-bold text-slate-800">
+              Tableau de bord de <span class="text-red-600 uppercase">{{ classes[0].nom }}</span>
+              <span class="text-slate-600"> | </span>
+              <span class="text-slate-600">{{ classes[0].annee }}</span>
+            </h1>
           </div>
-          <div class="mt-4">
-            <button
-              (click)="closeEtapeModal()"
-              class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
+          <div class="flex items-center gap-2 bg-emerald-50 text-emerald-700 font-medium text-sm px-4 py-1 w-fit rounded-full border border-emerald-100">
+            <div class="h-2 w-2 bg-emerald-500 rounded-full animate-pulse"></div>
+            <span class="text-sm font-medium">{{classes[0].niveau}}</span>
+          </div>
+        </div>
+
+        <button 
+          routerLink="/apprenant/rendus"
+          class="inline-flex items-center px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-800 hover:to-slate-900 transition-all duration-200 shadow-sm hover:shadow-md"
+        >
+          <i class="fas fa-file-alt mr-2"></i>
+          Mes rendus
+        </button>
+      </div>
+    </div>
+
+    <!-- Etapes Section -->
+    <section class="bg-white rounded-2xl shadow-sm overflow-hidden border border-slate-100">
+      <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="p-2 bg-red-50 rounded-lg">
+            <i class="fas fa-tasks text-red-600"></i>
+          </div>
+          <h2 class="text-xl font-semibold text-slate-900">Énoncés des étapes</h2>
+        </div>
+      </div>
+
+      <div class="p-6">
+        <div *ngIf="(etapes$ | async) as etapes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div *ngFor="let etape of etapes" 
+               class="group bg-white rounded-xl border border-slate-200 p-6 hover:border-red-200 hover:shadow-lg transition-all duration-200">
+            <!-- Status Badge -->
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-100">
+                <i class="far fa-calendar-alt mr-2"></i>
+                {{ etape.deadline | date:'dd MMM yyyy' }}
+              </span>
+            </div>
+            
+            <!-- Content -->
+            <h3 class="text-lg font-semibold text-slate-900 mb-3 transition-colors">
+              {{ etape.titre }}
+            </h3>
+            <p class="text-sm text-slate-600 line-clamp-2 mb-4">{{ etape.description }}</p>
+            
+            <!-- Action Button -->
+            <button 
+              *ngIf="shouldShowMore(etape.description)"
+              (click)="showEtapeDetails(etape)"
+              class="text-sm text-slate-700 font-medium flex items-center group-hover:text-red-600 transition-colors"
             >
-              Fermer
+              Voir plus
+              <i class="fas fa-arrow-right ml-2 text-xs group-hover:translate-x-1 transition-transform"></i>
             </button>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
+</div>
+
+<!-- Modal Design -->
+<div *ngIf="showEtapeModal && selectedEtape" 
+     class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm"
+     (click)="closeEtapeModal()">
+  
+  <!-- Modal Container -->
+  <div class="min-h-screen px-4 py-8 text-center flex items-center justify-center">
+    <!-- Modal Content -->
+    <div class="w-full max-w-2xl bg-white rounded-2xl shadow-2xl transform transition-all duration-300 ease-out"
+         (click)="$event.stopPropagation()">
+      <!-- Modal Header -->
+      <div class="p-6 border-b border-slate-100">
+        <div class="flex justify-between items-start">
+          <div class="space-y-2">
+            <h3 class="text-2xl font-bold text-slate-900">{{ selectedEtape.titre }}</h3>
+            <div class="flex items-center gap-2">
+              <i class="far fa-calendar-alt text-amber-500"></i>
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-100">
+                {{ selectedEtape.deadline | date:'dd MMMM yyyy' }}
+              </span>
+            </div>
+          </div>
+          <button 
+            (click)="closeEtapeModal()"
+            class="p-2 text-slate-400 hover:text-red-600 hover:bg-slate-50 rounded-lg transition-all duration-200 hover:rotate-90"
+          >
+            <i class="fas fa-times text-xl"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 max-h-[60vh] overflow-y-auto">
+        <div class="prose max-w-none">
+          <p class="text-slate-600 text-base leading-relaxed whitespace-pre-line">
+            {{ selectedEtape.description }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-6 border-t border-slate-100 flex justify-end">
+        <button 
+          (click)="closeEtapeModal()"
+          class="px-4 py-2 text-sm font-medium text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-lg transition-all duration-200 hover:-translate-y-0.5"
+        >
+          Fermer
+        </button>
+      </div>
+        </div>
+  </div>
 </div>

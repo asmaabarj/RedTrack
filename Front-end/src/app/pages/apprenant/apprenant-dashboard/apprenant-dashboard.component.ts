@@ -68,11 +68,11 @@ export class ApprenantDashboardComponent implements OnInit {
   }
 
   truncateDescription(description: string): string {
-    return description.length > 255 ? description.substring(0, 255) + '...' : description;
+    return description.length > 100 ? description.substring(0, 100) + '...' : description;
   }
 
   shouldShowMore(description: string): boolean {
-    return description.length > 255;
+    return description.length > 100;
   }
 
   showEtapeDetails(etape: Etape): void {

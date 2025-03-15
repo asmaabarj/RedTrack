@@ -1,70 +1,77 @@
 <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" (click)="onClose()">
-  <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white"
-       (click)="$event.stopPropagation()">
-    <div class="mt-3">
-      <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">Créer une nouvelle classe</h3>
-      
-      <form [formGroup]="createClassForm" (ngSubmit)="onSubmit()">
-        <!-- Nom -->
-        <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2">
-            Nom de la classe
-          </label>
-          <input
-            type="text"
-            formControlName="nom"
-            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            placeholder="Entrez le nom de la classe"
-          >
-        </div>
-
-        <!-- Niveau -->
-        <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2">
-            Niveau
-          </label>
-          <select
-            formControlName="niveau"
-            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            <option value="">Sélectionnez un niveau</option>
-            <option *ngFor="let niveau of niveaux" [value]="niveau">
-              {{ niveau }}
-            </option>
-          </select>
-        </div>
-
-        <!-- Année -->
-        <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2">
-            Année
-          </label>
-          <input
-            type="text"
-            formControlName="annee"
-            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            placeholder="Ex: 2023-2024"
-          >
-        </div>
-
-        <!-- Buttons -->
-        <div class="flex justify-end gap-3">
-          <button
-            type="button"
-            (click)="onClose()"
-            class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300"
-          >
-            Annuler
-          </button>
-          <button
-            type="submit"
-            [disabled]="!createClassForm.valid"
-            class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50"
-          >
-            Créer
-          </button>
-        </div>
-      </form>
+  <div class="relative top-20 mx-auto p-6 border w-96 shadow-lg rounded-lg bg-white" (click)="$event.stopPropagation()">
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="text-xl font-semibold text-gray-900 flex items-center">
+        <i class="fas fa-graduation-cap mr-2 text-red-600"></i>
+        Créer une nouvelle classe
+      </h3>
+      <button 
+        (click)="onClose()"
+        class="text-gray-400 hover:text-red-600 transition-colors duration-200"
+      >
+        <i class="fas fa-times"></i>
+      </button>
     </div>
+
+    <form [formGroup]="createClassForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <!-- Nom -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          Nom de la classe
+        </label>
+        <input
+          type="text"
+          formControlName="nom"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          placeholder="Entrez le nom de la classe"
+        >
+      </div>
+
+      <!-- Niveau -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          Niveau
+        </label>
+        <select
+          formControlName="niveau"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          <option value="">Sélectionnez un niveau</option>
+          <option *ngFor="let niveau of niveaux" [value]="niveau">
+            {{ niveau }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Année -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          Année
+        </label>
+        <input
+          type="text"
+          formControlName="annee"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          placeholder="Ex: 2023-2024"
+        >
+      </div>
+
+      <div class="flex justify-end gap-3 pt-4">
+        <button
+          type="button"
+          (click)="onClose()"
+          class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200"
+        >
+          Annuler
+        </button>
+        <button
+          type="submit"
+          [disabled]="!createClassForm.valid"
+          class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+        >
+          Créer
+        </button>
+      </div>
+    </form>
   </div>
 </div>

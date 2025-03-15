@@ -1,65 +1,99 @@
 <app-navbar></app-navbar>
-<div class="container mx-auto p-4">
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold">Tableau de bord</h1>
-    <button 
-      routerLink="/formateur/apprenants"
-      class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
-      Liste des Apprenants
-    </button>
-  </div>
-
-  <h1 class="text-2xl font-bold mb-6">Ma Classe</h1>
-
-  <!-- Loading Spinner -->
-   <div class="flex justify-between">
-   <div>
-  <div *ngIf="loading$ | async" class="flex justify-center my-8">
-    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
-  </div>
-
-  <!-- Error Message -->
-  <div *ngIf="error$ | async as error" class="text-red-600 mb-4">
-    {{ error }}
-  </div>
-
-  <!-- Classes Grid -->
-  <div *ngIf="(classes$ | async) as classes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    <div *ngFor="let classe of classes" 
-         class="bg-white rounded-lg  p-6 ">
-      <h2 class="text-xl font-semibold mb-2">{{ classe.nom }}</h2>
-      <div class="text-gray-600">
-        <p class="mb-1">Niveau: {{ classe.niveau }}</p>
-        <p>Année: {{ classe.annee }}</p>
-      </div>
-      <div class="mt-4">
+<div class="min-h-screen bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header Section -->
+    <div class="mb-8 bg-white p-6 rounded-lg shadow-sm">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <h1 class="text-2xl font-bold text-gray-900 flex items-center">
+          <i class="fas fa-chalkboard-teacher mr-3 text-red-600"></i>
+          Tableau de bord
+        </h1>
         <button 
-          (click)="onEdit(classe)"
-          class="text-indigo-600 hover:text-indigo-800 flex items-center gap-2">
-          <i class="fas fa-edit"></i>
-          Éditer
+          routerLink="/formateur/apprenants"
+          class="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700 transition-colors duration-200"
+        >
+          <i class="fas fa-users mr-2"></i>
+          Liste des Apprenants
         </button>
       </div>
     </div>
-  </div>
 
-  <!-- Empty State -->
-  <div *ngIf="!(loading$ | async) && (classes$ | async)?.length === 0"
-       class="text-center text-gray-500 my-8 p-8 bg-white rounded-lg shadow">
-    <p class="text-xl">Aucune classe active n'est assignée</p>
-  </div>
-</div>
-<button>apprenants</button>
-</div>
-  <!-- Update Modal -->
-  <app-update-classe
-    *ngIf="showUpdateModal && selectedClasse"
-    [classe]="selectedClasse"
-    (closeModal)="closeUpdateModal()"
-  ></app-update-classe>
+    <!-- Classes Section -->
+    <div class="mb-8 bg-white p-6 rounded-lg shadow-sm">
+      <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
+        <i class="fas fa-graduation-cap mr-2 text-red-600"></i>
+        Mes Classes
+      </h2>
 
-  <!-- Etapes Carousel -->
-  <div class="mt-8">
-    <app-etapes-list></app-etapes-list>
+      <!-- Loading Spinner -->
+      <div *ngIf="loading$ | async" class="flex justify-center my-8">
+        <div class="animate-spin rounded-full h-8 w-8 border-2 border-red-600 border-t-transparent"></div>
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="error$ | async as error" 
+           class="p-4 mb-4 rounded-md bg-red-50 border border-red-200">
+        <div class="flex items-center">
+          <i class="fas fa-exclamation-circle text-red-600 mr-2"></i>
+          <p class="text-red-700">{{ error }}</p>
+        </div>
+      </div>
+
+      <!-- Classes Grid -->
+      <div *ngIf="(classes$ | async) as classes" 
+           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div *ngFor="let classe of classes" 
+             class="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ classe.nom }}</h3>
+              <div class="space-y-2 text-sm text-gray-600">
+                <p class="flex items-center">
+                  <i class="fas fa-layer-group mr-2 text-red-500"></i>
+                  Niveau: {{ classe.niveau }}
+                </p>
+                <p class="flex items-center">
+                  <i class="fas fa-calendar-alt mr-2 text-red-500"></i>
+                  Année: {{ classe.annee }}
+                </p>
+              </div>
+            </div>
+            <button 
+              (click)="onEdit(classe)"
+              class="text-red-600 hover:text-red-800 transition-colors duration-200"
+              title="Éditer la classe">
+              <i class="fas fa-edit"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!(loading$ | async) && (classes$ | async)?.length === 0"
+           class="text-center py-12">
+        <div class="flex flex-col items-center">
+          <i class="fas fa-school text-gray-400 text-4xl mb-4"></i>
+          <p class="text-gray-500 text-lg">Aucune classe active n'est assignée</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Etapes Section -->
+    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+      <div class="p-6 border-b border-gray-200">
+        <h2 class="text-xl font-bold text-gray-900 flex items-center">
+          <i class="fas fa-tasks mr-2 text-red-600"></i>
+          Étapes du Projet
+        </h2>
+      </div>
+      <app-etapes-list></app-etapes-list>
+    </div>
   </div>
 </div>
+
+<!-- Update Modal -->
+<app-update-classe
+  *ngIf="showUpdateModal && selectedClasse"
+  [classe]="selectedClasse"
+  (closeModal)="closeUpdateModal()"
+></app-update-classe>

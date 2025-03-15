@@ -1,71 +1,113 @@
 <app-navbar></app-navbar>
-<div class="container mx-auto p-4">
-  <h1 class="text-2xl font-bold mb-6">Mes Rendus</h1>
-
-  <div *ngIf="loading$ | async" class="flex justify-center my-8">
-    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
-  </div>
-
-  <div *ngIf="error$ | async as error" class="text-red-600 mb-4">
-    {{ error }}
-  </div>
-
-  <div *ngIf="etapes$ | async as etapes" class="space-y-6">
-    <div *ngFor="let etape of etapes" class="bg-white rounded-lg shadow-lg p-6">
-      <div class="mb-4">
-        <div class="flex justify-between items-start mb-4">
-          <div>
-            <h2 class="text-xl font-semibold">{{ etape.titre }}</h2>
-            <p class="text-gray-600">{{ etape.description }}</p>
-            <p class="text-sm text-gray-500">Date limite: {{ etape.deadline | date:'dd/MM/yyyy' }}</p>
-          </div>
-          <button 
-            (click)="onSubmitRendu(etape)"
-            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center gap-2"
+<div class="h-[calc(100vh-64px)] bg-gray-100">
+  <div class="h-full max-w-7xl mx-auto ">
+    <!-- Main Content -->
+    <div class="h-[80vh] overflow-y-hidden flex py-4  ">
+      <!-- Etapes List (Left Sidebar) -->
+      <div class="w-80 bg-white rounded-xl  border-r border-gray-200 flex flex-col">
+        <div class="p-4 border-b border-gray-200 flex-shrink-0">
+          <h2 class="text-base font-semibold text-gray-900">Étapes du fil rouge</h2>
+        </div>
+        <div class="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400">
+          <div *ngFor="let etape of etapes$ | async" 
+               (click)="selectEtape(etape)"
+               [class]="'cursor-pointer border-l-2 ' + 
+                        (selectedEtape?.id === etape.id ? 
+                        'bg-indigo-50 border-indigo-600' : 
+                        'border-transparent hover:bg-gray-50')"
           >
-            <i class="fas fa-upload"></i>
-            Soumettre un rendu
-          </button>
+            <div class="p-3 flex items-center gap-3">
+              <div class="w-8 h-8 flex items-center justify-center bg-indigo-50 rounded-lg">
+                <i class="far fa-file-alt text-sm text-indigo-600"></i>
+              </div>
+              <div class="flex-1 min-w-0">
+                <h3 class="text-sm font-medium truncate text-gray-900">
+                  {{ etape.titre }}
+                </h3>
+                <div class="flex items-center gap-1.5 text-xs text-gray-500">
+                  <i class="far fa-clock"></i>
+                  <span>{{ etape.deadline | date:'dd MMM yyyy' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div *ngFor="let rendu of etape.rendus" class="mt-4 border-t pt-4">
-        <div class="flex justify-between items-start">
-          <div>
-            <div class="flex items-center gap-2 mb-2">
-              <i class="fas fa-user text-gray-600"></i>
-              <span class="font-medium">{{ rendu.apprenantNom }} {{ rendu.apprenantPrenom }}</span>
-            </div>
-            <p class="font-medium">Livrable: {{ rendu.livrable }}</p>
-            <p class="text-gray-600">{{ rendu.commentaire }}</p>
-            <p class="text-sm text-gray-500">Soumis le: {{ rendu.dateSoumission | date:'dd/MM/yyyy HH:mm' }}</p>
-          </div>
-          <span [class]="'px-2 py-1 rounded-full text-xs ' + getStatusClass(rendu.type)">
-            {{ rendu.type }}
-          </span>
+      <!-- Chat Area -->
+      <div class="flex-1 flex flex-col rounded-xl bg-white">
+        <!-- Header -->
+        <div class="px-6 py-4 bg-white border-b border-gray-200 flex-shrink-0">
+          <h1 class="text-lg font-semibold text-gray-900">{{ selectedEtape?.titre }}</h1>
         </div>
 
-        <div *ngIf="rendu.responses?.length" class="mt-4 pl-4 border-l-2 border-gray-200">
-          <div *ngFor="let response of rendu.responses" class="mb-2 bg-gray-50 p-3 rounded">
-            <div class="flex items-center gap-2 mb-2">
-              <i class="fas fa-user-tie text-gray-600"></i>
-              <span class="font-medium">{{ response.formateurNom }} {{ response.formateurPrenom }}</span>
+        <!-- Messages Area - Only this should scroll -->
+        <div class="flex-1 overflow-y-auto">
+          <div class="p-6 space-y-6">
+            <div *ngFor="let rendu of selectedEtape?.rendus" class="space-y-4">
+              <!-- User Message -->
+              <div class="flex items-start gap-3">
+                <div class="h-9 w-9 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-700 flex items-center justify-center">
+                  <span class="text-white text-sm font-medium">{{ getInitials(rendu.apprenantNom) }}</span>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="font-medium text-sm text-gray-900">{{ rendu.apprenantNom }}</span>
+                  </div>
+                  <div class="bg-white rounded-lg rounded-tl-none p-4 shadow-sm ring-1 ring-gray-200">
+                    <p class="text-sm text-gray-700">{{ rendu.commentaire }}</p>
+                    <div *ngIf="rendu.livrable" class="mt-3 bg-gray-50 p-3 rounded-md">
+                      <a [href]="rendu.livrable" 
+                         class="text-indigo-600 hover:text-indigo-700 text-xs flex items-center gap-2">
+                        <i class="fas fa-link"></i>
+                        {{ rendu.livrable }}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Responses -->
+              <div *ngFor="let response of rendu.responses" class="ml-12">
+                <div class="flex items-start gap-3">
+                  <div class="h-8 w-8 rounded-full bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
+                    <span class="text-white text-xs font-medium">{{ getInitials(response.formateurNom) }}</span>
+                  </div>
+                  <div class="flex-1">
+                    <div class="flex items-center gap-2 mb-2">
+                      <span class="font-medium text-sm text-gray-900">{{ response.formateurNom }}</span>
+                    </div>
+                    <div class="bg-white rounded-lg rounded-tl-none p-4 shadow-sm ring-1 ring-gray-200">
+                      <p class="text-sm text-gray-700">{{ response.commentaire }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <p>{{ response.commentaire }}</p>
-            <p class="text-sm text-gray-500 mt-1">
-              Le {{ response.dateSoumission | date:'dd/MM/yyyy HH:mm' }}
-            </p>
           </div>
+        </div>
+
+        <!-- Input Area - Fixed at bottom -->
+        <div class="p-4 bg-white border-t border-gray-200 flex-shrink-0" *ngIf="selectedEtape">
+          <button 
+            (click)="onSubmitRendu(selectedEtape)"
+            class="w-fit flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm rounded-full shadow-md hover:bg-indigo-700 transition-colors"
+          >
+            <i class="fas fa-plus text-xs"></i>
+            <span>Soumettre un rendu</span>
+          </button>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Modal de création de rendu -->
-  <div *ngIf="showCreateModal && selectedEtape" 
-       class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full"
-       (click)="onCloseModal()">
-    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white"
+<!-- Modal -->
+<div *ngIf="showCreateModal && selectedEtape" 
+     class="fixed inset-0 z-50 overflow-y-auto bg-gray-900/75 backdrop-blur-sm"
+     (click)="onCloseModal()">
+  <div class="min-h-screen px-4 text-center flex items-center justify-center">
+    <div class="w-full max-w-lg bg-white rounded-xl shadow-xl"
          (click)="$event.stopPropagation()">
       <app-create-rendu 
         [etape]="selectedEtape"

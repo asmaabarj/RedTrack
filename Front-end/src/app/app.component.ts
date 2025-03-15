@@ -28,16 +28,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Check stored authentication
-    const authData = this.storageService.getAuth();
-    if (authData?.token && authData?.role) {
-      // Restore auth state from localStorage
-      this.store.dispatch(AuthActions.loginSuccess({ 
-        response: { 
-          token: authData.token, 
-          role: authData.role 
-        }
-      }));
-    }
+    // Check stored auth on app initialization
+    this.store.dispatch(AuthActions.checkStoredAuth());
   }
 }
