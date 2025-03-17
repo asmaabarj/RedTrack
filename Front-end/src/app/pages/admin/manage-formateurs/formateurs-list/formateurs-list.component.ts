@@ -4,8 +4,11 @@ import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 import { NavbarComponent } from '../../../../components/navbar/navbar.component';
 import { User } from '../../../../models/user.model';
+import { Class } from '../../../../models/class.model';
 import * as FormateurActions from '../../../../store/formateur/formateur.actions';
+import * as ClassActions from '../../../../store/class/class.actions';
 import { selectFormateurs, selectFormateursLoading } from '../../../../store/formateur/formateur.selectors';
+import { selectClasses } from '../../../../store/class/class.selectors';
 import { FilterUsersPipe } from '../../../../pipes/filter-users.pipe';
 import { CreateUserComponent } from '../../create-user/create-user.component';
 import { UpdateUserComponent } from '../../update-user/update-user.component';
@@ -19,8 +22,10 @@ import Swal from 'sweetalert2';
 })
 export class FormateursListComponent implements OnInit {
   formateurs$: Observable<User[]>;
+  classes$: Observable<Class[]>;
   loading$: Observable<boolean>;
   searchTerm: string = '';
+  selectedClassId: string = '';
   showCreateModal = false;
   showUpdateModal = false;
   selectedUser: User | null = null;
@@ -38,11 +43,13 @@ export class FormateursListComponent implements OnInit {
     this.formateurs$ = this.store.select(selectFormateurs).pipe(
       map(formateurs => this.filterAndPaginateFormateurs(formateurs))
     );
+    this.classes$ = this.store.select(selectClasses);
     this.loading$ = this.store.select(selectFormateursLoading);
   }
 
   ngOnInit(): void {
     this.loadFormateurs();
+    this.store.dispatch(ClassActions.loadClasses());
   }
 
   loadFormateurs(): void {
@@ -87,16 +94,39 @@ export class FormateursListComponent implements OnInit {
 
   clearSearch(): void {
     this.searchTerm = '';
+    this.currentPage = 1;
+    this.formateurs$ = this.store.select(selectFormateurs).pipe(
+      map(formateurs => this.filterAndPaginateFormateurs(formateurs))
+    );
+  }
+
+  onClassFilter(event: Event): void {
+    this.selectedClassId = (event.target as HTMLSelectElement).value;
+    this.currentPage = 1;
+    this.formateurs$ = this.store.select(selectFormateurs).pipe(
+      map(formateurs => this.filterAndPaginateFormateurs(formateurs))
+    );
   }
 
   filterFormateurs(formateurs: User[]): User[] {
-    if (!this.searchTerm) return formateurs;
+    let filtered = formateurs;
     
-    const searchLower = this.searchTerm.toLowerCase();
-    return formateurs.filter(formateur => 
-      formateur.nom.toLowerCase().includes(searchLower) ||
-      formateur.prenom.toLowerCase().includes(searchLower)
-    );
+    if (this.searchTerm) {
+      const searchLower = this.searchTerm.toLowerCase();
+      filtered = filtered.filter(formateur => 
+        formateur.nom.toLowerCase().includes(searchLower) ||
+        formateur.prenom.toLowerCase().includes(searchLower) ||
+        formateur.email.toLowerCase().includes(searchLower)
+      );
+    }
+
+    if (this.selectedClassId) {
+      filtered = filtered.filter(formateur => 
+        formateur.classes?.some(classe => classe.id === this.selectedClassId)
+      );
+    }
+
+    return filtered;
   }
 
   onArchive(formateur: User): void {

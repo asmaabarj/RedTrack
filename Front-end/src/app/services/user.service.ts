@@ -52,7 +52,22 @@ export class UserService {
   }
 
   getFormateurs(): Observable<UserResponse> {
-    return this.http.get<UserResponse>(`${this.API_URL}/formateurs`);
+    return this.http.get<UserResponse>(`${this.API_URL}/formateurs`).pipe(
+      mergeMap(async response => {
+        const formateurWithClasses = await Promise.all(
+          response.content.map(async formateur => {
+            const classes = await firstValueFrom(this.getUserClasses(formateur.id));
+            const activeClasses = classes.filter(classe => classe.active);
+            return { ...formateur, classes: activeClasses };
+          })
+        );
+        return { ...response, content: formateurWithClasses };
+      }),
+      catchError(error => {
+        console.error('Error fetching formateurs:', error);
+        return throwError(() => new Error('Erreur lors du chargement des formateurs'));
+      })
+    );
   }
 
   register(request: RegisterRequest): Observable<any> {
@@ -96,4 +111,4 @@ export class UserService {
       map(response => response.content)
     );
   }
-} 
+}
