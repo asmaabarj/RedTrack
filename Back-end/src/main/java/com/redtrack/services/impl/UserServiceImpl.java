@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @PreAuthorize("hasAuthority('ADMIN')")
     public Page<UserDTO> listFormateurs(Pageable pageable) {
-        Page<UserDTO> formateurs = userRepository.findByRoleAndActiveTrue(Role.FORMATEUR, pageable)
+        Page<UserDTO> formateurs = userRepository.findByRoleAndActiveTrueOrderByIdDesc(Role.FORMATEUR, pageable)
                 .map(userMapper::userToUserDTO);
 
         if (formateurs.isEmpty()) {
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @PreAuthorize("hasAuthority('ADMIN')")
     public Page<UserDTO> listApprenants(Pageable pageable) {
-        Page<UserDTO> apprenants = userRepository.findByRoleAndActiveTrue(Role.APPRENANT, pageable)
+        Page<UserDTO> apprenants = userRepository.findByRoleAndActiveTrueOrderByIdDesc(Role.APPRENANT, pageable)
                 .map(userMapper::userToUserDTO);
 
         if (apprenants.isEmpty()) {
@@ -97,6 +97,7 @@ public class UserServiceImpl implements UserService {
 
         return apprenants;
     }
+
 
     @Override
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -144,7 +145,7 @@ public class UserServiceImpl implements UserService {
     public Page<UserDTO> getFormateurClassApprenants(Pageable pageable) {
         User formateur = getCurrentFormateur();
         List<Class> classes = classRepository.findByUsersContaining(formateur);
-        
+
         if (classes.isEmpty()) {
             throw new UserException("Aucune classe assignée à ce formateur");
         }
@@ -157,7 +158,7 @@ public class UserServiceImpl implements UserService {
             throw new UserException("Aucune classe active n'est assignée à ce formateur");
         }
 
-        return userRepository.findByClassesInAndRoleAndActiveTrue(activeClasses, Role.APPRENANT, pageable)
+        return userRepository.findByClassesInAndRoleAndActiveTrueOrderByIdDesc(activeClasses, Role.APPRENANT, pageable)
                 .map(userMapper::userToUserDTO);
     }
 

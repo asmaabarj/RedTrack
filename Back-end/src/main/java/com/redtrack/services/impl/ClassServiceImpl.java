@@ -62,9 +62,11 @@ public class ClassServiceImpl implements ClassService {
     @Override
     @PreAuthorize("hasAuthority('ADMIN')")
     public Page<ClassDTO> getAllClasses(Pageable pageable) {
-        return classRepository.findByActiveTrue(pageable)
+        return classRepository.findByActiveTrueOrderByIdDesc(pageable)
                 .map(classMapper::classToClassDTO);
     }
+
+
 
     @Override
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -105,9 +107,10 @@ public class ClassServiceImpl implements ClassService {
     @Override
     @PreAuthorize("hasAuthority('ADMIN')")
     public Page<ClassDTO> getArchivedClasses(Pageable pageable) {
-        return classRepository.findByActiveFalse(pageable)
+        return classRepository.findByActiveFalseOrderByIdDesc(pageable)
                 .map(classMapper::classToClassDTO);
     }
+
     @Override
     @PreAuthorize("hasAuthority('ADMIN')")
     public ClassDetailsDTO getClassDetails(String id) {

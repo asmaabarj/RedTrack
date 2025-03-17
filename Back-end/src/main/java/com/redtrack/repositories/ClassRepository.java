@@ -9,8 +9,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface ClassRepository extends MongoRepository<Class, String> {
     boolean existsByNom(String nom);
-    Page<Class> findByActiveTrue(Pageable pageable);
-    Page<Class> findByActiveFalse(Pageable pageable);
+    Page<Class> findByActiveTrueOrderByIdDesc(Pageable pageable);
     List<Class> findByUsersContaining(User user);
+    Page<Class> findByActiveFalseOrderByIdDesc(Pageable pageable);
     long countByActiveTrue();
 }

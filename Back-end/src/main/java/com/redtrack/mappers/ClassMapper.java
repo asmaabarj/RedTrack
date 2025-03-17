@@ -20,14 +20,14 @@ public interface ClassMapper {
 
     default List<UserDTO> mapFormateurs(Class classe) {
         return classe.getUsers().stream()
-                .filter(u -> u.getRole() == Role.FORMATEUR)
+                .filter(u -> u != null && u.getRole() == Role.FORMATEUR)
                 .map(this::mapUser)
                 .collect(Collectors.toList());
     }
 
     default List<UserDTO> mapApprenants(Class classe) {
         return classe.getUsers().stream()
-                .filter(u -> u.getRole() == Role.APPRENANT)
+                .filter(u -> u != null && u.getRole() == Role.APPRENANT)
                 .map(this::mapUser)
                 .collect(Collectors.toList());
     }

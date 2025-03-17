@@ -33,6 +33,8 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
+
+
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.ok(userService.register(request));
@@ -42,7 +44,6 @@ public class UserController {
     public ResponseEntity<Page<UserDTO>> getFormateurs(Pageable pageable) {
         return ResponseEntity.ok(userService.listFormateurs(pageable));
     }
-
     @GetMapping("/apprenants")
     public ResponseEntity<Page<UserDTO>> getApprenants(Pageable pageable) {
         return ResponseEntity.ok(userService.listApprenants(pageable));

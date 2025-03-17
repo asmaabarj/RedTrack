@@ -9,6 +9,7 @@ import { Class } from '../../../../models/class.model';
 import * as ClassActions from '../../../../store/class/class.actions';
 import { selectClasses, selectClassesLoading, selectArchivedClasses } from '../../../../store/class/class.selectors';
 import { EditClasseComponent } from '../edit-classe/edit-classe.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-classes-list',
@@ -148,6 +149,13 @@ export class ClassesListComponent implements OnInit {
     if (this.selectedClassForAction && this.confirmAction) {
       if (this.confirmAction === 'archive') {
         this.store.dispatch(ClassActions.archiveClass({ id: this.selectedClassForAction.id }));
+        Swal.fire({
+          icon: 'success',
+          title: 'Succès!',
+          text: 'La classe a été archivée avec succès',
+          timer: 2000,
+          showConfirmButton: false
+        });
         setTimeout(() => {
           this.loadClasses();
           this.currentPage = 1;
@@ -155,6 +163,13 @@ export class ClassesListComponent implements OnInit {
         }, 300);
       } else {
         this.store.dispatch(ClassActions.unarchiveClass({ id: this.selectedClassForAction.id }));
+        Swal.fire({
+          icon: 'success',
+          title: 'Succès!',
+          text: 'La classe a été désarchivée avec succès',
+          timer: 2000,
+          showConfirmButton: false
+        });
         setTimeout(() => {
           this.loadClasses();
           this.currentPage = 1;

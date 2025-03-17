@@ -6,6 +6,7 @@ import * as ClassActions from '../../../../store/class/class.actions';
 import { selectClasses } from '../../../../store/class/class.selectors';
 import { Class } from '../../../../models/class.model';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-create-classe',
@@ -54,6 +55,13 @@ export class CreateClasseComponent {
       this.store.dispatch(ClassActions.createClass({ 
         request: this.createClassForm.value 
       }));
+      Swal.fire({
+        icon: 'success',
+        title: 'Succès!',
+        text: 'La classe a été créée avec succès',
+        timer: 2000,
+        showConfirmButton: false
+      });
       this.classCreated.emit();
       this.closeModal.emit();
     }

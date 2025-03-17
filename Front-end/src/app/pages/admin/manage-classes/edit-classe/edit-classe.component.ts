@@ -6,6 +6,7 @@ import { Class } from '../../../../models/class.model';
 import * as ClassActions from '../../../../store/class/class.actions';
 import { selectClasses } from '../../../../store/class/class.selectors';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-classe',
@@ -64,6 +65,13 @@ export class EditClasseComponent implements OnInit {
         id: this.classe.id,
         request: this.editClassForm.value
       }));
+      Swal.fire({
+        icon: 'success',
+        title: 'Succès!',
+        text: 'La classe a été modifiée avec succès',
+        timer: 2000,
+        showConfirmButton: false
+      });
       this.classUpdated.emit();
       this.closeModal.emit();
     }
@@ -72,4 +80,4 @@ export class EditClasseComponent implements OnInit {
   onClose(): void {
     this.closeModal.emit();
   }
-} 
+}
