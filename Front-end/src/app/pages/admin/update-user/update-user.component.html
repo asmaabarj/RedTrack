@@ -62,12 +62,12 @@
           <input
             type="email"
             formControlName="email"
-            class="block w-full px-4 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-white transition-all duration-200"
-            [class.border-red-500]="updateForm.get('email')?.invalid && updateForm.get('email')?.touched"
+            class="block w-full px-4 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 bg-white transition-all duration-200"
+            [class.border-red-500]="(updateForm.get('email')?.touched && updateForm.get('email')?.invalid) || existingEmailError"
           >
-          <div *ngIf="updateForm.get('email')?.invalid && updateForm.get('email')?.touched" 
+          <div *ngIf="(updateForm.get('email')?.touched && updateForm.get('email')?.invalid) || existingEmailError" 
                class="text-red-500 text-xs mt-1">
-            Veuillez entrer une adresse email valide
+            {{ getErrorMessage('email') }}
           </div>
         </div>
 

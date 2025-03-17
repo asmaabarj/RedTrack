@@ -2,13 +2,16 @@ import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { Class } from '../../../models/class.model';
 import * as ClassActions from '../../../store/class/class.actions';
 import { selectClasses } from '../../../store/class/class.selectors';
 import { Role } from '../../../models/user.model';
 import * as FormateurActions from '../../../store/formateur/formateur.actions';
 import * as ApprenantActions from '../../../store/apprenant/apprenant.actions';
+import { selectFormateurs } from '../../../store/formateur/formateur.selectors';
+import { selectApprenants } from '../../../store/apprenant/apprenant.selectors';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -25,6 +28,7 @@ export class CreateUserComponent implements OnInit {
   userForm: FormGroup;
   classes$: Observable<Class[]>;
   submitted = false;
+  existingEmailError = '';
 
   constructor(
     private fb: FormBuilder,
@@ -38,10 +42,40 @@ export class CreateUserComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       classeIds: ['', Validators.required]
     });
+
+    // Check for existing email
+    this.userForm.get('email')?.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      )
+      .subscribe(emailValue => {
+        if (emailValue) {
+          combineLatest([
+            this.store.select(selectFormateurs),
+            this.store.select(selectApprenants)
+          ]).pipe(
+            map(([formateurs, apprenants]) => [...formateurs, ...apprenants])
+          ).subscribe(users => {
+            const exists = users.some(user => 
+              user.email.toLowerCase() === emailValue.toLowerCase()
+            );
+            this.existingEmailError = exists ? 
+              'Cet email existe déjà' : '';
+          });
+        } else {
+          this.existingEmailError = '';
+        }
+      });
   }
 
   ngOnInit(): void {
     this.store.dispatch(ClassActions.loadClasses());
+    if (this.userType === 'FORMATEUR') {
+      this.store.dispatch(FormateurActions.loadFormateurs());
+    } else {
+      this.store.dispatch(ApprenantActions.loadApprenants());
+    }
   }
 
   get f() { 
@@ -69,6 +103,9 @@ export class CreateUserComponent implements OnInit {
         if (control.hasError('email') || control.hasError('pattern')) {
           return 'Email invalide';
         }
+        if (this.existingEmailError) {
+          return this.existingEmailError;
+        }
         break;
       
       case 'password':
@@ -83,7 +120,7 @@ export class CreateUserComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
     
-    if (this.userForm.valid) {
+    if (this.userForm.valid && !this.existingEmailError) {
       const formData = {
         ...this.userForm.value,
         role: this.userType === 'FORMATEUR' ? Role.FORMATEUR : Role.APPRENANT,
