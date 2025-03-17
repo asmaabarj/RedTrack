@@ -131,7 +131,6 @@ public class UserServiceImpl implements UserService {
         user.setPrenom(request.getPrenom());
         user.setEmail(request.getEmail());
         
-        // Update password only if provided
         if (request.getPassword() != null && !request.getPassword().isEmpty()) {
             user.setPassword(passwordEncoder.encode(request.getPassword()));
         }
@@ -410,7 +409,6 @@ public class UserServiceImpl implements UserService {
         user.getClasses().remove(oldClass);
         oldClass.getUsers().remove(user);
         
-        // Add to new class
         user.getClasses().add(newClass);
         newClass.getUsers().add(user);
 

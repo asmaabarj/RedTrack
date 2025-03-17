@@ -42,7 +42,6 @@ export class ApprenantDashboardComponent implements OnInit {
     this.etapesLoading$ = this.store.select(selectEtapesLoading);
     this.error$ = this.store.select(selectApprenantClassesError);
 
-    // Debug subscriptions
     this.classes$.subscribe(classes => {
       console.log('Classes in component:', classes);
     });

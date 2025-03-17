@@ -9,6 +9,7 @@ import { StatsService } from '../../../services/stats.service';
   standalone: true,
   imports: [CommonModule, NavbarComponent],
   templateUrl: './admin-dashboard.component.html',
+  styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
   stats = {

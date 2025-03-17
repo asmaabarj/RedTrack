@@ -12,6 +12,7 @@ import { selectClasses } from '../../../../store/class/class.selectors';
 import { FilterUsersPipe } from '../../../../pipes/filter-users.pipe';
 import { CreateUserComponent } from '../../create-user/create-user.component';
 import { UpdateUserComponent } from '../../update-user/update-user.component';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-apprenants-list',
@@ -29,9 +30,17 @@ export class ApprenantsListComponent implements OnInit {
   showUpdateModal = false;
   selectedUser: User | null = null;
   showArchived = false;
+  pageSize = 6;
+  currentPage = 1;
+  totalPages = 1;
+  showConfirmModal = false;
+  confirmAction: 'archive' | 'unarchive' = 'archive';
+  selectedApprenantForAction: User | null = null;
 
   constructor(private store: Store) {
-    this.apprenants$ = this.store.select(selectApprenants);
+    this.apprenants$ = this.store.select(selectApprenants).pipe(
+      map(apprenants => this.filterAndPaginateApprenants(apprenants))
+    );
     this.classes$ = this.store.select(selectClasses);
     this.loading$ = this.store.select(selectApprenantsLoading);
   }
@@ -49,16 +58,51 @@ export class ApprenantsListComponent implements OnInit {
     }
   }
 
+  getFilteredApprenants(apprenants: User[]): User[] {
+    if (!apprenants) return [];
+    
+    let filtered = apprenants;
+    
+    if (this.searchTerm) {
+      const searchLower = this.searchTerm.toLowerCase();
+      filtered = filtered.filter(apprenant => 
+        apprenant.nom.toLowerCase().includes(searchLower) ||
+        apprenant.prenom.toLowerCase().includes(searchLower) ||
+        apprenant.email.toLowerCase().includes(searchLower)
+      );
+    }
+
+    if (this.selectedClassId) {
+      filtered = filtered.filter(apprenant => 
+        apprenant.classes?.some(classe => classe.id === this.selectedClassId)
+      );
+    }
+
+    return filtered;
+  }
+
   onSearch(event: Event): void {
     this.searchTerm = (event.target as HTMLInputElement).value;
+    this.currentPage = 1;
+    this.apprenants$ = this.store.select(selectApprenants).pipe(
+      map(apprenants => this.filterAndPaginateApprenants(apprenants))
+    );
   }
 
   clearSearch(): void {
     this.searchTerm = '';
+    this.currentPage = 1;
+    this.apprenants$ = this.store.select(selectApprenants).pipe(
+      map(apprenants => this.filterAndPaginateApprenants(apprenants))
+    );
   }
 
   onClassFilter(event: Event): void {
     this.selectedClassId = (event.target as HTMLSelectElement).value;
+    this.currentPage = 1;
+    this.apprenants$ = this.store.select(selectApprenants).pipe(
+      map(apprenants => this.filterAndPaginateApprenants(apprenants))
+    );
   }
 
   filterApprenants(apprenants: User[]): User[] {
@@ -81,10 +125,26 @@ export class ApprenantsListComponent implements OnInit {
     return filtered;
   }
 
+  filterAndPaginateApprenants(apprenants: User[]): User[] {
+    let filtered = this.filterApprenants(apprenants);
+    
+    this.totalPages = Math.ceil(filtered.length / this.pageSize);
+    
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    return filtered.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.apprenants$ = this.store.select(selectApprenants).pipe(
+      map(apprenants => this.filterAndPaginateApprenants(apprenants))
+    );
+  }
+
   onArchive(apprenant: User): void {
-    if (confirm(`Êtes-vous sûr de vouloir archiver ${apprenant.prenom} ${apprenant.nom} ?`)) {
-      this.store.dispatch(ApprenantActions.archiveApprenant({ id: apprenant.id }));
-    }
+    this.selectedApprenantForAction = apprenant;
+    this.confirmAction = 'archive';
+    this.showConfirmModal = true;
   }
 
   openCreateModal(): void {
@@ -115,8 +175,36 @@ export class ApprenantsListComponent implements OnInit {
   }
 
   onUnarchive(apprenant: User): void {
-    if (confirm(`Êtes-vous sûr de vouloir désarchiver l'apprenant ${apprenant.prenom} ${apprenant.nom} ?`)) {
-      this.store.dispatch(ApprenantActions.unarchiveApprenant({ id: apprenant.id }));
+    this.selectedApprenantForAction = apprenant;
+    this.confirmAction = 'unarchive';
+    this.showConfirmModal = true;
+  }
+
+  closeConfirmModal(): void {
+    this.showConfirmModal = false;
+    this.selectedApprenantForAction = null;
+  }
+
+  confirmActionModal(): void {
+    if (this.selectedApprenantForAction) {
+      if (this.confirmAction === 'archive') {
+        this.store.dispatch(ApprenantActions.archiveApprenant({ 
+          id: this.selectedApprenantForAction.id 
+        }));
+      } else {
+        this.store.dispatch(ApprenantActions.unarchiveApprenant({ 
+          id: this.selectedApprenantForAction.id 
+        }));
+      }
+      
+      setTimeout(() => {
+        this.loadApprenants();
+        this.currentPage = 1;
+        this.apprenants$ = this.store.select(selectApprenants).pipe(
+          map(apprenants => this.filterAndPaginateApprenants(apprenants))
+        );
+      }, 300);
     }
+    this.closeConfirmModal();
   }
 }

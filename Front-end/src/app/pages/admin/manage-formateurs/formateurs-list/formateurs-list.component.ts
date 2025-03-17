@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { NavbarComponent } from '../../../../components/navbar/navbar.component';
 import { User } from '../../../../models/user.model';
 import * as FormateurActions from '../../../../store/formateur/formateur.actions';
@@ -25,8 +25,18 @@ export class FormateursListComponent implements OnInit {
   selectedUser: User | null = null;
   showArchived = false;
 
+  currentPage = 1;
+  itemsPerPage = 6;
+  totalPages = 1;
+
+  showConfirmModal = false;
+  selectedFormateurForAction: User | null = null;
+  confirmAction: 'archive' | 'unarchive' = 'archive';
+
   constructor(private store: Store) {
-    this.formateurs$ = this.store.select(selectFormateurs);
+    this.formateurs$ = this.store.select(selectFormateurs).pipe(
+      map(formateurs => this.filterAndPaginateFormateurs(formateurs))
+    );
     this.loading$ = this.store.select(selectFormateursLoading);
   }
 
@@ -42,13 +52,36 @@ export class FormateursListComponent implements OnInit {
     }
   }
 
+  filterAndPaginateFormateurs(formateurs: User[]): User[] {
+    let filtered = this.filterFormateurs(formateurs);
+    
+    this.totalPages = Math.ceil(filtered.length / this.itemsPerPage);
+    
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return filtered.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+
+  onPageChange(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.formateurs$ = this.store.select(selectFormateurs).pipe(
+        map(formateurs => this.filterAndPaginateFormateurs(formateurs))
+      );
+    }
+  }
+
   toggleArchived(): void {
     this.showArchived = !this.showArchived;
+    this.currentPage = 1; 
     this.loadFormateurs();
   }
 
   onSearch(event: Event): void {
     this.searchTerm = (event.target as HTMLInputElement).value;
+    this.currentPage = 1; 
+    this.formateurs$ = this.store.select(selectFormateurs).pipe(
+      map(formateurs => this.filterAndPaginateFormateurs(formateurs))
+    );
   }
 
   clearSearch(): void {
@@ -66,15 +99,44 @@ export class FormateursListComponent implements OnInit {
   }
 
   onArchive(formateur: User): void {
-    if (confirm(`Êtes-vous sûr de vouloir archiver ${formateur.prenom} ${formateur.nom} ?`)) {
-      this.store.dispatch(FormateurActions.archiveFormateur({ id: formateur.id }));
-    }
+    this.selectedFormateurForAction = formateur;
+    this.confirmAction = 'archive';
+    this.showConfirmModal = true;
   }
 
   onUnarchive(formateur: User): void {
-    if (confirm(`Êtes-vous sûr de vouloir désarchiver ${formateur.prenom} ${formateur.nom} ?`)) {
-      this.store.dispatch(FormateurActions.unarchiveFormateur({ id: formateur.id }));
+    this.selectedFormateurForAction = formateur;
+    this.confirmAction = 'unarchive';
+    this.showConfirmModal = true;
+  }
+
+  confirmActionModal(): void {
+    if (this.selectedFormateurForAction) {
+      if (this.confirmAction === 'archive') {
+        this.store.dispatch(FormateurActions.archiveFormateur({ 
+          id: this.selectedFormateurForAction.id 
+        }));
+      } else {
+        this.store.dispatch(FormateurActions.unarchiveFormateur({ 
+          id: this.selectedFormateurForAction.id 
+        }));
+      }
+
+      setTimeout(() => {
+        this.currentPage = 1; 
+        this.loadFormateurs();
+        
+        this.formateurs$ = this.store.select(selectFormateurs).pipe(
+          map(formateurs => this.filterAndPaginateFormateurs(formateurs))
+        );
+      }, 300);
     }
+    this.closeConfirmModal();
+  }
+
+  closeConfirmModal(): void {
+    this.showConfirmModal = false;
+    this.selectedFormateurForAction = null;
   }
 
   openCreateModal(): void {

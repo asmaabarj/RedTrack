@@ -1,7 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { User, CreateApprenantRequest, UpdateApprenantRequest } from '../../models/user.model';
 
-// Actions for loading apprenants
 export const loadApprenants = createAction('[Apprenants] Load Apprenants');
 
 export const loadApprenantsSuccess = createAction(
@@ -14,7 +13,6 @@ export const loadApprenantsFailure = createAction(
   props<{ error: string }>()
 );
 
-// Actions for loading archived apprenants
 export const loadArchivedApprenants = createAction('[Apprenants] Load Archived Apprenants');
 
 export const loadArchivedApprenantsSuccess = createAction(
@@ -27,7 +25,6 @@ export const loadArchivedApprenantsFailure = createAction(
   props<{ error: string }>()
 );
 
-// Actions for archiving and unarchiving apprenants
 export const archiveApprenant = createAction(
   '[Apprenants] Archive Apprenant',
   props<{ apprenantId: string }>()

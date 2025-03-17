@@ -28,7 +28,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Check stored auth on app initialization
     this.store.dispatch(AuthActions.checkStoredAuth());
   }
 }

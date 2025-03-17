@@ -1,91 +1,59 @@
 <app-navbar></app-navbar>
-<div class="min-h-screen bg-gray-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Header Section -->
-    <div class="mb-8 bg-white p-6 rounded-lg shadow-sm">
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 class="text-2xl font-bold text-gray-900 flex items-center">
-          <i class="fas fa-chalkboard-teacher mr-3 text-red-600"></i>
-          Tableau de bord
-        </h1>
-        <button 
-          routerLink="/formateur/apprenants"
-          class="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700 transition-colors duration-200"
-        >
-          <i class="fas fa-users mr-2"></i>
-          Liste des Apprenants
-        </button>
-      </div>
-    </div>
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 ">
 
-    <!-- Classes Section -->
-    <div class="mb-8 bg-white p-6 rounded-lg shadow-sm">
-      <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
-        <i class="fas fa-graduation-cap mr-2 text-red-600"></i>
-        Mes Classes
-      </h2>
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-r from-gray-900 via-gray-800 to-red-900 py-4  text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div *ngIf="(classes$ | async) as classes" 
+             class="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+          <div class="">
+            <div class="flex items-center  space-x-4">
+  
+              <div>
+                <h1 class="text-3xl font-bold  text-slate-100">Tableau de bord de 
+                  <span class="text-red-600 uppercase tracking-wide">{{ classes[0].nom }}</span> 
+                                <span class="text-slate-400 mx-2">|</span>  
+                                             <span class="text-slate-200 font-medium">{{ classes[0].annee }}</span>             </h1>
+              </div>
+              <button 
+              (click)="onEdit(classes[0])"
+              class="px-2 py-1.5 text-xs  hover:text-blue-800 transition-colors duration-200 text-white rounded-full  font-medium bg-white/10 border border-gray-200 backdrop-blur-sm"
+             >
+             <i class="fas fa-edit"></i>
+            </button>
 
-      <!-- Loading Spinner -->
-      <div *ngIf="loading$ | async" class="flex justify-center my-8">
-        <div class="animate-spin rounded-full h-8 w-8 border-2 border-red-600 border-t-transparent"></div>
-      </div>
+            </div>
+            <div class="flex items-center mt-3 space-x-3">
+              <span class="px-4 py-1.5 text-white rounded-full text-sm font-medium bg-white/10 border border-gray-200 backdrop-blur-sm">
+                {{classes[0].niveau}}
+              </span>
 
-      <!-- Error Message -->
-      <div *ngIf="error$ | async as error" 
-           class="p-4 mb-4 rounded-md bg-red-50 border border-red-200">
-        <div class="flex items-center">
-          <i class="fas fa-exclamation-circle text-red-600 mr-2"></i>
-          <p class="text-red-700">{{ error }}</p>
-        </div>
-      </div>
-
-      <!-- Classes Grid -->
-      <div *ngIf="(classes$ | async) as classes" 
-           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div *ngFor="let classe of classes" 
-             class="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200">
-          <div class="flex justify-between items-start">
-            <div>
-              <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ classe.nom }}</h3>
-              <div class="space-y-2 text-sm text-gray-600">
-                <p class="flex items-center">
-                  <i class="fas fa-layer-group mr-2 text-red-500"></i>
-                  Niveau: {{ classe.niveau }}
-                </p>
-                <p class="flex items-center">
-                  <i class="fas fa-calendar-alt mr-2 text-red-500"></i>
-                  Année: {{ classe.annee }}
-                </p>
+              <div class="flex items-center text-blue-100">
+                <i class="fas fa-clock mr-2"></i>
+                Semestre en cours
               </div>
             </div>
-            <button 
-              (click)="onEdit(classe)"
-              class="text-red-600 hover:text-red-800 transition-colors duration-200"
-              title="Éditer la classe">
-              <i class="fas fa-edit"></i>
-            </button>
-          </div>
-        </div>
-      </div>
 
-      <!-- Empty State -->
-      <div *ngIf="!(loading$ | async) && (classes$ | async)?.length === 0"
-           class="text-center py-12">
-        <div class="flex flex-col items-center">
-          <i class="fas fa-school text-gray-400 text-4xl mb-4"></i>
-          <p class="text-gray-500 text-lg">Aucune classe active n'est assignée</p>
+            <button 
+            routerLink="/formateur/apprenants"
+            class="inline-flex items-center mt-12 px-4 py-3 rounded-md text-sm font-medium text-white bg-gradient-to-r from-red-900 via-gray-800 to-gray-700 transition-colors duration-200"
+          >
+            <i class="fas fa-users mr-2"></i>
+            Liste des Apprenants
+          </button>
+          </div>
+
         </div>
       </div>
     </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header Section -->
+
 
     <!-- Etapes Section -->
     <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-      <div class="p-6 border-b border-gray-200">
-        <h2 class="text-xl font-bold text-gray-900 flex items-center">
-          <i class="fas fa-tasks mr-2 text-red-600"></i>
-          Étapes du Projet
-        </h2>
-      </div>
+      
       <app-etapes-list></app-etapes-list>
     </div>
   </div>

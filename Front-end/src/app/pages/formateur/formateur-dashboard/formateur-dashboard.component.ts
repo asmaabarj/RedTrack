@@ -38,7 +38,6 @@ export class FormateurDashboardComponent implements OnInit {
     this.loading$ = this.store.select(selectFormateurClassesLoading);
     this.error$ = this.store.select(selectFormateurClassesError);
 
-    // Debug subscriptions
     this.classes$.subscribe(classes => {
       console.log('Classes in component:', classes);
     });

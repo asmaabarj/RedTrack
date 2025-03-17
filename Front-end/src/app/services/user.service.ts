@@ -71,7 +71,6 @@ export class UserService {
   }
 
   updateUserClass(userId: string, classId: string): Observable<void> {
-    // Get current classes first
     return this.http.get<any>(`${this.API_URL}/users/${userId}/classes`).pipe(
       mergeMap(classes => {
         if (classes && classes.length > 0) {

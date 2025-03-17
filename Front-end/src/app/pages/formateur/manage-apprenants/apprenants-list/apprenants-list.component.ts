@@ -40,7 +40,6 @@ export class ApprenantsListComponent implements OnInit {
     this.loading$ = this.store.select(selectLoading);
     this.error$ = this.store.select(selectError);
     
-    // Initialize filtered apprenants
     this.filteredApprenants$ = this.apprenants$.pipe(
       map(apprenants => this.filterApprenants(apprenants))
     );
@@ -81,7 +80,6 @@ export class ApprenantsListComponent implements OnInit {
     }
   }
 
-  // Add search methods
   onSearch(term: string): void {
     this.searchTerm = term;
     this.filteredApprenants$ = this.apprenants$.pipe(

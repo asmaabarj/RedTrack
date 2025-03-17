@@ -22,11 +22,9 @@ export class AuthService {
   }
 
   logout(): Observable<void> {
-    // Clear local storage first
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     
-    // Then make the logout request
     return this.http.post<void>(`${this.API_URL}/auth/logout`, {}).pipe(
       catchError(this.handleError)
     );
@@ -48,10 +46,8 @@ export class AuthService {
     let errorMessage = 'Une erreur est survenue';
     
     if (error.error instanceof ErrorEvent) {
-      // Erreur côté client
       errorMessage = error.error.message;
     } else {
-      // Erreur côté serveur
       errorMessage = error.error?.message || `Code d'erreur: ${error.status}`;
     }
     

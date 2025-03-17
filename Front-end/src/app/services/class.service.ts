@@ -15,7 +15,6 @@ export class ClassService {
 
   constructor(private http: HttpClient) {}
 
-  // Active Classes Methods
   getClasses(): Observable<ClassResponse> {
     return this.http.get<ClassResponse>(this.API_URL).pipe(
       catchError(error => {
@@ -34,7 +33,6 @@ export class ClassService {
     );
   }
 
-  // Archive Management Methods
   getArchivedClasses(): Observable<ClassResponse> {
     return this.http.get<ClassResponse>(`${this.API_URL}/archived`).pipe(
       catchError(error => {
@@ -62,7 +60,6 @@ export class ClassService {
     );
   }
 
-  // CRUD Operations
   createClass(request: CreateClassRequest): Observable<Class> {
     return this.http.post<Class>(this.API_URL, request).pipe(
       catchError(error => {

@@ -41,7 +41,6 @@ export class ClassEffects {
       mergeMap(({ id }) =>
         this.classService.archiveClass(id).pipe(
           map(() => {
-            // Reload classes after successful archive
             return ClassActions.loadClasses();
           }),
           catchError(error => 
@@ -66,7 +65,6 @@ export class ClassEffects {
     )
   );
 
-  // Reload classes after successful update
   updateClassSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClassActions.updateClassSuccess),
@@ -102,7 +100,6 @@ export class ClassEffects {
     )
   );
 
-  // Reload appropriate list after unarchive
   unarchiveClassSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClassActions.unarchiveClassSuccess),

@@ -27,7 +27,6 @@ import {
 export class FormateurApprenantEffects {
   constructor(private actions$: Actions, private formateurService: FormateurService) {}
 
-  // Load Apprenants Effect
   loadApprenants$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadApprenants),
@@ -40,7 +39,6 @@ export class FormateurApprenantEffects {
     )
   );
 
-  // Load Archived Apprenants Effect
   loadArchivedApprenants$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadArchivedApprenants),
@@ -53,7 +51,6 @@ export class FormateurApprenantEffects {
     )
   );
 
-  // Archive Apprenant Effect
   archiveApprenant$ = createEffect(() =>
     this.actions$.pipe(
       ofType(archiveApprenant),
@@ -66,7 +63,6 @@ export class FormateurApprenantEffects {
     )
   );
 
-  // Unarchive Apprenant Effect
   unarchiveApprenant$ = createEffect(() =>
     this.actions$.pipe(
       ofType(unarchiveApprenant),

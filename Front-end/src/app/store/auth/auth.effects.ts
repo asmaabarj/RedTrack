@@ -23,7 +23,7 @@ export class AuthEffects {
             return AuthActions.loginFailure({ error: 'Réponse invalide du serveur' });
           }),
           catchError((error) => {
-            const errorMessage = error.error?.message || 'Une erreur est survenue lors de la connexion';
+            const errorMessage = error.error?.message || 'Email ou mot de passe incorrect';
             return of(AuthActions.loginFailure({ error: errorMessage }));
           })
         )
@@ -58,21 +58,16 @@ export class AuthEffects {
     { dispatch: false }
   );
 
-  checkStoredAuth$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.checkStoredAuth),
-      switchMap(() => {
-        const authData = this.storageService.getAuth();
-        if (authData?.token && authData?.role) {
-          return of(AuthActions.loginSuccess({ 
-            response: { token: authData.token, role: authData.role },
-            isNewLogin: false 
-          }));
-        }
-        return of(AuthActions.logout());
-      })
-    )
-  );
+  checkStoredAuth$ = createEffect(() => this.actions$.pipe(
+    ofType(AuthActions.checkStoredAuth),
+    map(() => {
+      const authData = this.storageService.getAuth();
+      if (authData) {
+        return AuthActions.loginSuccess({ response: authData, isNewLogin: false });
+      }
+      return AuthActions.logout();
+    })
+  ));
 
   logout$ = createEffect(
     () =>

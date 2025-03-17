@@ -41,7 +41,13 @@
                         id="nom"
                         type="text"
                         formControlName="nom"
-                        placeholder="Nom">
+                        placeholder="Nom"
+                        [class.border-red-500]="apprenantForm.get('nom')?.errors?.['duplicate']">
+                </div>
+                <div *ngIf="apprenantForm.get('nom')?.errors?.['duplicate']" 
+                     class="text-red-600 text-sm mt-1 flex items-center">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    Une classe avec ce nom existe déjà
                 </div>
                 <div class="mb-6">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="prenom">

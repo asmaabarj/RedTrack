@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable, map } from 'rxjs';
+import { Observable, map, BehaviorSubject } from 'rxjs';
 import { NavbarComponent } from '../../../../components/navbar/navbar.component';
 import { CreateClasseComponent } from '../create-classe/create-classe.component';
 import { Class } from '../../../../models/class.model';
@@ -32,16 +32,24 @@ export class ClassesListComponent implements OnInit {
   showCreateModal = false;
   showEditModal = false;
   selectedClass: Class | null = null;
+  pageSize = 6;
+  currentPage = 1;
+  totalPages = 1;
+  showConfirmModal = false;
+  confirmAction: 'archive' | 'unarchive' | null = null;
+  selectedClassForAction: Class | null = null;
+    Math = Math;
+
 
   niveaux = ['Toutes les classes', '1ère année', '2ème année'];
 
   constructor(private store: Store) {
     this.loading$ = this.store.select(selectClassesLoading);
     this.classes$ = this.store.select(selectClasses).pipe(
-      map(classes => this.filterClasses(classes))
+      map(classes => this.filterAndPaginateClasses(classes))
     );
     this.archivedClasses$ = this.store.select(selectArchivedClasses).pipe(
-      map(classes => this.filterClasses(classes))
+      map(classes => this.filterAndPaginateClasses(classes))
     );
   }
 
@@ -63,14 +71,23 @@ export class ClassesListComponent implements OnInit {
     this.loadClasses();
   }
 
-  private filterClasses(classes: Class[]): Class[] {
-    return classes.filter(classe => {
+  private filterAndPaginateClasses(classes: Class[]): Class[] {
+    let filteredClasses = classes.filter(classe => {
       const matchesSearch = this.searchTerm ? 
         classe.nom.toLowerCase().includes(this.searchTerm.toLowerCase()) : true;
       const matchesNiveau = this.selectedNiveau && this.selectedNiveau !== 'Toutes les classes' ? 
         classe.niveau === this.selectedNiveau : true;
       return matchesSearch && matchesNiveau;
     });
+
+    this.totalPages = Math.ceil(filteredClasses.length / this.pageSize);
+    
+    if (this.currentPage > this.totalPages) {
+      this.currentPage = 1;
+    }
+
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    return filteredClasses.slice(startIndex, startIndex + this.pageSize);
   }
 
   onSearch(event: Event): void {
@@ -84,12 +101,11 @@ export class ClassesListComponent implements OnInit {
   }
 
   private updateFilter(): void {
-    // Force update of both observables
     this.classes$ = this.store.select(selectClasses).pipe(
-      map(classes => this.filterClasses(classes))
+      map(classes => this.filterAndPaginateClasses(classes))
     );
     this.archivedClasses$ = this.store.select(selectArchivedClasses).pipe(
-      map(classes => this.filterClasses(classes))
+      map(classes => this.filterAndPaginateClasses(classes))
     );
   }
 
@@ -109,13 +125,50 @@ export class ClassesListComponent implements OnInit {
 
   onClassCreated(): void {
     this.closeCreateClassModal();
-    this.store.dispatch(ClassActions.loadClasses());
+    setTimeout(() => {
+      this.loadClasses();
+      this.currentPage = 1;
+      this.updateFilter();
+    }, 300);
   }
 
   onArchive(classe: Class): void {
-    if (confirm(`Êtes-vous sûr de vouloir archiver la classe ${classe.nom}?`)) {
-      this.store.dispatch(ClassActions.archiveClass({ id: classe.id }));
+    this.selectedClassForAction = classe;
+    this.confirmAction = 'archive';
+    this.showConfirmModal = true;
+  }
+
+  onUnarchive(classe: Class): void {
+    this.selectedClassForAction = classe;
+    this.confirmAction = 'unarchive';
+    this.showConfirmModal = true;
+  }
+
+  confirmActionModal(): void {
+    if (this.selectedClassForAction && this.confirmAction) {
+      if (this.confirmAction === 'archive') {
+        this.store.dispatch(ClassActions.archiveClass({ id: this.selectedClassForAction.id }));
+        setTimeout(() => {
+          this.loadClasses();
+          this.currentPage = 1;
+          this.updateFilter();
+        }, 300);
+      } else {
+        this.store.dispatch(ClassActions.unarchiveClass({ id: this.selectedClassForAction.id }));
+        setTimeout(() => {
+          this.loadClasses();
+          this.currentPage = 1;
+          this.updateFilter();
+        }, 300);
+      }
+      this.closeConfirmModal();
     }
+  }
+
+  closeConfirmModal(): void {
+    this.showConfirmModal = false;
+    this.confirmAction = null;
+    this.selectedClassForAction = null;
   }
 
   onEdit(classe: Class): void {
@@ -133,9 +186,8 @@ export class ClassesListComponent implements OnInit {
     this.loadClasses();
   }
 
-  onUnarchive(classe: Class): void {
-    if (confirm(`Êtes-vous sûr de vouloir désarchiver la classe ${classe.nom}?`)) {
-      this.store.dispatch(ClassActions.unarchiveClass({ id: classe.id }));
-    }
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.updateFilter();
   }
 }

@@ -13,12 +13,15 @@ import { Router } from '@angular/router';
   selector: 'app-navbar',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './navbar.component.html'
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
   role$: Observable<string | null>;
   userProfile$: Observable<UserProfileResponse | null>;
+  user: any;
   isDropdownOpen = false;
+  isMobileMenuOpen = false;
 
   constructor(
     private store: Store,
@@ -27,6 +30,7 @@ export class NavbarComponent implements OnInit {
   ) {
     this.role$ = this.store.select(selectAuthRole);
     this.userProfile$ = this.store.select(selectUserProfile);
+    this.userProfile$.subscribe(user => this.user = user);
   }
 
   ngOnInit() {
@@ -54,9 +58,17 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  // Close dropdown when clicking escape key
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  closeMobileMenu() {
+    this.isMobileMenuOpen = false;
+  }
+
   @HostListener('window:keydown.escape')
   onEscapePress() {
     this.closeDropdown();
+    this.closeMobileMenu();
   }
 }

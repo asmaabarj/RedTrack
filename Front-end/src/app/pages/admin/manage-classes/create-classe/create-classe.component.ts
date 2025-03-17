@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as ClassActions from '../../../../store/class/class.actions';
+import { selectClasses } from '../../../../store/class/class.selectors';
+import { Class } from '../../../../models/class.model';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-classe',
@@ -17,6 +20,7 @@ export class CreateClasseComponent {
 
   createClassForm: FormGroup;
   niveaux = ['1ère année', '2ème année'];
+  existingClassError = '';
 
   constructor(private fb: FormBuilder, private store: Store) {
     this.createClassForm = this.fb.group({
@@ -24,14 +28,34 @@ export class CreateClasseComponent {
       niveau: ['', Validators.required],
       annee: ['', Validators.required]
     });
+
+    this.createClassForm.get('nom')?.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      )
+      .subscribe(nomValue => {
+        if (nomValue) {
+          this.store.select(selectClasses).subscribe(classes => {
+            const exists = classes.some(c => 
+              c.nom.toLowerCase() === nomValue.toLowerCase()
+            );
+            this.existingClassError = exists ? 
+              'Une classe avec ce nom existe déjà' : '';
+          });
+        } else {
+          this.existingClassError = '';
+        }
+      });
   }
 
   onSubmit(): void {
-    if (this.createClassForm.valid) {
+    if (this.createClassForm.valid && !this.existingClassError) {
       this.store.dispatch(ClassActions.createClass({ 
         request: this.createClassForm.value 
       }));
       this.classCreated.emit();
+      this.closeModal.emit();
     }
   }
 

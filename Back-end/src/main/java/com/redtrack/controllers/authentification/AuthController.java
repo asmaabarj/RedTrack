@@ -36,7 +36,6 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletRequest request) {
-        // Clear any server-side session state if needed
         String token = extractTokenFromRequest(request);
         if (token != null) {
             authService.invalidateToken(token);

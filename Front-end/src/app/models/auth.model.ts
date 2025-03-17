@@ -14,10 +14,3 @@ export interface UserProfileResponse {
     prenom: string;
     role: string;
 }
-
-// export interface UserProfileResponse {
-//     email: string;
-//     nom: string;
-//     prenom: string;
-//     role: string;
-// } 

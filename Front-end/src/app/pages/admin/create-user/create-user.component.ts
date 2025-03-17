@@ -14,8 +14,7 @@ import * as ApprenantActions from '../../../store/apprenant/apprenant.actions';
   selector: 'app-create-user',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './create-user.component.html',
-  styleUrl: './create-user.component.css'
+  templateUrl: './create-user.component.html'
 })
 export class CreateUserComponent implements OnInit {
   @Input() userType: 'FORMATEUR' | 'APPRENANT' = 'FORMATEUR';
@@ -24,6 +23,7 @@ export class CreateUserComponent implements OnInit {
 
   userForm: FormGroup;
   classes$: Observable<Class[]>;
+  submitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -31,10 +31,10 @@ export class CreateUserComponent implements OnInit {
   ) {
     this.classes$ = this.store.select(selectClasses);
     this.userForm = this.fb.group({
-      prenom: ['', Validators.required],
-      nom: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      prenom: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      nom: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       classeIds: ['', Validators.required]
     });
   }
@@ -43,7 +43,45 @@ export class CreateUserComponent implements OnInit {
     this.store.dispatch(ClassActions.loadClasses());
   }
 
+  get f() { 
+    return this.userForm.controls; 
+  }
+
+  getErrorMessage(fieldName: string): string {
+    const control = this.f[fieldName];
+    if (control.hasError('required')) {
+      return 'Ce champ est requis';
+    }
+    
+    switch (fieldName) {
+      case 'prenom':
+      case 'nom':
+        if (control.hasError('minlength')) {
+          return 'Minimum 2 caractères requis';
+        }
+        if (control.hasError('maxlength')) {
+          return 'Maximum 50 caractères autorisés';
+        }
+        break;
+      
+      case 'email':
+        if (control.hasError('email') || control.hasError('pattern')) {
+          return 'Email invalide';
+        }
+        break;
+      
+      case 'password':
+        if (control.hasError('minlength')) {
+          return 'Le mot de passe doit contenir au moins 6 caractères';
+        }
+        break;
+    }
+    return '';
+  }
+
   onSubmit(): void {
+    this.submitted = true;
+    
     if (this.userForm.valid) {
       const formData = {
         ...this.userForm.value,
@@ -57,6 +95,7 @@ export class CreateUserComponent implements OnInit {
         this.store.dispatch(ApprenantActions.createApprenant({ request: formData }));
       }
       
+      this.userCreated.emit();
       this.closeModal.emit();
     }
   }

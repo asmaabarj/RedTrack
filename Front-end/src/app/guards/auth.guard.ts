@@ -14,10 +14,8 @@ export const authGuard = (allowedRoles?: string[]) => {
   return store.select(selectAuthToken).pipe(
     take(1),
     switchMap(token => {
-      // Check localStorage if no token in store
       const authData = token ? null : storageService.getAuth();
       if (authData?.token) {
-        // Restore auth state from localStorage
         store.dispatch({
           type: '[Auth] Login Success',
           response: {
