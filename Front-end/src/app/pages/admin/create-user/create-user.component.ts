@@ -9,6 +9,7 @@ import { selectClasses } from '../../../store/class/class.selectors';
 import { Role } from '../../../models/user.model';
 import * as FormateurActions from '../../../store/formateur/formateur.actions';
 import * as ApprenantActions from '../../../store/apprenant/apprenant.actions';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-create-user',
@@ -91,8 +92,22 @@ export class CreateUserComponent implements OnInit {
 
       if (this.userType === 'FORMATEUR') {
         this.store.dispatch(FormateurActions.createFormateur({ request: formData }));
+        Swal.fire({
+          icon: 'success',
+          title: 'Succès!',
+          text: 'Le formateur a été créé avec succès',
+          timer: 2000,
+          showConfirmButton: false
+        });
       } else {
         this.store.dispatch(ApprenantActions.createApprenant({ request: formData }));
+        Swal.fire({
+          icon: 'success',
+          title: 'Succès!',
+          text: "L'apprenant a été créé avec succès",
+          timer: 2000,
+          showConfirmButton: false
+        });
       }
       
       this.userCreated.emit();

@@ -9,6 +9,7 @@ import { selectFormateurs, selectFormateursLoading } from '../../../../store/for
 import { FilterUsersPipe } from '../../../../pipes/filter-users.pipe';
 import { CreateUserComponent } from '../../create-user/create-user.component';
 import { UpdateUserComponent } from '../../update-user/update-user.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-formateurs-list',
@@ -116,22 +117,32 @@ export class FormateursListComponent implements OnInit {
         this.store.dispatch(FormateurActions.archiveFormateur({ 
           id: this.selectedFormateurForAction.id 
         }));
+        Swal.fire({
+          icon: 'success',
+          title: 'Succès!',
+          text: 'Le formateur a été archivé avec succès',
+          timer: 2000,
+          showConfirmButton: false
+        });
       } else {
         this.store.dispatch(FormateurActions.unarchiveFormateur({ 
           id: this.selectedFormateurForAction.id 
         }));
+        Swal.fire({
+          icon: 'success',
+          title: 'Succès!',
+          text: 'Le formateur a été désarchivé avec succès',
+          timer: 2000,
+          showConfirmButton: false
+        });
       }
 
       setTimeout(() => {
         this.currentPage = 1; 
         this.loadFormateurs();
-        
-        this.formateurs$ = this.store.select(selectFormateurs).pipe(
-          map(formateurs => this.filterAndPaginateFormateurs(formateurs))
-        );
+        this.closeConfirmModal();
       }, 300);
     }
-    this.closeConfirmModal();
   }
 
   closeConfirmModal(): void {
@@ -159,5 +170,6 @@ export class FormateursListComponent implements OnInit {
   closeUpdateModal(): void {
     this.showUpdateModal = false;
     this.selectedUser = null;
+    this.loadFormateurs();
   }
 }

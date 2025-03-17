@@ -13,6 +13,7 @@ import { FilterUsersPipe } from '../../../../pipes/filter-users.pipe';
 import { CreateUserComponent } from '../../create-user/create-user.component';
 import { UpdateUserComponent } from '../../update-user/update-user.component';
 import { map } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-apprenants-list',
@@ -167,6 +168,7 @@ export class ApprenantsListComponent implements OnInit {
   closeUpdateModal(): void {
     this.showUpdateModal = false;
     this.selectedUser = null;
+    this.loadApprenants();
   }
 
   toggleArchived(): void {
@@ -191,20 +193,30 @@ export class ApprenantsListComponent implements OnInit {
         this.store.dispatch(ApprenantActions.archiveApprenant({ 
           id: this.selectedApprenantForAction.id 
         }));
+        Swal.fire({
+          icon: 'success',
+          title: 'Succès!',
+          text: "L'apprenant a été archivé avec succès",
+          timer: 2000,
+          showConfirmButton: false
+        });
       } else {
         this.store.dispatch(ApprenantActions.unarchiveApprenant({ 
           id: this.selectedApprenantForAction.id 
         }));
+        Swal.fire({
+          icon: 'success',
+          title: 'Succès!',
+          text: "L'apprenant a été désarchivé avec succès",
+          timer: 2000,
+          showConfirmButton: false
+        });
       }
       
       setTimeout(() => {
         this.loadApprenants();
-        this.currentPage = 1;
-        this.apprenants$ = this.store.select(selectApprenants).pipe(
-          map(apprenants => this.filterAndPaginateApprenants(apprenants))
-        );
+        this.closeConfirmModal();
       }, 300);
     }
-    this.closeConfirmModal();
   }
 }

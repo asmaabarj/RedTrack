@@ -9,6 +9,8 @@ import * as ApprenantActions from '../../../store/apprenant/apprenant.actions';
 import * as FormateurActions from '../../../store/formateur/formateur.actions';
 import * as ClassActions from '../../../store/class/class.actions';
 import { selectClasses } from '../../../store/class/class.selectors';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-update-user',
@@ -20,6 +22,7 @@ export class UpdateUserComponent implements OnInit {
   @Input() user!: User;
   @Input() userType: 'FORMATEUR' | 'APPRENANT' = 'APPRENANT';
   @Output() closeModal = new EventEmitter<void>();
+  @Output() userUpdated = new EventEmitter<void>();
   
   updateForm: FormGroup;
   classes$: Observable<Class[]>;
@@ -27,7 +30,8 @@ export class UpdateUserComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private store: Store
+    private store: Store,
+    private router: Router
   ) {
     this.classes$ = this.store.select(selectClasses);
     this.updateForm = this.fb.group({
@@ -63,14 +67,35 @@ export class UpdateUserComponent implements OnInit {
           request,
           newClassId: classeId
         }));
+        Swal.fire({
+          icon: 'success',
+          title: 'Succès!',
+          text: 'Le formateur a été modifié avec succès',
+          timer: 2000,
+          showConfirmButton: false
+        }).then(() => {
+          this.userUpdated.emit();
+          this.closeModal.emit();
+          window.location.reload();
+        });
       } else {
         this.store.dispatch(ApprenantActions.updateApprenant({
           id: this.user.id,
           request,
           newClassId: classeId
         }));
+        Swal.fire({
+          icon: 'success',
+          title: 'Succès!',
+          text: "L'apprenant a été modifié avec succès",
+          timer: 2000,
+          showConfirmButton: false
+        }).then(() => {
+          this.userUpdated.emit();
+          this.closeModal.emit();
+          window.location.reload();
+        });
       }
-      this.closeModal.emit();
     }
   }
 

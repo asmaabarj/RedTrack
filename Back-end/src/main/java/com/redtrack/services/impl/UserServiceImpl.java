@@ -292,7 +292,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @PreAuthorize("hasAuthority('ADMIN')")
     public Page<UserDTO> listFormateursArchives(Pageable pageable) {
-        Page<UserDTO> formateurs = userRepository.findByRoleAndActiveFalse(Role.FORMATEUR, pageable)
+        Page<UserDTO> formateurs = userRepository.findByRoleAndActiveFalseOrderByIdDesc(Role.FORMATEUR, pageable)
                 .map(userMapper::userToUserDTO);
 
         if (formateurs.isEmpty()) {
@@ -305,7 +305,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @PreAuthorize("hasAuthority('ADMIN')")
     public Page<UserDTO> listApprenantsArchives(Pageable pageable) {
-        Page<UserDTO> apprenants = userRepository.findByRoleAndActiveFalse(Role.APPRENANT, pageable)
+        Page<UserDTO> apprenants = userRepository.findByRoleAndActiveFalseOrderByIdDesc(Role.APPRENANT, pageable)
                 .map(userMapper::userToUserDTO);
 
         if (apprenants.isEmpty()) {
@@ -314,6 +314,7 @@ public class UserServiceImpl implements UserService {
 
         return apprenants;
     }
+
 
     @Override
     @PreAuthorize("hasAuthority('ADMIN')")
