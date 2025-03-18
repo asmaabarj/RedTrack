@@ -1,11 +1,13 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
+import { loginGuard } from './guards/login.guard';
 import { FormateurDashboardComponent } from './pages/formateur/formateur-dashboard/formateur-dashboard.component';
 
 export const routes: Routes = [
   {
     path: 'login',
-    loadComponent: () => import('./pages/authentification/login/login.component').then(m => m.LoginComponent)
+    loadComponent: () => import('./pages/authentification/login/login.component').then(m => m.LoginComponent),
+    canActivate: [() => loginGuard()]
   },
   {
     path: 'admin',

@@ -36,7 +36,14 @@ export class FormateursListComponent implements OnInit {
 
   constructor(private store: Store) {
     this.formateurs$ = this.store.select(selectFormateurs).pipe(
-      map(formateurs => this.filterAndPaginateFormateurs(formateurs))
+      map(formateurs => {
+        // Filter out inactive classes for each formateur
+        const formateursWithActiveClasses = formateurs.map(formateur => ({
+          ...formateur,
+          classes: formateur.classes?.filter(classe => classe.active) || []
+        }));
+        return this.filterAndPaginateFormateurs(formateursWithActiveClasses);
+      })
     );
     this.loading$ = this.store.select(selectFormateursLoading);
   }

@@ -8,6 +8,7 @@ import { selectAuthRole, selectUserProfile } from '../../store/auth/auth.selecto
 import { UserProfileResponse } from '../../models/auth.model';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-navbar',
@@ -26,7 +27,8 @@ export class NavbarComponent implements OnInit {
   constructor(
     private store: Store,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private storageService: StorageService
   ) {
     this.role$ = this.store.select(selectAuthRole);
     this.userProfile$ = this.store.select(selectUserProfile);
@@ -47,14 +49,14 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.closeDropdown();
-    this.authService.logout().subscribe({
-      next: () => {
-        this.router.navigate(['/login']);
-      },
-      error: (error) => {
-        console.error('Logout error:', error);
-        this.router.navigate(['/login']);
-      }
+    this.closeMobileMenu();
+    
+    this.store.dispatch(AuthActions.logout());
+    
+    this.storageService.clear();
+    
+    this.router.navigate(['/login']).then(() => {
+      window.location.reload();
     });
   }
 

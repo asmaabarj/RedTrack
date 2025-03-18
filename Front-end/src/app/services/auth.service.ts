@@ -47,8 +47,10 @@ export class AuthService {
     
     if (error.error instanceof ErrorEvent) {
       errorMessage = error.error.message;
+    } else if (error.error?.message) {
+      errorMessage = error.error.message;
     } else {
-      errorMessage = error.error?.message || `Code d'erreur: ${error.status}`;
+      errorMessage = `Code d'erreur: ${error.status}`;
     }
     
     return throwError(() => ({

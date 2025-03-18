@@ -23,7 +23,14 @@ export class AuthEffects {
             return AuthActions.loginFailure({ error: 'Réponse invalide du serveur' });
           }),
           catchError((error) => {
-            const errorMessage = error.error?.message || 'Email ou mot de passe incorrect';
+            let errorMessage = 'Email ou mot de passe incorrect';
+            
+            if (error.status === 423) {
+              errorMessage = 'Votre compte a été désactivé. Veuillez contacter l\'administrateur.';
+            } else if (error.status === 403 && error.error?.message) {
+              errorMessage = error.error.message;
+            }
+            
             return of(AuthActions.loginFailure({ error: errorMessage }));
           })
         )

@@ -1,7 +1,6 @@
 package com.redtrack.exceptions;
 
 import java.time.LocalDateTime;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -44,8 +43,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UserException.class)
-    public ResponseEntity<String> handleUserException(UserException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<ErrorResponse> handleUserException(UserException ex) {
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        if (ex.getMessage().contains("désactivé")) {
+            status = HttpStatus.LOCKED; 
+        }
+        return createErrorResponse(status, ex.getMessage());
     }
 
     @ExceptionHandler(ClassException.class)

@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import * as AuthActions from '../../../store/auth/auth.actions';
 import { selectAuthError, selectAuthLoading } from '../../../store/auth/auth.selectors';
+import Swal from 'sweetalert2';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -24,8 +26,40 @@ export class LoginComponent implements OnInit {
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required]]
     });
+
+    // Écouter les erreurs d'authentification
+    this.error$.pipe(
+      filter(error => error !== null)
+    ).subscribe(error => {
+      if (error?.includes('désactivé')) {
+        Swal.fire({
+          title: 'Compte désactivé',
+          text: 'Votre compte a été désactivé. Veuillez contacter l\'administrateur.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#dc2626',
+          background: '#ffffff',
+          iconColor: '#dc2626',
+          showCloseButton: true,
+          customClass: {
+            confirmButton: 'bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
+          }
+        });
+      } else if (error) {
+        // Pour les autres erreurs, afficher un message d'erreur standard
+        this.showErrorMessage(error);
+      }
+    });
+  }
+
+  private showErrorMessage(message: string) {
+    const errorDiv = document.querySelector('.error-message');
+    if (errorDiv) {
+      errorDiv.textContent = message;
+      errorDiv.classList.remove('hidden');
+    }
   }
 
   ngOnInit(): void {}

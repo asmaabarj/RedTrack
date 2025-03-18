@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class StorageService {
   private readonly AUTH_KEY = 'auth';
-  private readonly TOKEN_REFRESH_THRESHOLD = 5 * 60 * 1000; // 5 minutes in milliseconds
+  private readonly TOKEN_REFRESH_THRESHOLD = 5 * 60 * 1000; 
 
   constructor() {}
 
@@ -29,7 +29,7 @@ export class StorageService {
   private isTokenValid(token: string): boolean {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      const expirationTime = payload.exp * 1000; // Convert to milliseconds
+      const expirationTime = payload.exp * 1000; 
       return Date.now() < expirationTime;
     } catch {
       return false;
@@ -43,5 +43,12 @@ export class StorageService {
   isLoggedIn(): boolean {
     const auth = this.getAuth();
     return !!auth && !!auth.token;
+  }
+
+  clear(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('user');
+    // Supprimez tout autre élément que vous stockez dans le localStorage
   }
 } 
