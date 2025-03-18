@@ -36,7 +36,6 @@ export class ApprenantsListComponent implements OnInit {
   searchTerm: string = '';
   filteredApprenants$: Observable<User[]>;
   
-  // Add pagination properties
   pageSize = 6;
   currentPage = 1;
   totalPages = 1;
@@ -157,7 +156,7 @@ export class ApprenantsListComponent implements OnInit {
 
   onSearch(term: string): void {
     this.searchTerm = term;
-    this.currentPage = 1; // Reset to first page when searching
+    this.currentPage = 1; 
     this.filteredApprenants$ = this.apprenants$.pipe(
       map(apprenants => this.filterAndPaginateApprenants(apprenants))
     );
@@ -165,7 +164,7 @@ export class ApprenantsListComponent implements OnInit {
 
   clearSearch(): void {
     this.searchTerm = '';
-    this.currentPage = 1; // Reset to first page when clearing search
+    this.currentPage = 1; 
     this.filteredApprenants$ = this.apprenants$;
   }
 

@@ -21,6 +21,7 @@ export class ApprenantDetailsComponent implements OnInit {
   error$: Observable<string | null>;
   showResponseModal = false;
   selectedRendu: Rendu | null = null;
+  selectedEtape: EtapeAvecRendus | null = null;
   apprenantId: string;
 
   constructor(
@@ -44,12 +45,23 @@ export class ApprenantDetailsComponent implements OnInit {
     this.store.dispatch(FormateurRendusActions.loadApprenantRendus({ apprenantId: this.apprenantId }));
   }
 
+  getInitials(name: string): string {
+    return name.charAt(0).toUpperCase();
+  }
+
   getStatusClass(type: string): string {
     switch (type) {
-      case 'accepted': return 'bg-green-100 text-green-800';
-      case 'rejected': return 'bg-red-100 text-red-800';
-      default: return 'bg-yellow-100 text-yellow-800';
+      case 'accepted': 
+        return 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-600/20';
+      case 'rejected': 
+        return 'bg-red-50 text-red-700 ring-1 ring-red-600/20';
+      default: 
+        return 'bg-amber-50 text-amber-700 ring-1 ring-amber-600/20';
     }
+  }
+
+  selectEtape(etape: EtapeAvecRendus): void {
+    this.selectedEtape = etape;
   }
 
   onSubmitResponse(rendu: Rendu): void {

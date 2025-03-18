@@ -33,7 +33,6 @@ export class UpdateApprenantComponent implements OnInit {
       password: ['']
     });
 
-    // Check for existing email
     this.updateForm.get('email')?.valueChanges
       .pipe(
         debounceTime(300),

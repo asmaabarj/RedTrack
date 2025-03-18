@@ -46,7 +46,6 @@ export class UpdateUserComponent implements OnInit {
       password: ['']
     });
 
-    // Check for existing email
     this.updateForm.get('email')?.valueChanges
       .pipe(
         debounceTime(300),

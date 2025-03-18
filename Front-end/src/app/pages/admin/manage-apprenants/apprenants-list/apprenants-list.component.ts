@@ -18,7 +18,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-apprenants-list',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, FilterUsersPipe, CreateUserComponent, UpdateUserComponent],
+  imports: [CommonModule, NavbarComponent, CreateUserComponent, UpdateUserComponent],
   templateUrl: './apprenants-list.component.html'
 })
 export class ApprenantsListComponent implements OnInit {
