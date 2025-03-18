@@ -29,44 +29,24 @@
         </div>
       </div>
 
-      <div class="flex flex-col lg:flex-row gap-4 lg:gap-6">
-        <div class="relative flex-1">
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <i class="fas fa-search text-gray-400"></i>
-          </div>
-          <input
-            type="text"
-            [value]="searchTerm"
-            (input)="onSearch($event)"
-            placeholder="Rechercher un formateur..."
-            class="block w-full pl-10 pr-10 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 bg-white transition-all duration-200"
-          >
-          <button 
-            *ngIf="searchTerm"
-            (click)="clearSearch()"
-            class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-          >
-            <i class="fas fa-times"></i>
-          </button>
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <i class="fas fa-search text-gray-400"></i>
         </div>
-
-        <div class="relative" *ngIf="!showArchived">
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <i class="fas fa-filter text-gray-400"></i>
-          </div>
-          <select
-            (change)="onClassFilter($event)"
-            class="block w-full pl-10 pr-10 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 bg-white appearance-none transition-all duration-200"
-          >
-            <option value="">Toutes les classes</option>
-            <option *ngFor="let class of classes$ | async" [value]="class.id">
-              {{ class.nom }}
-            </option>
-          </select>
-          <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-            <i class="fas fa-chevron-down text-gray-400"></i>
-          </div>
-        </div>
+        <input
+          type="text"
+          [value]="searchTerm"
+          (input)="onSearch($event)"
+          placeholder="Rechercher un formateur..."
+          class="block w-full pl-10 pr-10 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 bg-white transition-all duration-200"
+        >
+        <button 
+          *ngIf="searchTerm"
+          (click)="clearSearch()"
+          class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+        >
+          <i class="fas fa-times"></i>
+        </button>
       </div>
     </div>
 
@@ -81,7 +61,6 @@
             <tr class="bg-gray-50">
               <th class="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Formateur</th>
               <th class="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-              <th *ngIf="!showArchived" class="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Classe</th>
               <th class="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
               <th class="px-4 sm:px-6 py-3 sm:py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
@@ -101,15 +80,6 @@
               </td>
               <td class="px-4 sm:px-6 py-3 sm:py-4">
                 <div class="text-sm text-gray-600">{{ formateur.email }}</div>
-              </td>
-              <td *ngIf="!showArchived" class="px-4 sm:px-6 py-3 sm:py-4">
-                <div class="flex flex-wrap gap-2">
-                  <span *ngFor="let class of formateur.classes" 
-                        class="inline-flex items-center px-2.5 py-1 text-xs font-medium bg-blue-50 text-blue-700 rounded-md border border-blue-200">
-                    {{ class.nom }}
-                  </span>
-                  <span *ngIf="!formateur.classes?.length" class="text-sm text-gray-400">-</span>
-                </div>
               </td>
               <td class="px-4 sm:px-6 py-3 sm:py-4">
                 <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium"
@@ -164,7 +134,7 @@
 
             <!-- État vide -->
             <tr *ngIf="(formateurs$ | async)?.length === 0">
-              <td [attr.colspan]="showArchived ? '4' : '5'" class="px-6 py-12 text-center">
+              <td colspan="4" class="px-6 py-12 text-center">
                 <div class="flex flex-col items-center">
                   <div class="rounded-full bg-gray-50 p-4 mb-4">
                     <i class="fas fa-users text-gray-400 text-2xl"></i>
@@ -183,7 +153,7 @@
       </div>
     </div>
 
-    <!-- Pagination -->
+    <!-- Après la table -->
     <div class="px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-200">
       <div class="flex justify-between items-center">
         <div class="text-sm text-gray-700">
@@ -210,7 +180,7 @@
                 class="min-w-[32px] h-8 flex items-center justify-center mx-0.5 rounded-lg text-sm font-medium transition-all duration-200"
                 [class]="currentPage === i + 1 
                   ? 'bg-red-50 text-red-600 border border-red-200' 
-                  : 'text-gray-500 hover:bg-gray-50 border border-transparent'"
+                  : 'text-gray-600 hover:bg-gray-50 border border-gray-200'"
               >
                 {{ i + 1 }}
               </button>
@@ -235,3 +205,54 @@
 
 <app-create-user *ngIf="showCreateModal" [userType]="'FORMATEUR'" (closeModal)="closeCreateModal()" (userCreated)="onUserCreated()"></app-create-user>
 <app-update-user *ngIf="showUpdateModal && selectedUser" [user]="selectedUser" [userType]="'FORMATEUR'" (closeModal)="closeUpdateModal()"></app-update-user>
+
+<!-- Modal de confirmation -->
+<div *ngIf="showConfirmModal" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-50 flex items-center justify-center overflow-y-auto">
+  <div class="relative bg-white rounded-xl shadow-xl max-w-lg w-full mx-4 sm:mx-auto" 
+       (click)="$event.stopPropagation()">
+    <div class="p-6">
+      <div class="flex items-center mb-6">
+        <div class="rounded-full p-3" 
+             [class]="confirmAction === 'archive' ? 'bg-amber-50' : 'bg-green-50'">
+          <i class="fas text-xl"
+             [class]="confirmAction === 'archive' ? 'fa-archive text-amber-600' : 'fa-box-open text-green-600'">
+          </i>
+        </div>
+        <div class="ml-4">
+          <h3 class="text-lg font-medium text-gray-900">
+            {{ confirmAction === 'archive' ? 'Archiver le formateur' : 'Désarchiver le formateur' }}
+          </h3>
+          <p class="text-sm text-gray-500 mt-1">
+            {{ confirmAction === 'archive' ? 
+              'Êtes-vous sûr de vouloir archiver ce formateur ?' : 
+              'Êtes-vous sûr de vouloir désarchiver ce formateur ?' 
+            }}
+          </p>
+        </div>
+      </div>
+
+      <div class="bg-gray-50 -mx-6 -mb-6 px-6 py-4 flex justify-end gap-3 rounded-b-xl">
+        <button
+          type="button"
+          (click)="closeConfirmModal()"
+          class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 transition-all duration-200"
+        >
+          Annuler
+        </button>
+        <button
+          type="button"
+          (click)="confirmActionModal()"
+          class="px-4 py-2 text-sm font-medium text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 flex items-center"
+          [class]="confirmAction === 'archive' ? 
+            'bg-amber-600 hover:bg-amber-700 focus:ring-amber-500' : 
+            'bg-green-600 hover:bg-green-700 focus:ring-green-500'"
+        >
+          <i class="fas" 
+             [class]="confirmAction === 'archive' ? 'fa-archive mr-2' : 'fa-box-open mr-2'">
+          </i>
+          {{ confirmAction === 'archive' ? 'Archiver' : 'Désarchiver' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

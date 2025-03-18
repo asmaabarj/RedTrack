@@ -375,7 +375,7 @@ public class UserServiceImpl implements UserService {
     public Page<UserDTO> getFormateurArchivedApprenants(Pageable pageable) {
         User formateur = getCurrentFormateur();
         List<Class> classes = classRepository.findByUsersContaining(formateur);
-        
+
         if (classes.isEmpty()) {
             throw new UserException("Aucune classe assignée à ce formateur");
         }
@@ -389,7 +389,7 @@ public class UserServiceImpl implements UserService {
         }
 
         Page<User> archivedApprenants = userRepository
-                .findByClassesInAndRoleAndActiveFalse(activeClasses, Role.APPRENANT, pageable);
+                .findByClassesInAndRoleAndActiveFalseOrderByIdDesc(activeClasses, Role.APPRENANT, pageable);
 
         if (archivedApprenants.isEmpty()) {
             throw new UserException("Aucun apprenant archivé dans vos classes actives");

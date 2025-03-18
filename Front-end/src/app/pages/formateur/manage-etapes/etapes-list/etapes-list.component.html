@@ -1,92 +1,172 @@
-<div class="w-full p-4">
-  <div class="flex justify-between items-center mb-6">
-    <h2 class="text-xl font-bold text-gray-900 flex items-center">
-      <i class="fas fa-tasks mr-2 text-red-600"></i>
-      Étapes
-    </h2>
-    <button 
-      (click)="showCreateModal = true"
-      class="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700 transition-colors duration-200"
-    >
-      <i class="fas fa-plus mr-2"></i>
-      Ajouter une étape
-    </button>
+<div class="w-full p-6 bg-inherit ">
+  <!-- Header Section -->
+  <div class="max-w-7xl mx-auto mb-4 md:mb-8 px-4 sm:px-6 lg:px-0">
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+      <div class="space-y-1">
+        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 flex items-center">
+          <i class="fas fa-tasks mr-3 text-red-600"></i>
+          Gestion des Étapes
+        </h2>
+        <p class="text-sm sm:text-base text-slate-600">Gérez et organisez les étapes du fil rouge</p>
+      </div>
+      <button 
+        (click)="showCreateModal = true"
+        class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-medium text-white 
+               bg-gradient-to-r from-red-600 to-red-800 
+               hover:from-red-700 hover:to-red-900
+               shadow-sm w-full sm:w-auto justify-center
+               transform transition-all duration-300 hover:-translate-y-0.5"
+      >
+        <i class="fas fa-plus mr-2 text-xs"></i>
+        Ajouter une étape
+      </button>
+    </div>
+    <div class="h-1 w-32 bg-gradient-to-r from-gray-900 via-gray-800 to-red-900 rounded-full mt-4 sm:mt-6"></div>
   </div>
   
   <!-- Loading State -->
-  <div *ngIf="loading$ | async" class="flex justify-center my-8">
-    <div class="animate-spin rounded-full h-8 w-8 border-2 border-red-600 border-t-transparent"></div>
+  <div *ngIf="loading$ | async" class="flex justify-center my-12">
+    <div class="animate-spin rounded-full h-10 w-10 border-3 border-red-600 border-t-transparent"></div>
   </div>
 
-  <!-- Carousel -->
-  <div *ngIf="(etapes$ | async) as etapes" class="relative">
-    <div class="overflow-hidden">
-      <div class="flex transition-transform duration-300 ease-in-out" 
-           [style.transform]="'translateX(-' + (currentIndex * 33.333) + '%)'">
-        <div *ngFor="let etape of etapes" class="w-1/3 flex-shrink-0 px-2">
-          <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6 h-full hover:shadow-md transition-shadow duration-200">
-            <div class="flex justify-between items-start mb-4">
-              <h3 class="text-lg font-semibold text-gray-900">{{ etape.titre }}</h3>
-              <div class="flex gap-3">
-                <button 
-                  (click)="onEdit(etape)" 
-                  class="text-red-600 hover:text-red-800 transition-colors duration-200"
-                  title="Modifier l'étape"
-                >
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button 
-                  (click)="onDetails(etape)" 
-                  class="text-blue-600 hover:text-blue-800 transition-colors duration-200"
-                  title="Voir les détails"
-                >
-                  <i class="fas fa-info-circle"></i>
-                </button>
+  <!-- Carousel Section -->
+  <div *ngIf="(etapes$ | async) as etapes" class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
+    <div class="overflow-hidden rounded-xl">
+      <!-- Mobile View (Grid) -->
+      <div class="block md:hidden">
+        <div class="grid grid-cols-1 gap-4">
+          <div *ngFor="let etape of etapes" class="w-full">
+            <div class="group relative bg-white rounded-2xl transition-all duration-300  overflow-hidden border border-gray-100">
+              <div class="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-gray-900 via-gray-800 to-red-900 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+              <div class="p-8">
+                <!-- Card Content -->
+                <div class="flex items-start space-x-5">
+                  <div class="flex-1">
+                    <div class="flex items-center justify-between mb-4">
+                      <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-50 shadow-sm text-blue-800">
+                        <i class="far fa-calendar-alt mr-1.5"></i>
+                        {{ etape.deadline | date:'dd MMM yyyy' }}
+                      </span>
+                      <div class="flex gap-2">
+                        <button 
+                          (click)="onEdit(etape)" 
+                          class="p-2 text-slate-400 hover:text-blue-600 hover:bg-slate-50 rounded-lg transition-all duration-200"
+                          title="Modifier l'étape"
+                        >
+                          <i class="fas fa-edit"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2 transition-colors">
+                      {{ etape.titre }}
+                    </h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">{{ truncateDescription(etape.description) }}</p>
+                    
+                    <button *ngIf="shouldShowMore(etape.description)"
+                            (click)="onDetails(etape)"
+                            class="flex items-center text-blue-700 group-hover:translate-x-2 transition-transform duration-300">
+                      <span class="font-medium text-sm">Voir plus</span>
+                      <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-            <p class="text-gray-600 mb-4 line-clamp-3">{{ etape.description }}</p>
-            <div class="flex items-center text-sm text-gray-500">
-              <i class="fas fa-calendar-alt mr-2 text-red-500"></i>
-              <span>Date limite: {{ etape.deadline | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tablet and Desktop View (Carousel) -->
+      <div class="hidden md:block">
+        <div class="flex transition-transform duration-300 ease-in-out" 
+             [style.transform]="'translateX(-' + (currentIndex * 100) + '%)'">
+          <div *ngFor="let etape of etapes" class="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 p-2 sm:p-3">
+            <div class="group relative bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] overflow-hidden border border-gray-100">
+              <!-- Same card content as mobile view -->
+              <div class="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-gray-900 via-gray-800 to-red-900 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+              <div class="p-8">
+                <!-- Card Content -->
+                <div class="flex items-start space-x-5">
+                  <div class="flex-1">
+                    <div class="flex items-center justify-between mb-4">
+                      <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-50 shadow-sm text-blue-800">
+                        <i class="far fa-calendar-alt mr-1.5"></i>
+                        {{ etape.deadline | date:'dd MMM yyyy' }}
+                      </span>
+                      <div class="flex gap-2">
+                        <button 
+                          (click)="onEdit(etape)" 
+                          class="p-2 text-slate-400 hover:text-blue-600 hover:bg-slate-50 rounded-lg transition-all duration-200"
+                          title="Modifier l'étape"
+                        >
+                          <i class="fas fa-edit"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2 transition-colors">
+                      {{ etape.titre }}
+                    </h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">{{ truncateDescription(etape.description) }}</p>
+                    
+                    <button *ngIf="shouldShowMore(etape.description)"
+                            (click)="onDetails(etape)"
+                            class="flex items-center text-blue-700 group-hover:translate-x-2 transition-transform duration-300">
+                      <span class="font-medium text-sm">Voir plus</span>
+                      <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Navigation Buttons -->
+    <!-- Navigation Buttons (Only show on tablet and desktop) -->
     <button 
-      *ngIf="currentIndex > 0"
+      *ngIf="currentIndex > 0 && isMediumScreen"
       (click)="previousEtapes()"
-      class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-md hover:shadow-lg transition-shadow duration-200 text-red-600 hover:text-red-700"
+      class="absolute -left-2 sm:-left-5 top-1/2 transform -translate-y-1/2 bg-gray-50 px-3 py-2 sm:px-4 sm:py-2.5 rounded-full 
+             shadow-lg hover:shadow-xl transition-all duration-200 
+             text-red-600 hover:text-red-700 hover:-translate-x-1
+             border border-gray-100 z-10"
       title="Étapes précédentes"
     >
       <i class="fas fa-chevron-left"></i>
     </button>
     <button 
-      *ngIf="hasMoreEtapes(etapes)"
+      *ngIf="hasMoreEtapes(etapes) && isMediumScreen"
       (click)="nextEtapes()"
-      class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-md hover:shadow-lg transition-shadow duration-200 text-red-600 hover:text-red-700"
+      class="absolute -right-2 sm:-right-5 top-1/2 transform -translate-y-1/2 bg-gray-50 px-3 py-2 sm:px-4 sm:py-2.5 rounded-full 
+             shadow-lg hover:shadow-xl transition-all duration-200 
+             text-red-600 hover:text-red-700 hover:translate-x-1
+             border border-gray-100 z-10"
       title="Étapes suivantes"
     >
       <i class="fas fa-chevron-right"></i>
     </button>
 
     <!-- Empty State -->
-    <div *ngIf="etapes.length === 0" class="text-center py-12">
-      <div class="flex flex-col items-center">
-        <i class="fas fa-tasks text-gray-400 text-4xl mb-4"></i>
-        <p class="text-gray-500 text-lg">Aucune étape n'a été créée</p>
+    <div *ngIf="etapes.length === 0" class="text-center py-12 sm:py-16 bg-white rounded-2xl shadow-sm border border-gray-100 mx-2">
+      <div class="flex flex-col items-center space-y-4">
+        <div class="p-4 rounded-full bg-red-50">
+          <i class="fas fa-tasks text-red-600 text-3xl"></i>
+        </div>
+        <div class="space-y-2">
+          <p class="text-gray-900 font-medium text-lg">Aucune étape n'a été créée</p>
+          <p class="text-gray-500">Commencez par ajouter une nouvelle étape</p>
+        </div>
       </div>
     </div>
   </div>
-
-  <!-- Create Modal -->
-  <app-create-etape
-    *ngIf="showCreateModal"
-    (closeModal)="showCreateModal = false"
-  ></app-create-etape>
 </div>
+
+<!-- Create Modal -->
+<app-create-etape
+  *ngIf="showCreateModal"
+  (closeModal)="showCreateModal = false"
+></app-create-etape>
 
 <!-- Details Modal -->
 <app-etape-details

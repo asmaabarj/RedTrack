@@ -10,6 +10,7 @@ import { NavbarComponent } from '../../../../components/navbar/navbar.component'
 import { CreateApprenantComponent } from '../create-apprenant/create-apprenant.component';
 import { UpdateApprenantComponent } from '../update-apprenant/update-apprenant.component';
 import { RouterModule } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-apprenants-list',
@@ -34,6 +35,15 @@ export class ApprenantsListComponent implements OnInit {
   selectedApprenant: User | null = null;
   searchTerm: string = '';
   filteredApprenants$: Observable<User[]>;
+  
+  // Add pagination properties
+  pageSize = 6;
+  currentPage = 1;
+  totalPages = 1;
+
+  showConfirmModal = false;
+  confirmAction: 'archive' | 'unarchive' = 'archive';
+  selectedApprenantForAction: User | null = null;
 
   constructor(private store: Store) {
     this.apprenants$ = this.store.select(selectApprenants);
@@ -41,7 +51,7 @@ export class ApprenantsListComponent implements OnInit {
     this.error$ = this.store.select(selectError);
     
     this.filteredApprenants$ = this.apprenants$.pipe(
-      map(apprenants => this.filterApprenants(apprenants))
+      map(apprenants => this.filterAndPaginateApprenants(apprenants))
     );
   }
 
@@ -63,11 +73,69 @@ export class ApprenantsListComponent implements OnInit {
   }
 
   archiveApprenant(apprenantId: string): void {
-    this.store.dispatch(archiveApprenant({ apprenantId })); 
+    Swal.fire({
+      title: 'Êtes-vous sûr ?',
+      text: "Voulez-vous vraiment archiver cet apprenant ?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#f59e0b',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Oui, archiver',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.store.dispatch(archiveApprenant({ apprenantId }));
+        
+        setTimeout(() => {
+          if (this.showArchived) {
+            this.store.dispatch(loadArchivedApprenants());
+          } else {
+            this.store.dispatch(loadApprenants());
+          }
+          
+          Swal.fire({
+            icon: 'success',
+            title: 'Succès!',
+            text: "L'apprenant a été archivé avec succès",
+            timer: 2000,
+            showConfirmButton: false
+          });
+        }, 300);
+      }
+    });
   }
 
   unarchiveApprenant(apprenantId: string): void {
-    this.store.dispatch(unarchiveApprenant({ apprenantId }));
+    Swal.fire({
+      title: 'Êtes-vous sûr ?',
+      text: "Voulez-vous vraiment désarchiver cet apprenant ?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#22c55e',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Oui, désarchiver',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.store.dispatch(unarchiveApprenant({ apprenantId }));
+        
+        setTimeout(() => {
+          if (this.showArchived) {
+            this.store.dispatch(loadArchivedApprenants());
+          } else {
+            this.store.dispatch(loadApprenants());
+          }
+          
+          Swal.fire({
+            icon: 'success',
+            title: 'Succès!',
+            text: "L'apprenant a été désarchivé avec succès",
+            timer: 2000,
+            showConfirmButton: false
+          });
+        }, 300);
+      }
+    });
   }
 
   toggleUpdateModal(apprenant?: User): void {
@@ -80,15 +148,24 @@ export class ApprenantsListComponent implements OnInit {
     }
   }
 
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.filteredApprenants$ = this.apprenants$.pipe(
+      map(apprenants => this.filterAndPaginateApprenants(apprenants))
+    );
+  }
+
   onSearch(term: string): void {
     this.searchTerm = term;
+    this.currentPage = 1; // Reset to first page when searching
     this.filteredApprenants$ = this.apprenants$.pipe(
-      map(apprenants => this.filterApprenants(apprenants))
+      map(apprenants => this.filterAndPaginateApprenants(apprenants))
     );
   }
 
   clearSearch(): void {
     this.searchTerm = '';
+    this.currentPage = 1; // Reset to first page when clearing search
     this.filteredApprenants$ = this.apprenants$;
   }
 
@@ -98,7 +175,16 @@ export class ApprenantsListComponent implements OnInit {
     const term = this.searchTerm.toLowerCase();
     return apprenants.filter(apprenant => 
       apprenant.nom.toLowerCase().includes(term) || 
-      apprenant.prenom.toLowerCase().includes(term)
+      apprenant.prenom.toLowerCase().includes(term) ||
+      apprenant.email.toLowerCase().includes(term)
     );
+  }
+
+  private filterAndPaginateApprenants(apprenants: User[]): User[] {
+    const filtered = this.filterApprenants(apprenants);
+    this.totalPages = Math.ceil(filtered.length / this.pageSize);
+    
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    return filtered.slice(startIndex, startIndex + this.pageSize);
   }
 }

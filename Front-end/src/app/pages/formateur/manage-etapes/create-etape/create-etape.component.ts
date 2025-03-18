@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as FormateurEtapesActions from '../../../../store/formateur-etapes/formateur-etapes.actions';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-create-etape',
@@ -58,6 +59,15 @@ export class CreateEtapeComponent {
   onSubmit(): void {
     if (this.etapeForm.valid) {
       this.store.dispatch(FormateurEtapesActions.createEtape({ etape: this.etapeForm.value }));
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Succès!',
+        text: 'L\'étape a été créée avec succès',
+        timer: 2000,
+        showConfirmButton: false
+      });
+      
       this.closeModal.emit();
     } else {
       Object.keys(this.etapeForm.controls).forEach(key => {

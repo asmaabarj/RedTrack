@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -28,6 +28,7 @@ export class EtapesListComponent implements OnInit {
   showDetailsModal = false;
   showCreateModal = false;
   showUpdateModal = false;
+  isMediumScreen = window.innerWidth >= 768;
 
   constructor(private store: Store) {
     this.etapes$ = this.store.select(selectEtapes);
@@ -36,6 +37,11 @@ export class EtapesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(FormateurEtapesActions.loadEtapes());
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.isMediumScreen = window.innerWidth >= 768;
   }
 
   nextEtapes(): void {
@@ -68,5 +74,13 @@ export class EtapesListComponent implements OnInit {
   closeUpdateModal(): void {
     this.showUpdateModal = false;
     this.selectedEtape = null;
+  }
+
+  shouldShowMore(description: string): boolean {
+    return description.length > 100;
+  }
+
+  truncateDescription(description: string): string {
+    return description.length > 100 ? description.substring(0, 100) + '...' : description;
   }
 }

@@ -15,8 +15,7 @@ public interface UserRepository extends MongoRepository<User, String> {
     Optional<User> findByEmail(String email);
     Page<User> findByRoleAndActiveFalseOrderByIdDesc(Role role, Pageable pageable);
     Page<User> findByRoleAndActiveTrueOrderByIdDesc(Role role, Pageable pageable);
-    Page<User> findByClassesInAndRoleAndActiveFalse(List<Class> classes, Role role, Pageable pageable);
     long countByRoleAndActiveTrue(Role role);
     Page<User> findByClassesInAndRoleAndActiveTrueOrderByIdDesc(List<Class> classes, Role role, Pageable pageable);
-
+    Page<User> findByClassesInAndRoleAndActiveFalseOrderByIdDesc(List<Class> classes, Role role, Pageable pageable);
 }

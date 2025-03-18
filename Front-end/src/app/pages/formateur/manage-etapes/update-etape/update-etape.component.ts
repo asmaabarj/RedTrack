@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Store } from '@ngrx/store';
 import * as FormateurEtapesActions from '../../../../store/formateur-etapes/formateur-etapes.actions';
 import { Etape } from '../../../../models/etape.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-update-etape',
@@ -73,6 +74,15 @@ export class UpdateEtapeComponent implements OnInit {
         id: this.etape.id, 
         etape: this.etapeForm.value 
       }));
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Succès!',
+        text: 'L\'étape a été modifiée avec succès',
+        timer: 2000,
+        showConfirmButton: false
+      });
+      
       this.closeModal.emit();
     } else {
       Object.keys(this.etapeForm.controls).forEach(key => {

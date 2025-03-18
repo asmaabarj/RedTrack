@@ -98,6 +98,9 @@
                       class="group relative p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
                       title="Modifier"
                     >
+                      <span class="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        Modifier
+                      </span>
                       <i class="fas fa-edit text-base group-hover:scale-110 transition-transform duration-200"></i>
                     </button>
 
@@ -106,6 +109,9 @@
                       class="group relative p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-all duration-200"
                       title="Archiver"
                     >
+                      <span class="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        Archiver
+                      </span>
                       <i class="fas fa-archive text-base group-hover:scale-110 transition-transform duration-200"></i>
                     </button>
                   </ng-container>
@@ -116,6 +122,9 @@
                     class="group relative p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-200"
                     title="Désarchiver"
                   >
+                    <span class="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      Désarchiver
+                    </span>
                     <i class="fas fa-box-open text-base group-hover:scale-110 transition-transform duration-200"></i>
                   </button>
 
@@ -124,13 +133,81 @@
                     class="group relative p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
                     title="Voir détails"
                   >
+                    <span class="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      Voir détails
+                    </span>
                     <i class="fas fa-eye text-base group-hover:scale-110 transition-transform duration-200"></i>
                   </button>
                 </div>
               </td>
             </tr>
+
+            <!-- Empty State -->
+            <tr *ngIf="(filteredApprenants$ | async)?.length === 0">
+              <td colspan="4" class="px-6 py-12 text-center">
+                <div class="flex flex-col items-center">
+                  <div class="rounded-full bg-gray-50 p-4 mb-4">
+                    <i class="fas fa-users text-gray-400 text-2xl"></i>
+                  </div>
+                  <h3 class="text-sm font-medium text-gray-900 mb-1">
+                    Aucun apprenant trouvé
+                  </h3>
+                  <p class="text-sm text-gray-500">
+                    Modifiez vos filtres pour voir plus de résultats
+                  </p>
+                </div>
+              </td>
+            </tr>
           </tbody>
         </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-200">
+        <div class="flex justify-between items-center">
+          <div class="text-sm text-gray-700">
+            Page {{ currentPage }} sur {{ totalPages }}
+          </div>
+          
+          <div class="flex items-center gap-2">
+            <button 
+              (click)="onPageChange(currentPage - 1)"
+              [disabled]="currentPage === 1"
+              class="flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white"
+            >
+              <i class="fas fa-chevron-left text-xs mr-1"></i>
+              Précédent
+            </button>
+
+            <div class="flex items-center">
+              <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
+                <span *ngIf="totalPages > 7 && i === 1 && currentPage > 3" class="px-2 text-gray-400">...</span>
+                
+                <button 
+                  *ngIf="totalPages <= 7 || i === 0 || i === totalPages - 1 || (i >= currentPage - 2 && i <= currentPage)"
+                  (click)="onPageChange(i + 1)"
+                  class="min-w-[32px] h-8 flex items-center justify-center mx-0.5 rounded-lg text-sm font-medium transition-all duration-200"
+                  [class]="currentPage === i + 1 
+                    ? 'bg-red-50 text-red-600 border border-red-200' 
+                    : 'text-gray-600 hover:bg-gray-50 border border-gray-200'"
+                >
+                  {{ i + 1 }}
+                </button>
+
+                <span *ngIf="totalPages > 7 && i === totalPages - 2 && currentPage < totalPages - 2" class="px-2 text-gray-400">...</span>
+              </ng-container>
+            </div>
+
+            <button 
+              (click)="onPageChange(currentPage + 1)"
+              [disabled]="currentPage === totalPages"
+              class="flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white"
+            >
+              Suivant
+              <i class="fas fa-chevron-right text-xs ml-1"></i>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
