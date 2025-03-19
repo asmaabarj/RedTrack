@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface RenduResponseRepository extends MongoRepository<RenduResponse, String> {
-    List<RenduResponse> findByRenduIdOrderByDateSoumissionDesc(String renduId);
+    List<RenduResponse> findByRenduId(String renduId);
 }

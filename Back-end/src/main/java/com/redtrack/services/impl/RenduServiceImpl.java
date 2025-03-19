@@ -94,7 +94,7 @@ public class RenduServiceImpl implements RenduService {
                     RenduAvecResponsesDTO renduDTO = new RenduAvecResponsesDTO();
                     BeanUtils.copyProperties(renduMapper.renduToRenduDTO(rendu), renduDTO);
                     List<RenduResponseDTO> responses = renduResponseRepository
-                        .findByRenduIdOrderByDateSoumissionDesc(rendu.getId())
+                        .findByRenduId(rendu.getId())
                         .stream()
                         .map(renduResponseMapper::renduResponseToRenduResponseDTO)
                         .collect(Collectors.toList());
@@ -154,7 +154,7 @@ public class RenduServiceImpl implements RenduService {
                         RenduAvecResponsesDTO renduDTO = new RenduAvecResponsesDTO();
                         BeanUtils.copyProperties(renduMapper.renduToRenduDTO(rendu), renduDTO);
                         List<RenduResponseDTO> responses = renduResponseRepository
-                            .findByRenduIdOrderByDateSoumissionDesc(rendu.getId())
+                            .findByRenduId(rendu.getId())
                             .stream()
                             .map(renduResponseMapper::renduResponseToRenduResponseDTO)
                             .collect(Collectors.toList());

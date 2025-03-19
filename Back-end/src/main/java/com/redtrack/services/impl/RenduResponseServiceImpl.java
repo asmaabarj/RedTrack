@@ -61,9 +61,10 @@ public class RenduResponseServiceImpl implements RenduResponseService {
     @Override
     @PreAuthorize("hasAuthority('FORMATEUR')")
     public List<RenduResponseDTO> getRenduResponses(String renduId) {
-        return renduResponseRepository.findByRenduIdOrderByDateSoumissionDesc(renduId)
+        return renduResponseRepository.findByRenduId(renduId)
                 .stream()
                 .map(renduResponseMapper::renduResponseToRenduResponseDTO)
                 .collect(Collectors.toList());
     }
+
 }

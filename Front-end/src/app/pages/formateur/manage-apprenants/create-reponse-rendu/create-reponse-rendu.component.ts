@@ -24,7 +24,7 @@ export class CreateReponseRenduComponent {
   ) {
     this.responseForm = this.fb.group({
       commentaire: ['', [Validators.required, Validators.minLength(10)]],
-      type: ['pending', Validators.required]
+      type: ['accepted', Validators.required]
     });
   }
 

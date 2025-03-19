@@ -54,8 +54,10 @@
         >
           <option value="accepted">Accepté</option>
           <option value="rejected">Refusé</option>
-          <option value="pending">En attente</option>
         </select>
+        <div *ngIf="isFieldInvalid('type')" class="mt-1 text-sm text-red-600">
+          <span *ngIf="responseForm.get('type')?.errors?.['required']">Le statut est requis</span>
+        </div>
       </div>
     </div>
 
