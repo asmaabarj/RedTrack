@@ -22,11 +22,18 @@ export class AuthService {
   }
 
   logout(): Observable<void> {
+    const token = localStorage.getItem('token');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     
-    return this.http.post<void>(`${this.API_URL}/auth/logout`, {}).pipe(
-      catchError(this.handleError)
+    if (!token) {
+      return of(void 0);
+    }
+    
+    return this.http.post<void>(`${this.API_URL}/auth/logout`, {}, {
+      headers: new HttpHeaders().set('Authorization', `Bearer ${token}`)
+    }).pipe(
+      catchError(() => of(void 0))
     );
   }
 
@@ -47,10 +54,8 @@ export class AuthService {
     
     if (error.error instanceof ErrorEvent) {
       errorMessage = error.error.message;
-    } else if (error.error?.message) {
-      errorMessage = error.error.message;
     } else {
-      errorMessage = `Code d'erreur: ${error.status}`;
+      errorMessage = error.error?.message || `Code d'erreur: ${error.status}`;
     }
     
     return throwError(() => ({

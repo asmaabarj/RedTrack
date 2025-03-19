@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.redtrack.dtos.auth.AuthResponse;
 import com.redtrack.dtos.auth.LoginRequest;
 import com.redtrack.dtos.auth.UserProfileResponse;
-import com.redtrack.exceptions.AlreadyLoggedInException;
 import com.redtrack.exceptions.UserException;
 import com.redtrack.model.entities.User;
 import com.redtrack.repositories.UserRepository;
@@ -31,16 +30,14 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse login(LoginRequest request) {
-        if (sessionManager.isSessionActive(request.getEmail())) {
-            throw new AlreadyLoggedInException("Vous êtes déjà connecté. Déconnectez-vous d'abord.");
-        }
-
         User user = userRepository.findByEmail(request.getEmail())
             .orElseThrow(() -> new UserException("Utilisateur non trouvé"));
 
         if (!user.getActive()) {
             throw new UserException("Votre compte a été désactivé. Veuillez contacter l'administrateur.");
         }
+
+        sessionManager.removeSession(request.getEmail());
 
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
@@ -53,7 +50,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void logout(String email) {
-        sessionManager.removeSession(email);
+        if (email != null) {
+            sessionManager.removeSession(email);
+        }
     }
 
     @Override

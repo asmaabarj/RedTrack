@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,7 +37,8 @@ public class AuthController {
     public ResponseEntity<Void> logout(HttpServletRequest request) {
         String token = extractTokenFromRequest(request);
         if (token != null) {
-            authService.invalidateToken(token);
+            String email = jwtService.extractUsername(token);
+            authService.logout(email);
         }
         return ResponseEntity.ok().build();
     }
