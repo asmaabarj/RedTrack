@@ -14,7 +14,8 @@ import { filter, tap } from 'rxjs/operators';
   selector: 'app-apprenant-details',
   standalone: true,
   imports: [CommonModule, NavbarComponent, CreateReponseRenduComponent],
-  templateUrl: './apprenant-details.component.html'
+  templateUrl: './apprenant-details.component.html',
+  styleUrls: ['./apprenant-details.component.css']
 })
 export class ApprenantDetailsComponent implements OnInit {
   etapes$: Observable<EtapeAvecRendus[]>;
@@ -24,6 +25,7 @@ export class ApprenantDetailsComponent implements OnInit {
   selectedRendu: Rendu | null = null;
   selectedEtape: EtapeAvecRendus | null = null;
   apprenantId: string;
+  isSidebarOpen = true;
 
   constructor(
     private store: Store,
@@ -118,5 +120,9 @@ export class ApprenantDetailsComponent implements OnInit {
 
   getLastRendu(rendus: any[]): any {
     return rendus[rendus.length - 1];
+  }
+
+  toggleSidebar(): void {
+    this.isSidebarOpen = !this.isSidebarOpen;
   }
 }

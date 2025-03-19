@@ -12,7 +12,8 @@ import { CreateRenduComponent } from '../create-rendu/create-rendu.component';
   selector: 'app-apprenant-rendus',
   standalone: true,
   imports: [CommonModule, NavbarComponent, CreateRenduComponent],
-  templateUrl: './apprenant-rendus.component.html'
+  templateUrl: './apprenant-rendus.component.html',
+  styleUrls: ['./apprenant-rendus.component.css']
 })
 export class ApprenantRendusComponent implements OnInit {
   etapes$: Observable<EtapeAvecRendus[]>;
@@ -21,6 +22,7 @@ export class ApprenantRendusComponent implements OnInit {
   showCreateModal = false;
   selectedEtape: EtapeAvecRendus | null = null;
   previousSelectedEtape: EtapeAvecRendus | null = null;
+  isSidebarOpen = true;
 
   constructor(private store: Store) {
     this.etapes$ = this.store.select(selectRendus).pipe(
@@ -113,5 +115,9 @@ export class ApprenantRendusComponent implements OnInit {
 
   getLastRendu(rendus: any[]): any {
     return rendus[rendus.length - 1];
+  }
+
+  toggleSidebar(): void {
+    this.isSidebarOpen = !this.isSidebarOpen;
   }
 }

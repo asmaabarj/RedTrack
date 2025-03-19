@@ -1,0 +1,6 @@
+/* Add these styles if needed */
+@media (max-width: 1024px) {
+  .sidebar-overlay {
+    transition: opacity 0.3s ease-in-out;
+  }
+}

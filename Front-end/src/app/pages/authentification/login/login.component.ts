@@ -29,7 +29,6 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required]]
     });
 
-    // Écouter les erreurs d'authentification
     this.error$.pipe(
       filter(error => error !== null)
     ).subscribe(error => {
@@ -48,7 +47,6 @@ export class LoginComponent implements OnInit {
           }
         });
       } else if (error) {
-        // Pour les autres erreurs, afficher un message d'erreur standard
         this.showErrorMessage(error);
       }
     });

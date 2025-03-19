@@ -2,20 +2,45 @@
   <app-navbar class="flex-shrink-0 shadow-sm bg-white border-b border-slate-200"></app-navbar>
   
   <div class="flex-1 bg-gradient-to-br from-slate-50 via-indigo-50/5 to-slate-100 overflow-hidden">
-    <div class="h-full max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="h-full max-w-8xl mx-auto px-2 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8">
       <!-- Main Content -->
-      <div class="h-full flex ">
+      <div class="h-full flex relative">
+        <!-- Burger Menu Button -->
+        <button 
+          (click)="toggleSidebar()"
+          class="lg:hidden fixed bottom-4 right-4 z-50 bg-red-600 text-white p-3 rounded-full shadow-lg hover:bg-red-700 transition-all duration-300"
+        >
+          <i [class]="isSidebarOpen ? 'fas fa-times' : 'fas fa-bars'"></i>
+        </button>
+
         <!-- Etapes List -->
-        <div class="w-96 bg-white rounded-l-xl shadow-sm ring-1 ring-black/5 flex flex-col overflow-hidden backdrop-blur-xl">
+        <div 
+          [class]="'transition-all duration-300 absolute lg:relative z-40 ' + 
+                   (isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0') + 
+                   ' w-full sm:w-80 lg:w-96 bg-white rounded-l-xl shadow-sm ring-1 ring-black/5 flex flex-col overflow-hidden backdrop-blur-xl'"
+        >
           <div class="flex-shrink-0 p-5 border-b border-slate-100">
-            <h2 class="text-lg font-semibold text-slate-800 flex items-center gap-3">
-              <div class="px-1 bg-indigo-50 rounded-lg">
-                <i class="fas fa-tasks text-red-700 text-sm"></i>
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-lg font-semibold text-slate-800 flex items-center gap-3">
+                  <div class="px-1 bg-indigo-50 rounded-lg">
+                    <i class="fas fa-tasks text-red-700 text-sm"></i>
+                  </div>
+                  Étapes du fil rouge
+                </h2>
+                <p class="text-sm text-slate-500 mt-2">Sélectionnez une étape pour continuer</p>
               </div>
-              Étapes du fil rouge
-            </h2>
-            <p class="text-sm text-slate-500 mt-2">Sélectionnez une étape pour continuer</p>
+              <!-- Close button for mobile -->
+              <button 
+                (click)="toggleSidebar()"
+                class="lg:hidden text-slate-400 hover:text-slate-600"
+              >
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
           </div>
+
+          <!-- Etapes List Content -->
           <div class="flex-1 overflow-y-auto">
             <div *ngFor="let etape of etapes$ | async" 
                  (click)="selectEtape(etape)"
@@ -40,7 +65,10 @@
         </div>
 
         <!-- Chat Area -->
-        <div class="flex-1 flex flex-col bg-white rounded-r-xl shadow-sm ring-1 ring-black/5 overflow-hidden backdrop-blur-xl">
+        <div 
+          [class]="'flex-1 flex flex-col bg-white rounded-r-xl shadow-sm ring-1 ring-black/5 overflow-hidden backdrop-blur-xl transition-all duration-300 ' +
+                   (isSidebarOpen ? 'lg:ml-0' : '')"
+        >
           <!-- Header -->
           <div class="flex-shrink-0 p-5 border-b border-slate-100 bg-gradient-to-r from-white to-slate-50">
             <div class="flex items-center justify-between">
@@ -145,6 +173,13 @@
             </button>
           </div>
         </div>
+
+        <!-- Overlay for mobile -->
+        <div 
+          *ngIf="isSidebarOpen"
+          class="lg:hidden fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-30"
+          (click)="toggleSidebar()"
+        ></div>
       </div>
     </div>
   </div>

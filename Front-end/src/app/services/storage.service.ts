@@ -49,6 +49,5 @@ export class StorageService {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
     localStorage.removeItem('user');
-    // Supprimez tout autre élément que vous stockez dans le localStorage
   }
 } 
