@@ -49,14 +49,29 @@ export class ApprenantDetailsComponent implements OnInit {
     return name.charAt(0).toUpperCase();
   }
 
+  getStatusLabel(type: string): string {
+    switch (type) {
+      case 'accepted':
+        return 'Accepté';
+      case 'rejected':
+        return 'Refusé';
+      case 'pending':
+        return 'En attente';
+      default:
+        return 'Non évalué';
+    }
+  }
+
   getStatusClass(type: string): string {
     switch (type) {
       case 'accepted': 
         return 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-600/20';
       case 'rejected': 
         return 'bg-red-50 text-red-700 ring-1 ring-red-600/20';
-      default: 
+      case 'pending':
         return 'bg-amber-50 text-amber-700 ring-1 ring-amber-600/20';
+      default: 
+        return 'bg-gray-50 text-gray-600 ring-1 ring-gray-500/20';
     }
   }
 
@@ -72,5 +87,9 @@ export class ApprenantDetailsComponent implements OnInit {
   onCloseModal(): void {
     this.showResponseModal = false;
     this.selectedRendu = null;
+  }
+
+  getLastRendu(rendus: any[]): any {
+    return rendus[rendus.length - 1];
   }
 }

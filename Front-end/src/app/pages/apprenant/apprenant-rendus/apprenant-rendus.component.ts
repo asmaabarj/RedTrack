@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, filter } from 'rxjs';
 import { NavbarComponent } from '../../../components/navbar/navbar.component';
 import { EtapeAvecRendus } from '../../../models/rendu.model';
 import * as RendusActions from '../../../store/apprenant-rendus/apprenant-rendus.actions';
@@ -20,12 +20,15 @@ export class ApprenantRendusComponent implements OnInit {
   error$: Observable<string | null>;
   showCreateModal = false;
   selectedEtape: EtapeAvecRendus | null = null;
+  previousSelectedEtape: EtapeAvecRendus | null = null;
 
   constructor(private store: Store) {
     this.etapes$ = this.store.select(selectRendus).pipe(
+      filter(etapes => etapes.length > 0),
       tap(etapes => {
-        if (etapes.length > 0 && !this.selectedEtape) {
+        if (!this.selectedEtape) {
           this.selectedEtape = etapes[0];
+          localStorage.setItem('selectedEtapeId', etapes[0].id.toString());
         }
       })
     );
@@ -39,10 +42,24 @@ export class ApprenantRendusComponent implements OnInit {
 
   selectEtape(etape: EtapeAvecRendus): void {
     this.selectedEtape = etape;
+    localStorage.setItem('selectedEtapeId', etape.id.toString());
   }
 
   getInitials(name: string): string {
     return name.charAt(0).toUpperCase();
+  }
+
+  getStatusLabel(status: string): string {
+    switch (status) {
+      case 'accepted':
+        return 'Accepté';
+      case 'rejected':
+        return 'Refusé';
+      case 'pending':
+        return 'En attente';
+      default:
+        return 'Non évalué';
+    }
   }
 
   getStatusClass(type: string): string {
@@ -51,18 +68,50 @@ export class ApprenantRendusComponent implements OnInit {
         return 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-600/20';
       case 'rejected': 
         return 'bg-red-50 text-red-700 ring-1 ring-red-600/20';
-      default: 
+      case 'pending':
         return 'bg-amber-50 text-amber-700 ring-1 ring-amber-600/20';
+      default: 
+        return 'bg-gray-50 text-gray-600 ring-1 ring-gray-500/20';
     }
   }
 
+  isLastRendu(rendu: any, rendus: any[] | undefined): boolean {
+    if (!rendus) return false;
+    return rendus[rendus.length - 1] === rendu;
+  }
+
   onSubmitRendu(etape: EtapeAvecRendus): void {
+    this.previousSelectedEtape = this.selectedEtape;
     this.selectedEtape = etape;
     this.showCreateModal = true;
   }
 
+  onRenduCreated(): void {
+    this.store.dispatch(RendusActions.loadRendus());
+    this.etapes$.pipe(
+      filter(etapes => etapes.length > 0),
+      tap(etapes => {
+        const currentEtapeId = this.selectedEtape?.id;
+        if (currentEtapeId) {
+          const updatedEtape = etapes.find(e => e.id === currentEtapeId);
+          if (updatedEtape) {
+            this.selectedEtape = updatedEtape;
+          }
+        }
+      })
+    ).subscribe();
+  }
+
   onCloseModal(): void {
     this.showCreateModal = false;
-    this.selectedEtape = null;
+    if (this.previousSelectedEtape) {
+      this.selectedEtape = this.previousSelectedEtape;
+      this.previousSelectedEtape = null;
+    }
+    this.onRenduCreated();
+  }
+
+  getLastRendu(rendus: any[]): any {
+    return rendus[rendus.length - 1];
   }
 }

@@ -60,9 +60,16 @@
           <div class="flex-shrink-0 p-5 border-b border-slate-100 bg-gradient-to-r from-white to-slate-50">
             <div class="flex items-center justify-between">
               <div>
-                <h1 class="text-xl font-semibold text-slate-800">
-                  {{ selectedEtape?.titre || 'Sélectionnez une étape' }}
-                </h1>
+                <div class="flex items-center gap-3">
+                  <h1 class="text-xl font-semibold text-slate-800">
+                    {{ selectedEtape?.titre || 'Sélectionnez une étape' }}
+                  </h1>
+                  <!-- Affichage du type du dernier rendu -->
+                  <span *ngIf="selectedEtape?.rendus?.length && getLastRendu(selectedEtape?.rendus!)?.type" 
+                        [class]="'px-2.5 py-1 rounded-full text-xs ' + getStatusClass(getLastRendu(selectedEtape?.rendus!)?.type!)">
+                    {{ getStatusLabel(getLastRendu(selectedEtape?.rendus!)?.type!) }}
+                  </span>
+                </div>
                 <p class="text-sm text-slate-500 mt-2">Consultez et répondez aux rendus de l'apprenant</p>
               </div>
             </div>
@@ -96,9 +103,6 @@
                     <div class="flex items-center gap-3 mb-3">
                       <span class="font-medium text-slate-800 text-md">{{ rendu.apprenantNom }} {{ rendu.apprenantPrenom }}</span>
                       <span class="text-slate-300">•</span>
-                      <span [class]="'px-2 py-1 rounded-full text-xs ' + getStatusClass(rendu.type)">
-                        {{ rendu.type }}
-                      </span>
                     </div>
                     <div class="bg-slate-100/60 rounded-2xl text-sm p-6 border border-slate-100 shadow-sm">
                       <p class="text-slate-700 leading-relaxed">{{ rendu.commentaire }}</p>

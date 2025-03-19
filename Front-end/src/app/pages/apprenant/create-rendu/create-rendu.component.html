@@ -1,36 +1,55 @@
 <div class="p-6">
-  <h2 class="text-xl font-semibold mb-4">Soumettre un rendu pour : {{ etape.titre }}</h2>
-  
-  <form (ngSubmit)="onSubmit()" class="space-y-4">
+  <!-- Header -->
+  <div class="flex items-center justify-between pb-6 border-b border-gray-200">
     <div>
-      <label for="livrable" class="block text-sm font-medium text-gray-700 mb-1">
-        Livrable
+      <h2 class="text-xl font-semibold text-gray-900">Nouveau rendu</h2>
+      <p class="mt-1 text-sm text-gray-500">{{ etape.titre }}</p>
+    </div>
+    <button (click)="onCancel()" class="text-gray-400 hover:text-gray-500">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- Form -->
+  <form [formGroup]="renduForm" (ngSubmit)="onSubmit()" class="mt-6 space-y-5">
+    <!-- Livrable URL -->
+    <div>
+      <label for="livrable" class="block text-sm font-medium text-gray-700">
+        Lien du livrable <span class="text-red-500">*</span>
       </label>
       <input
-        type="text"
+        type="url"
         id="livrable"
-        name="livrable"
-        [(ngModel)]="rendu.livrable"
-        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-        required
+        formControlName="livrable"
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+        placeholder="https://github.com/votre-repo"
       >
+      <div *ngIf="isFieldInvalid('livrable')" class="mt-1 text-sm text-red-600">
+        <span *ngIf="renduForm.get('livrable')?.errors?.['required']">Le lien est requis</span>
+        <span *ngIf="renduForm.get('livrable')?.errors?.['pattern']">Veuillez entrer une URL valide</span>
+      </div>
     </div>
 
+    <!-- Commentaire -->
     <div>
-      <label for="commentaire" class="block text-sm font-medium text-gray-700 mb-1">
-        Commentaire
+      <label for="commentaire" class="block text-sm font-medium text-gray-700">
+        Commentaire <span class="text-red-500">*</span>
       </label>
       <textarea
         id="commentaire"
-        name="commentaire"
-        [(ngModel)]="rendu.commentaire"
+        formControlName="commentaire"
         rows="4"
-        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-        required
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+        placeholder="Décrivez votre rendu..."
       ></textarea>
+      <div *ngIf="isFieldInvalid('commentaire')" class="mt-1 text-sm text-red-600">
+        <span *ngIf="renduForm.get('commentaire')?.errors?.['required']">Le commentaire est requis</span>
+        <span *ngIf="renduForm.get('commentaire')?.errors?.['minlength']">Minimum 10 caractères</span>
+      </div>
     </div>
 
-    <div class="flex justify-end gap-3 mt-6">
+    <!-- Actions -->
+    <div class="flex justify-end gap-3 pt-6 border-t border-gray-200">
       <button
         type="button"
         (click)="onCancel()"
@@ -40,7 +59,8 @@
       </button>
       <button
         type="submit"
-        class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700"
+        [disabled]="!renduForm.valid"
+        class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Soumettre
       </button>
