@@ -8,6 +8,7 @@ import { EtapeAvecRendus, Rendu } from '../../../../models/rendu.model';
 import * as FormateurRendusActions from '../../../../store/formateur-rendus/formateur-rendus.actions';
 import { selectEtapes, selectLoading, selectError } from '../../../../store/formateur-rendus/formateur-rendus.selectors';
 import { CreateReponseRenduComponent } from '../create-reponse-rendu/create-reponse-rendu.component';
+import { filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-apprenant-details',
@@ -29,7 +30,15 @@ export class ApprenantDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.etapes$ = this.store.select(selectEtapes);
+    this.etapes$ = this.store.select(selectEtapes).pipe(
+      filter(etapes => etapes.length > 0),
+      tap(etapes => {
+        if (!this.selectedEtape) {
+          this.selectedEtape = etapes[0];
+          localStorage.setItem('selectedEtapeId', etapes[0].id.toString());
+        }
+      })
+    );
     this.loading$ = this.store.select(selectLoading);
     this.error$ = this.store.select(selectError);
     
@@ -77,6 +86,7 @@ export class ApprenantDetailsComponent implements OnInit {
 
   selectEtape(etape: EtapeAvecRendus): void {
     this.selectedEtape = etape;
+    localStorage.setItem('selectedEtapeId', etape.id.toString());
   }
 
   onSubmitResponse(rendu: Rendu): void {
@@ -84,9 +94,26 @@ export class ApprenantDetailsComponent implements OnInit {
     this.showResponseModal = true;
   }
 
+  onRenduResponseCreated(): void {
+    this.store.dispatch(FormateurRendusActions.loadApprenantRendus({ apprenantId: this.apprenantId }));
+    this.etapes$.pipe(
+      filter(etapes => etapes.length > 0),
+      tap(etapes => {
+        const currentEtapeId = this.selectedEtape?.id;
+        if (currentEtapeId) {
+          const updatedEtape = etapes.find(e => e.id === currentEtapeId);
+          if (updatedEtape) {
+            this.selectedEtape = updatedEtape;
+          }
+        }
+      })
+    ).subscribe();
+  }
+
   onCloseModal(): void {
     this.showResponseModal = false;
     this.selectedRendu = null;
+    this.onRenduResponseCreated();
   }
 
   getLastRendu(rendus: any[]): any {

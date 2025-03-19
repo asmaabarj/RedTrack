@@ -14,6 +14,7 @@ import * as FormateurRendusActions from '../../../../store/formateur-rendus/form
 export class CreateReponseRenduComponent {
   @Input() rendu!: Rendu;
   @Output() closeModal = new EventEmitter<void>();
+  @Output() responseCreated = new EventEmitter<void>();
 
   responseForm: FormGroup;
 
@@ -38,6 +39,7 @@ export class CreateReponseRenduComponent {
         renduId: this.rendu.id,
         response: this.responseForm.value
       }));
+      this.responseCreated.emit();
       this.closeModal.emit();
     } else {
       Object.keys(this.responseForm.controls).forEach(key => {
