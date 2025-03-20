@@ -8,13 +8,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.redtrack.dtos.rendu.RenduDTO;
 import com.redtrack.dtos.etape.EtapeAvecRendusDTO;
 import com.redtrack.dtos.rendu.RenduAvecResponsesDTO;
+import com.redtrack.dtos.rendu.RenduDTO;
 import com.redtrack.dtos.rendu.RenduResponseDTO;
 import com.redtrack.exceptions.RenduException;
 import com.redtrack.mappers.RenduMapper;
-import com.redtrack.mappers.EtapeMapper;
 import com.redtrack.mappers.RenduResponseMapper;
 import com.redtrack.model.entities.Class;
 import com.redtrack.model.entities.Etape;
@@ -39,7 +38,6 @@ public class RenduServiceImpl implements RenduService {
     private final UserRepository userRepository;
     private final EtapeRepository etapeRepository;
     private final ClassRepository classRepository;
-    private final EtapeMapper etapeMapper;
 
     @Override
     @PreAuthorize("hasAuthority('APPRENANT')")

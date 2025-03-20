@@ -15,7 +15,6 @@ import com.redtrack.dtos.auth.LoginRequest;
 import com.redtrack.dtos.auth.UserProfileResponse;
 import com.redtrack.security.JwtService;
 import com.redtrack.services.interfaces.AuthService;
-import com.redtrack.services.interfaces.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +24,6 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
     private final AuthService authService;
     private final JwtService jwtService;
-    private final UserService userService;
 
 
     @PostMapping("/login")
