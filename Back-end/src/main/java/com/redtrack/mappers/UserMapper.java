@@ -12,6 +12,7 @@ import com.redtrack.model.entities.User;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
+    
     @Mapping(target = "classesIds", expression = "java(mapClassIds(user))")
     UserDTO userToUserDTO(User user);
 
