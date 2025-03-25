@@ -32,3 +32,10 @@ logs/
 ### VS Code ###
 .vscode/
 
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Jenkins
+.jenkins/
+

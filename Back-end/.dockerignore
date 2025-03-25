@@ -1,0 +1,5 @@
+target/
+!target/redtrack-0.0.1-SNAPSHOT.jar
+.mvn
+mvnw
+mvnw.cmd 
