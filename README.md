@@ -68,12 +68,12 @@ RedTrack est une plateforme de suivi des projets Fil Rouge pour YouCode. Elle pe
 
 #### Diagramme de Cas d'Utilisation
 <p align="center">
-  <img src="path_to_use_case_diagram.png" alt="Diagramme de Cas d'Utilisation" width="800"/>
+  <img src="UML/useCase.png" alt="Diagramme de Cas d'Utilisation" width="800"/>
 </p>
 
 #### Diagramme de Classes
 <p align="center">
-  <img src="path_to_class_diagram.png" alt="Diagramme de Classes" width="800"/>
+  <img src="UML/CLass.png" alt="Diagramme de Classes" width="800"/>
 </p>
 
 ## 🛠 Technologies Utilisées
